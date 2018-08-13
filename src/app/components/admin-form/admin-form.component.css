@@ -1,0 +1,32 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+.mat-toolbar {
+    height: 50px;
+}
+.sidenav-icons {
+    padding-right: 15px;
+}
+.mat-toolbar.mat-primary {
+    background: rgb(221, 111, 111);
+}
+.logout-button{
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    background: rgb(160, 67, 67);
+}
+.example-sidenav-container {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+}
+.mat-sidenav {
+    border-right: 2px solid grey;
+}

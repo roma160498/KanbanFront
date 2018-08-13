@@ -28,19 +28,12 @@
   .form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
-    outline: 0;
     background: rgb(221, 111, 111);
     width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
+    height: 50px;
     -webkit-transition: all 0.3 ease;
     transition: all 0.3 ease;
     cursor: pointer;
-  }
-  .form button:hover,.form button:active,.form button:focus {
-    background: rgb(160, 67, 67);
   }
   .form .register-form {
     display: none;

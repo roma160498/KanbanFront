@@ -1,0 +1,66 @@
+ <!-- <mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        SCAND
+      </mat-panel-title>
+      <mat-panel-title>
+        SAFe pioneer
+      </mat-panel-title>
+      <mat-panel-title>
+        Innovator 12 UI
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <input matInput placeholder="First name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Age">
+    </mat-form-field>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Self aware panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+ 
+</mat-accordion>
+
+<form class="login-form" action="http://localhost:3000/logout" method="get">
+  <button>LOGOUT</button>
+</form>
+<div class="spinner" ng-show="loading">
+  <img src="http://w3lessons.info/demo/jquery-preloader/ajax-loader.gif" />
+</div> -->
+
+<div class="example-container">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon svgIcon="sidenav"></mat-icon></button>
+    <h1 class="example-app-name">Kanban Tool</h1>
+    <button mat-flat-button class="logout-button" (click)="logout()">Logout</button>
+  </mat-toolbar>
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #sidenav fixedInViewport="true" fixedTopGap="50" opened="true" mode="side">
+      <mat-nav-list>
+        <a mat-list-item routerLink="."><mat-icon svgIcon="group" class="sidenav-icons"></mat-icon>Teams</a>
+        <a mat-list-item routerLink="."><mat-icon svgIcon="person" class="sidenav-icons"></mat-icon>Users</a>
+        <a mat-list-item routerLink="."><mat-icon svgIcon="objectives" class="sidenav-icons"></mat-icon>Objectives</a>
+        <a mat-list-item routerLink="." (click)="loadBoard()"><mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content height="100%">
+      <div #container></div>
+      <!-- <p *ngFor="let content of fillerContent">{{content}}</p> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
