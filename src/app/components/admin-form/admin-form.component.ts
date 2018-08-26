@@ -10,6 +10,9 @@ import { LoggedInAuthGuardService } from '../../services/logged-in-auth-guard.se
 import { ComponentLoaderService } from '../../services/component-loader.service'
 import {Routes, RouterModule} from '@angular/router';
 import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
+import { TableTeamsComponent } from '../table-teams/table-teams.component';
+import { TableUsersComponent } from '../user/table-users/table-users.component'
+import { UserPageComponent } from '../user/user-page/user-page.component'
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -20,7 +23,7 @@ export class AdminFormComponent implements OnInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild('container', { read: ViewContainerRef }) entry: ViewContainerRef;
 	componentRef: any;
-
+	color: string;
 	constructor(private authenticateService: AuthenticateService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
 	private componentLoaderService: ComponentLoaderService) {
 		iconRegistry.addSvgIcon('sidenav', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/sidenav.svg'));
@@ -39,5 +42,15 @@ export class AdminFormComponent implements OnInit {
 	loadBoard() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(KanbanBoardComponent);
+	}
+
+	loadTeams() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(TableTeamsComponent);
+	}
+
+	loadUsers() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(UserPageComponent);
 	}
 }

@@ -1,0 +1,12 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedUsers"
+[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+
+
+<app-edit-create-user #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
+(updatedUserOut)="updatedUserOut($event)" [selectedUsers]="selectedUsers" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-user>
+
+
+<app-table-users #userTable  (selectedUsersOut)="selectedUsersOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
+[updatedUser]="updatedUser"></app-table-users>
+
+

@@ -1,0 +1,9 @@
+:host ::ng-deep .ui-table {
+    height: calc(100% - 40px) !important;
+}
+
+:host ::ng-deep .ui-paginator-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

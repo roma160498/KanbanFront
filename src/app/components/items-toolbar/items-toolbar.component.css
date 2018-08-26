@@ -1,0 +1,9 @@
+.mat-toolbar.mat-primary {
+    background: #fc9b9b;
+    height: 40px;
+}
+
+:host ::ng-deep .ui-dropdown-label.ui-dropdown-label {
+    height: 25px !important;
+    display: unset !important;
+}

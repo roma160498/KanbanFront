@@ -2,11 +2,12 @@
   <div class="login-page">
     <div class="form">
       <p class="title">Kanban Tool</p>
-      <form class="login-form" action="http://localhost:3000/login" method="post">
-        <input type="text" placeholder="username" name="username"/>
-        <input type="password" placeholder="password" name="password"/>
-        <button mat-flat-button >Login</button>
-      </form>
+      <!-- //<form class="login-form" action="http://localhost:3000/login" method="post"> -->
+        <input type="text" placeholder="username" name="username"  [(ngModel)]="username"/>
+        <input type="password" placeholder="password" name="password"  [(ngModel)]="password"/>
+        <button mat-flat-button (click)="login()">Login</button>
+      <!-- </form> -->
     </div>
   </div>
 </div>
+<p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>

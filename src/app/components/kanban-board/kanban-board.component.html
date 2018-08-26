@@ -1,3 +1,17 @@
-<p>
-  kanban-board works!
-</p>
+<mat-toolbar color="primary">
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+            <button mat-icon-button matTooltip="Add item" matTooltipPosition="below">
+                <mat-icon svgIcon="add"></mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Edit item" matTooltipPosition="below">
+                <mat-icon svgIcon="edit"></mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below">
+                <mat-icon svgIcon="delete"></mat-icon>
+            </button>
+          </mat-button-toggle-group>
+  </mat-toolbar>
+  <vaadin-split-layout>
+    <div>First content element</div>
+    <div>Second content element</div>
+  </vaadin-split-layout>

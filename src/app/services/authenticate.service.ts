@@ -37,4 +37,18 @@ export class AuthenticateService{
 			}
 		);
 	}
+
+	login(username, password) : Observable<any>{
+		const body = {
+			'username': username,
+			'password': password
+		  }
+		return this.http.post('http://localhost:3000/login', body, {withCredentials: true}).
+		map((response: Response) =>{
+			return response
+		}).catch(e => {
+			console.log('err')
+			return Observable.throw(e);
+		});
+	}
 }

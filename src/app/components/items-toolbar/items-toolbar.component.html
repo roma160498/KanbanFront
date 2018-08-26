@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="add()" [disabled]="disabledOptions.isAddDisabled">
+        <mat-icon svgIcon="add"></mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Edit item" matTooltipPosition="below" (click)="edit()" [disabled]="disabledOptions.isEditDisabled">
+        <mat-icon svgIcon="edit"></mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="delete()" [disabled]="disabledOptions.isDeleteDisabled">
+        <mat-icon svgIcon="delete"></mat-icon>
+    </button>
+    <p-dropdown [options]="rowsAmountArray" [(ngModel)]="selectedRowsAmount" placeholder="Rows" optionLabel="name" [showClear]="true"
+        (onChange)="rowsChangedHandler($event)" [disabled]="disabledOptions.isRowsDownDisabled"></p-dropdown>
+    <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="refresh()" [disabled]="disabledOptions.isRefreshDisabled">
+        <mat-icon svgIcon="refresh"></mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Save" matTooltipPosition="below" (click)="save()" [disabled]="disabledOptions.isSaveDisabled">
+        <mat-icon svgIcon="save"></mat-icon>
+    </button>
+</mat-toolbar>

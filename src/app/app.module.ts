@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import {Routes, RouterModule} from '@angular/router';
 
@@ -45,6 +46,18 @@ import {
 } from '@angular/material';
 
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { AngularSplitModule } from 'angular-split';
+import {AccordionModule} from 'primeng/accordion';  
+import {MenuItem} from 'primeng/api';     
+import {ButtonModule} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import {DropdownModule} from 'primeng/dropdown';
+import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {InputTextModule} from 'primeng/inputtext';
+import {PanelModule} from 'primeng/panel';
+
+//import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -53,8 +66,14 @@ import { LoggedInAuthGuardService } from './services/logged-in-auth-guard.servic
 import { LoggedOutAuthGuardService } from './services/logged-out-auth-guard.service';
 import { AuthenticateService } from './services/authenticate.service';
 import { ComponentLoaderService } from './services/component-loader.service'
+import { UserService } from './services/user.service'
 import { KanbanBoardComponent } from './components/kanban-board/kanban-board.component';
-
+import '@vaadin/vaadin-split-layout/vaadin-split-layout.js';
+import { ItemsToolbarComponent } from './components/items-toolbar/items-toolbar.component';
+import { TableTeamsComponent } from './components/table-teams/table-teams.component';
+import { TableUsersComponent } from './components/user/table-users/table-users.component';
+import { EditCreateUserComponent } from './components/user/edit-create-user/edit-create-user.component';
+import { UserPageComponent } from './components/user/user-page/user-page.component';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -67,10 +86,16 @@ const appRoutes: Routes =[
     AppComponent,
     LoginFormComponent,
     KanbanBoardComponent,
-    AdminFormComponent  
+    ItemsToolbarComponent,
+    TableTeamsComponent,
+    AdminFormComponent,
+    TableUsersComponent,
+    EditCreateUserComponent ,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     RouterModule.forRoot(appRoutes),
     MDBBootstrapModule.forRoot(),
     MatFormFieldModule,
@@ -114,11 +139,22 @@ const appRoutes: Routes =[
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    AngularSplitModule,
+    ButtonModule,
+    AccordionModule,
+    TableModule,
+    DropdownModule,
+    ToastModule,
+    ConfirmDialogModule,
+    InputTextModule,
+    PanelModule
+   // MessageService
+    
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent]
 })
 export class AppModule { }
