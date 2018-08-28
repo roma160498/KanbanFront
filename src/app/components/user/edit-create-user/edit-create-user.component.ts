@@ -13,13 +13,15 @@ import { MessageService } from 'primeng/api';
 	providers: [MessageService]
 })
 export class EditCreateUserComponent implements OnInit {
+	selectedUser: User;
+	id: number;
 	name: string;
 	surname: string;
 	login: string;
 	password: string;
 	email: string;
 	selectedUsers: User[];
-	previousToolbarAction: string;
+	editMode: string;
 
 	@Output() updatedUserOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
@@ -31,19 +33,19 @@ export class EditCreateUserComponent implements OnInit {
 
 	toolbarActionHandler(action) {
 		const user = new User();
-		user.name = this.name;
-		user.surname = this.surname;
-		user.login = this.login;
-		user.password = this.password;
-		user.email = this.email;
-
+		
 		if (action === 'save') {
-			if (this.previousToolbarAction === 'add' || this.previousToolbarAction === 'save') {
+			if (this.editMode === 'add') {
+				user.name = this.name;
+				user.surname = this.surname;
+				user.login = this.login;
+				user.password = this.password;
+				user.email = this.email;
 				this.userService.insertUser(user).subscribe((result) => {
 					if (result) {
 						this.updatedUserOut.emit({
 							isNew: true,
-							user: user
+							user: user 
 						});
 						this.isSavedResultSuccesOut.emit(true);
 						this._clearForm();
@@ -52,9 +54,32 @@ export class EditCreateUserComponent implements OnInit {
 						this.messageService.add({ severity: 'error', summary: 'Error', detail: `User with ${this.login} login can not be created.` });
 					}
 				})
+			} else if (this.editMode === 'edit') {
+				for (let key in this.selectedUser) {
+					if (this[key] !== this.selectedUser[key] && key != 'id') {
+						user[key] = this[key]
+					}
+				}
+				this.userService.updateUser(user, this.selectedUser.id).subscribe((result)=>{
+					if (result) {
+						this.updatedUserOut.emit({
+							isNew: false,
+							userID: this.selectedUser.id,
+							updatedProps: user
+						});
+						this.isSavedResultSuccesOut.emit(true);
+						this._clearForm();
+					} else {
+						this.isSavedResultSuccesOut.emit(false);
+						this.messageService.add({ severity: 'error', summary: 'Error', detail: `User with ${this.login} login can not be updated.` });
+					}
+				})
 			}
 		}
-		this.previousToolbarAction = action;
+
+		if (action === 'add' || action === 'edit') {
+			this.editMode = action;
+		}
 	}
 
 	_clearForm() {

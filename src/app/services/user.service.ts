@@ -60,4 +60,19 @@ export class UserService {
 				return Observable.throw(e);
 			});
 	}
+
+	updateUser(user: User, id) {
+		const body = { user: user };
+		console.log(user)
+		return this.http.put('http://localhost:3000/user/' + id, body, { withCredentials: true }).
+			map((response: Response) => {
+				if (response.status == 201) {
+					return response;
+				} else {
+					return null;
+				}
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

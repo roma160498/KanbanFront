@@ -90,7 +90,6 @@ export class TableUsersComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-		console.log(changes)
 		if (changes['updatedUser']) {
 			const user = changes['updatedUser'];
 			if (user.currentValue && user.currentValue.isNew) {
@@ -99,6 +98,15 @@ export class TableUsersComponent implements OnInit {
 				this.table['__proto__'].reset.call(this.table);
 				const name = this._getUserName(user.currentValue.user);
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} created successfully.` });
+			}
+			if (user.currentValue && !user.currentValue.isNew) {
+				const updatedUser = this.users.find((value, index) => user.currentValue.userID == value.id);
+				for (let key of Object.keys(user.currentValue.updatedProps)) {
+					updatedUser[key] = user.currentValue.updatedProps[key];
+				}
+				this.table['__proto__'].reset.call(this.table);
+				const name = this._getUserName(updatedUser);
+				this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} updated successfully.` });
 			}
 		}
 	}
