@@ -112,6 +112,7 @@ export class TableUsersComponent implements OnInit {
 	}
 
 	onSelectUnselectRow(event) {
+		console.log(this.selectedUsers)
 		this.selectedUsersOut.emit(this.selectedUsers);
 	}
 

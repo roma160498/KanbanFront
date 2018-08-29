@@ -56,6 +56,7 @@ import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {PanelModule} from 'primeng/panel';
+import {PasswordModule} from 'primeng/password';
 
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -147,7 +148,8 @@ const appRoutes: Routes =[
     ToastModule,
     ConfirmDialogModule,
     InputTextModule,
-    PanelModule
+    PanelModule,
+    PasswordModule
    // MessageService
     
   ],

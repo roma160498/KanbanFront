@@ -38,6 +38,7 @@ export class UserPageComponent implements OnInit {
 			this.editComponent.login = user.login;
 			this.editComponent.password = user.password;
 			this.editComponent.email = user.email;
+			this.editComponent.confirmPassword = user.password;
 			this.editComponent.selectedUser = user;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;

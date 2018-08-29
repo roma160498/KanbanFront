@@ -15,11 +15,12 @@ import { MessageService } from 'primeng/api';
 export class EditCreateUserComponent implements OnInit {
 	selectedUser: User;
 	id: number;
-	name: string;
-	surname: string;
-	login: string;
-	password: string;
-	email: string;
+	name: string = '';
+	surname: string = '';
+	login: string = '';
+	password: string = '';
+	email: string = '';
+	confirmPassword: string = '';
 	selectedUsers: User[];
 	editMode: string;
 
@@ -33,8 +34,15 @@ export class EditCreateUserComponent implements OnInit {
 
 	toolbarActionHandler(action) {
 		const user = new User();
-		
 		if (action === 'save') {
+			if (this._isInputDataInvalid()) {
+				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Some of required fields are empty.` });
+				return;
+			} 
+			if (this._checkPasswordConfirmation()) {
+				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Password are different.` });
+				return;
+			}
 			if (this.editMode === 'add') {
 				user.name = this.name;
 				user.surname = this.surname;
@@ -82,12 +90,21 @@ export class EditCreateUserComponent implements OnInit {
 		}
 	}
 
+	_isInputDataInvalid() {
+		return this.login === '' || this.password === '' || this.confirmPassword === '' || this.email === '';
+	}
+
+	_checkPasswordConfirmation() {
+		return this.password !== this.confirmPassword;
+	}
+
 	_clearForm() {
 		this.name = '';
 		this.surname = '';
 		this.login = '';
 		this.password = '';
 		this.email = '';
+		this.confirmPassword = '';
 	}
 
 	discard() {
