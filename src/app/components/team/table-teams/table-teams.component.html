@@ -1,0 +1,25 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-table #table (window:resize)="onResize($event)" [columns]="cols" [value]="teams" [lazy]="true" (onLazyLoad)="loadTeamsLazy($event)"
+    [paginator]="true" [rows]="rowsAmount" [totalRecords]="amountOfTeams" [loading]="loading" [scrollable]="true" [scrollHeight]="scrollHeight"
+    [resizableColumns]="true" selectionMode="multiple" [(selection)]="selectedTeams" [metaKeySelection]="true" [showClear]="true"
+    *ngIf="isTableDisplayed" (onRowSelect)="onSelectUnselectRow($event)" (onRowUnselect)="onSelectUnselectRow($event)">
+    <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <col *ngFor="let col of columns">
+        </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" pResizableColumn>
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-team let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="team" [pSelectableRowIndex]="rowIndex">
+            <td *ngFor="let col of columns" class="ui-resizable-column">
+                {{team[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

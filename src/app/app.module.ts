@@ -57,6 +57,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {PanelModule} from 'primeng/panel';
 import {PasswordModule} from 'primeng/password';
+import {TabViewModule} from 'primeng/tabview';
 
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -71,10 +72,13 @@ import { UserService } from './services/user.service'
 import { KanbanBoardComponent } from './components/kanban-board/kanban-board.component';
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js';
 import { ItemsToolbarComponent } from './components/items-toolbar/items-toolbar.component';
-import { TableTeamsComponent } from './components/table-teams/table-teams.component';
+import { TableTeamsComponent } from './components/team/table-teams/table-teams.component';
 import { TableUsersComponent } from './components/user/table-users/table-users.component';
 import { EditCreateUserComponent } from './components/user/edit-create-user/edit-create-user.component';
 import { UserPageComponent } from './components/user/user-page/user-page.component';
+import { TeamPageComponent } from './components/team/team-page/team-page.component';
+import { TeamService } from './services/team.service';
+import { EditCreateTeamComponent } from './components/team/edit-create-team/edit-create-team.component';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -92,7 +96,9 @@ const appRoutes: Routes =[
     AdminFormComponent,
     TableUsersComponent,
     EditCreateUserComponent ,
-    UserPageComponent
+    UserPageComponent,
+    TeamPageComponent,
+    EditCreateTeamComponent      
   ],
   imports: [
     BrowserModule,
@@ -149,14 +155,15 @@ const appRoutes: Routes =[
     ConfirmDialogModule,
     InputTextModule,
     PanelModule,
-    PasswordModule
+    PasswordModule,
+    TabViewModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent]
 })
 export class AppModule { }
