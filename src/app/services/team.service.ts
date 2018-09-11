@@ -6,8 +6,8 @@ import { Team } from '../models/team';
 @Injectable()
 export class TeamService {
 
-  constructor(private http: HttpClient) { }
-  getTeam(args): Observable<Team[]> {
+	constructor(private http: HttpClient) { }
+	getTeam(args): Observable<Team[]> {
 		return this.http.get('http://localhost:3000/team', {
 			withCredentials: true, params: {
 				'amount': args.amount,
@@ -21,6 +21,36 @@ export class TeamService {
 				return Observable.throw(e);
 			});
 	}
+	getUsersOfTeam(args, teamId): Observable<Team[]> {
+		return this.http.get('http://localhost:3000/teams/' + teamId + '/users', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getUsersOfTeamCount(args, teamId): Observable<Team[]> {
+		return this.http.get('http://localhost:3000/teams/' + teamId + '/users', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+
 	getTeamCount(args): Observable<any> {
 		return this.http.get('http://localhost:3000/team', {
 			withCredentials: true, params: {
@@ -49,6 +79,20 @@ export class TeamService {
 		return this.http.post('http://localhost:3000/team/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
+					return response;
+				} else {
+					return null;
+				}
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	updateTeam(team: Team, id) {
+		const body = { team: team };
+		console.log(team);
+		return this.http.put('http://localhost:3000/team/' + id, body, { withCredentials: true }).
+			map((response: Response) => {
+				if (response.status == 201) {
 					return response;
 				} else {
 					return null;

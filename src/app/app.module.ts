@@ -79,6 +79,7 @@ import { UserPageComponent } from './components/user/user-page/user-page.compone
 import { TeamPageComponent } from './components/team/team-page/team-page.component';
 import { TeamService } from './services/team.service';
 import { EditCreateTeamComponent } from './components/team/edit-create-team/edit-create-team.component';
+import { RelationshipTableComponent } from './components/global/relationship-table/relationship-table.component';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -98,7 +99,8 @@ const appRoutes: Routes =[
     EditCreateUserComponent ,
     UserPageComponent,
     TeamPageComponent,
-    EditCreateTeamComponent      
+    EditCreateTeamComponent,
+    RelationshipTableComponent   
   ],
   imports: [
     BrowserModule,

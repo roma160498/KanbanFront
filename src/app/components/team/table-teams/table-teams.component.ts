@@ -96,15 +96,17 @@ export class TableTeamsComponent implements OnInit {
 				const name = team.currentValue.team.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} created successfully.` });
 			}
-			/*if (user.currentValue && !user.currentValue.isNew) {
-				const updatedUser = this.users.find((value, index) => user.currentValue.userID == value.id);
-				for (let key of Object.keys(user.currentValue.updatedProps)) {
-					updatedUser[key] = user.currentValue.updatedProps[key];
+			if (team.currentValue && !team.currentValue.isNew) {
+				console.log("UPDSTE")
+				const updatedTeam = this.teams.find((value, index) => team.currentValue.teamID == value.id);
+				for (let key of Object.keys(team.currentValue.updatedProps)) {
+					updatedTeam[key] = team.currentValue.updatedProps[key];
 				}
 				this.table['__proto__'].reset.call(this.table);
-				const name = this._getUserName(updatedUser);
-				this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} updated successfully.` });
-			}*/
+				console.log(team.currentValue)
+				const name = team.currentValue.updatedProps.name;
+				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} updated successfully.` });
+			}
 		}
 	}
 

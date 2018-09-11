@@ -1,7 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Team } from '../../../models/team';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { TeamService } from '../../../services/team.service';
+import { UserService } from '../../../services/user.service';
+import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 
 @Component({
   selector: 'app-edit-create-team',
@@ -14,13 +16,22 @@ export class EditCreateTeamComponent implements OnInit {
 	id: number;
 	name: string = '';
 	selectedTeams: Team[];
-  editMode: string;
+	editMode: string;
+	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+  
+  userCols: any;
   
   @Output() updatedTeamOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
-  constructor(private teamService: TeamService, private messageService: MessageService) { }
+  constructor(private teamService: TeamService, private messageService: MessageService, private userService: UserService) { }
 
   ngOnInit() {
+	this.userCols = [
+		{ field: 'name', header: 'Name' },
+		{ field: 'surname', header: 'Surname' },
+		{ field: 'login', header: 'Login' },
+		{ field: 'email', header: 'Email' }
+	];
   }
   toolbarActionHandler(action) {
 		const team = new Team();
@@ -45,26 +56,28 @@ export class EditCreateTeamComponent implements OnInit {
 					}
 				})
 			} else if (this.editMode === 'edit') {
-				/*for (let key in this.selectedUser) {
-					if (this[key] !== this.selectedUser[key] && key != 'id') {
-						user[key] = this[key]
+
+				for (let key in this.selectedTeam) {
+					if (this[key] !== this.selectedTeam[key] && key != 'id') {
+						team[key] = this[key]
 					}
 				}
-				this.userService.updateUser(user, this.selectedUser.id).subscribe((result)=>{
+				this.teamService.updateTeam(team, this.selectedTeam.id).subscribe((result)=>{
 					if (result) {
-						this.updatedUserOut.emit({
+						this.updatedTeamOut.emit({
 							isNew: false,
-							userID: this.selectedUser.id,
-							updatedProps: user
+							teamID: this.selectedTeam.id,
+							updatedProps: team
 						});
 						this.isSavedResultSuccesOut.emit(true);
 						this._clearForm();
 					} else {
 						this.isSavedResultSuccesOut.emit(false);
-						this.messageService.add({ severity: 'error', summary: 'Error', detail: `User with ${this.login} login can not be updated.` });
+						this.messageService.add({ severity: 'error', summary: 'Error', detail: `Team with ${this.name} name can not be updated.` });
 					}
-				})*/
+				})
 			}
+			this.editMode === action;
 		}
 
 		if (action === 'add' || action === 'edit') {
@@ -83,5 +96,6 @@ export class EditCreateTeamComponent implements OnInit {
   discard() {
 		this._clearForm();
 		this.isSavedResultSuccesOut.emit(true);
+		this.editMode = null;
 	}
 }
