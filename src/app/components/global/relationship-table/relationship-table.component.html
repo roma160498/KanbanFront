@@ -1,19 +1,21 @@
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
 <mat-toolbar color="primary">
-    <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="add()">
+    <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="isSideBarVisible = true" (click)="toolbarActionHandler('add')">
         <mat-icon svgIcon="add"></mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="delete()" [disabled]="!selectedItems || selectedItems && !selectedItems.length">
+    <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="toolbarActionHandler('delete')" [disabled]="!selectedItems || selectedItems && !selectedItems.length">
         <mat-icon svgIcon="delete"></mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="refresh()">
+    <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="toolbarActionHandler('refresh')">
         <mat-icon svgIcon="refresh"></mat-icon>
     </button>
+    <button mat-icon-button matTooltip="Save Related" matTooltipPosition="below" (click)="toolbarActionHandler('save')">
+        <mat-icon svgIcon="save"></mat-icon>
+    </button>
 </mat-toolbar>
-<p-table #table (window:resize)="onResize($event)" [columns]="cols" [value]="items" [lazy]="true" (onLazyLoad)="loadItemsLazy($event)"
-    [paginator]="true" [rows]="rowsAmount" [totalRecords]="amountOfItems" [loading]="loading" [scrollable]="true" [scrollHeight]="scrollHeight"
-    [resizableColumns]="true" selectionMode="multiple" [(selection)]="selectedItems" [metaKeySelection]="true" [showClear]="true"
-    *ngIf="isTableDisplayed" (onRowSelect)="onSelectUnselectRow($event)" (onRowUnselect)="onSelectUnselectRow($event)">
+<p-table #table [columns]="nativeCols" [specialCols]="specialCols" [value]="items" [scrollable]="true" [resizableColumns]="true"
+    selectionMode="multiple" [(selection)]="selectedItems" [metaKeySelection]="true" [showClear]="true" *ngIf="isTableDisplayed"
+    (onRowSelect)="onSelectUnselectRow($event)" (onRowUnselect)="onSelectUnselectRow($event)" scrollHeight="240px">
     <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
             <col *ngFor="let col of columns">
@@ -24,13 +26,69 @@
             <th *ngFor="let col of columns" pResizableColumn>
                 {{col.header}}
             </th>
+            <th *ngFor="let col of specialCols" pResizableColumn>
+                {{col.header}}
+            </th>
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input *ngSwitchCase="col.field" pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)"
+                    style="width:100%">
+            </th>
+            <th *ngFor="let col of specialCols" [ngSwitch]="col.field">
+                <input *ngSwitchCase="col.field" pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)"
+                    style="width:100%">
+            </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex">
+        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" [ngClass]="item.isNew || item.isUpdated ? 'new-item' : null">
             <td *ngFor="let col of columns" class="ui-resizable-column">
+                {{item[col.field]}}
+            </td>
+            <td pEditableColumn *ngFor="let col of specialCols" class="ui-resizable-column">
+                <button type="button" pButton (click)="openLayout($event,overlayPanel,col.header,item)" icon="pi pi-pencil" class="ui-button-success"></button>
                 {{item[col.field]}}
             </td>
         </tr>
     </ng-template>
 </p-table>
+<p-overlayPanel #overlayPanel>
+    <div class="ui-g">
+        <div class="ui-g-6">
+            <p-dropdown [options]="selectedSpecialCol && selectedSpecialCol.options" [(ngModel)]="selectedPopup" placeholder="Select" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="ui-md-offset-3 ui-g-1">
+            <p-button icon="pi pi-check" (click)="popupLayoutClick($event,overlayPanel)"></p-button>
+        </div>
+    </div>
+</p-overlayPanel>
+<p-sidebar [(visible)]="isSideBarVisible" [fullScreen]="true" [modal]="false" [dismissible]="false">
+    <h1 style="font-weight:normal">Select related item</h1>
+    <p-table #table [columns]="nativeCols" [value]="itemsForSearchGrid" [scrollable]="true" [resizableColumns]="true" selectionMode="single"
+        [(selection)]="relatedSelectedItem" [metaKeySelection]="true">
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" pResizableColumn>
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex">
+                <td *ngFor="let col of columns" class="ui-resizable-column">
+                    {{item[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div style="padding-top: 20px">
+        <button pButton type="button" (click)="_addRelated()" label="Add" class="ui-button-success"></button>
+        <button pButton type="button" (click)="_cancelRelated()" label="Cance" class="ui-button-danger"></button>
+    </div>
+</p-sidebar>

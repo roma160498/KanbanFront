@@ -31,6 +31,7 @@ export class AdminFormComponent implements OnInit {
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
 		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
 		iconRegistry.addSvgIcon('objectives', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
+		iconRegistry.addSvgIcon('issues', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
 		iconRegistry.addSvgIcon('board', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/board.svg'));
 	}
 

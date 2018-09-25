@@ -9,6 +9,7 @@ export class UserService {
 	constructor(private http: HttpClient) { }
 
 	getUser(args): Observable<User[]> {
+		console.log(124455)
 		return this.http.get('http://localhost:3000/user', {
 			withCredentials: true, params: {
 				'amount': args.amount,

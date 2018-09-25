@@ -58,6 +58,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PanelModule} from 'primeng/panel';
 import {PasswordModule} from 'primeng/password';
 import {TabViewModule} from 'primeng/tabview';
+import {SidebarModule} from 'primeng/sidebar';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -80,6 +83,7 @@ import { TeamPageComponent } from './components/team/team-page/team-page.compone
 import { TeamService } from './services/team.service';
 import { EditCreateTeamComponent } from './components/team/edit-create-team/edit-create-team.component';
 import { RelationshipTableComponent } from './components/global/relationship-table/relationship-table.component';
+import { RoleService } from './services/role.service';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -158,12 +162,15 @@ const appRoutes: Routes =[
     InputTextModule,
     PanelModule,
     PasswordModule,
-    TabViewModule
+    TabViewModule,
+    SidebarModule,
+    AutoCompleteModule,
+    OverlayPanelModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent]

@@ -3,7 +3,10 @@
     height: 40px;
 }
 
-:host ::ng-deep .ui-dropdown-label.ui-dropdown-label {
-    height: 25px !important;
-    display: unset !important;
+.new-item {
+    background-color: rgb(250, 224, 177) !important;
+}
+
+:host ::ng-deep .ui-state-highlight {
+    background-color: #007ad9 !important;
 }

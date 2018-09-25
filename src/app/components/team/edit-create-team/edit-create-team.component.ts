@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { TeamService } from '../../../services/team.service';
 import { UserService } from '../../../services/user.service';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
+import { RoleService } from '../../../services/role.service';
 
 @Component({
   selector: 'app-edit-create-team',
@@ -20,17 +21,24 @@ export class EditCreateTeamComponent implements OnInit {
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
   
   userCols: any;
+  allRelatedCols: any;
   
   @Output() updatedTeamOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
-  constructor(private teamService: TeamService, private messageService: MessageService, private userService: UserService) { }
-
+  constructor(private teamService: TeamService, private messageService: MessageService, private userService: UserService, private roleService: RoleService) { }
   ngOnInit() {
-	this.userCols = [
+	this.allRelatedCols = [
 		{ field: 'name', header: 'Name' },
 		{ field: 'surname', header: 'Surname' },
 		{ field: 'login', header: 'Login' },
-		{ field: 'email', header: 'Email' }
+		{ field: 'email', header: 'Email'},
+		{ field: 'roleName', header: 'Role', service: this.roleService}
+	];
+	this.userCols = [
+		{field: 'name', header: 'Name' },
+		{ field: 'surname', header: 'Surname' },
+		{ field: 'login', header: 'Login' },
+		{ field: 'email', header: 'Email'},
 	];
   }
   toolbarActionHandler(action) {
@@ -97,5 +105,9 @@ export class EditCreateTeamComponent implements OnInit {
 		this._clearForm();
 		this.isSavedResultSuccesOut.emit(true);
 		this.editMode = null;
+	}
+
+	splitterMove(event) {
+		console.log(event)
 	}
 }
