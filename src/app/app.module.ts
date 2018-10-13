@@ -61,7 +61,7 @@ import {TabViewModule} from 'primeng/tabview';
 import {SidebarModule} from 'primeng/sidebar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
-
+import {InputTextareaModule} from 'primeng/inputtextarea';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
@@ -84,6 +84,10 @@ import { TeamService } from './services/team.service';
 import { EditCreateTeamComponent } from './components/team/edit-create-team/edit-create-team.component';
 import { RelationshipTableComponent } from './components/global/relationship-table/relationship-table.component';
 import { RoleService } from './services/role.service';
+import { ProductPageComponent } from './components/product/product-page/product-page.component';
+import { TableProductsComponent } from './components/product/table-products/table-products.component';
+import { EditCreateProductComponent } from './components/product/edit-create-product/edit-create-product.component';
+import { ProductService } from './services/product.service';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -104,7 +108,10 @@ const appRoutes: Routes =[
     UserPageComponent,
     TeamPageComponent,
     EditCreateTeamComponent,
-    RelationshipTableComponent   
+    RelationshipTableComponent,
+    ProductPageComponent,
+    TableProductsComponent,
+    EditCreateProductComponent   
   ],
   imports: [
     BrowserModule,
@@ -165,14 +172,15 @@ const appRoutes: Routes =[
     TabViewModule,
     SidebarModule,
     AutoCompleteModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    InputTextareaModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent]
 })
 export class AppModule { }

@@ -14,6 +14,7 @@ import { TableTeamsComponent } from '../team/table-teams/table-teams.component';
 import { TableUsersComponent } from '../user/table-users/table-users.component'
 import { UserPageComponent } from '../user/user-page/user-page.component'
 import { TeamPageComponent } from '../team/team-page/team-page.component';
+import { ProductPageComponent } from '../product/product-page/product-page.component';
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -31,7 +32,7 @@ export class AdminFormComponent implements OnInit {
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
 		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
 		iconRegistry.addSvgIcon('objectives', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
-		iconRegistry.addSvgIcon('issues', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
+		iconRegistry.addSvgIcon('products', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
 		iconRegistry.addSvgIcon('board', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/board.svg'));
 	}
 
@@ -54,5 +55,10 @@ export class AdminFormComponent implements OnInit {
 	loadUsers() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(UserPageComponent);
+	}
+
+	loadProducts() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(ProductPageComponent);
 	}
 }

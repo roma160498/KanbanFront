@@ -1,3 +1,9 @@
 :host ::ng-deep .ui-dropdown .ui-dropdown-clear-icon {
     display:  none !important;
 }
+:host ::ng-deep .ui-table-tbody> tr> td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}

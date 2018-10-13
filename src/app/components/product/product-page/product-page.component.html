@@ -1,0 +1,8 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedProducts"
+[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+
+ <app-edit-create-product #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
+(updatedProductOut)="updatedProductOut($event)" [selectedProducts]="selectedProducts" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-product>
+
+<app-table-products #productTable  (selectedProductsOut)="selectedProductsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
+[updatedProduct]="updatedProduct"></app-table-products>

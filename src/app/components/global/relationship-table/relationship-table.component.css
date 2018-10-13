@@ -10,3 +10,10 @@
 :host ::ng-deep .ui-state-highlight {
     background-color: #007ad9 !important;
 }
+
+:host ::ng-deep .ui-table-tbody> tr> td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
