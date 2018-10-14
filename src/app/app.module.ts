@@ -88,6 +88,10 @@ import { ProductPageComponent } from './components/product/product-page/product-
 import { TableProductsComponent } from './components/product/table-products/table-products.component';
 import { EditCreateProductComponent } from './components/product/edit-create-product/edit-create-product.component';
 import { ProductService } from './services/product.service';
+import { FeaturePageComponent } from './components/feature/feature-page/feature-page.component';
+import { EditCreateFeatureComponent } from './components/feature/edit-create-feature/edit-create-feature.component';
+import { TableFeatureComponent } from './components/feature/table-feature/table-feature.component';
+import { FeatureService } from './services/feature.service';
 
 // определение маршрутов
 const appRoutes: Routes =[
@@ -111,7 +115,10 @@ const appRoutes: Routes =[
     RelationshipTableComponent,
     ProductPageComponent,
     TableProductsComponent,
-    EditCreateProductComponent   
+    EditCreateProductComponent,
+    FeaturePageComponent,
+    EditCreateFeatureComponent,
+    TableFeatureComponent
   ],
   imports: [
     BrowserModule,
@@ -178,9 +185,9 @@ const appRoutes: Routes =[
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent]
 })
 export class AppModule { }

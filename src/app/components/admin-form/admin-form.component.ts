@@ -15,6 +15,7 @@ import { TableUsersComponent } from '../user/table-users/table-users.component'
 import { UserPageComponent } from '../user/user-page/user-page.component'
 import { TeamPageComponent } from '../team/team-page/team-page.component';
 import { ProductPageComponent } from '../product/product-page/product-page.component';
+import { FeaturePageComponent } from '../feature/feature-page/feature-page.component';
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -60,5 +61,9 @@ export class AdminFormComponent implements OnInit {
 	loadProducts() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(ProductPageComponent);
+	}
+	loadFeatures() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(FeaturePageComponent);
 	}
 }
