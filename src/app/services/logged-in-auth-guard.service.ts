@@ -6,7 +6,8 @@ import {
 	CanActivate, 
 	ActivatedRouteSnapshot, 
 	RouterStateSnapshot,
-	Router
+	Router,
+	NavigationExtras
 } from '@angular/router'
 import {AuthenticateService} from './authenticate.service'
 import 'rxjs/Rx';
@@ -31,12 +32,14 @@ export class LoggedInAuthGuardService implements CanActivate{
 		} else {
 			this.authService.checkSession().subscribe(
 				res => {
-					console.log(res.status)
 					if (res.status === 401) {
 						this.isLoggedIn = false;
 						this.router.navigate(['/login']);
 					} else {
 						this.isLoggedIn = true;
+						localStorage.setItem('userName', res.user.name);
+						localStorage.setItem('userSurname', res.user.surname);
+						localStorage.setItem('id', res.user.id);
 						this.router.navigate(['/admin']);
 					}
 				}

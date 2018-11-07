@@ -8,7 +8,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, NavigationExtras} from '@angular/router';
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -43,6 +43,9 @@ export class LoginFormComponent implements OnInit {
     }
     this.authenticateService.login(this.username, this.password).subscribe(res => {
       if (res.status === 200) {
+        localStorage.setItem('userName', res.user.name);
+        localStorage.setItem('userSurname', res.user.surname);
+        localStorage.setItem('id', res.user.id);
         this.router.navigate(['/admin']);
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `Authentication failed for ${this.username}.` });

@@ -62,6 +62,8 @@ import {SidebarModule} from 'primeng/sidebar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { jqxKanbanComponent  } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxkanban';
+import { NgxDnDModule } from '@swimlane/ngx-dnd'
 //import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
@@ -93,6 +95,7 @@ import { EditCreateFeatureComponent } from './components/feature/edit-create-fea
 import { TableFeatureComponent } from './components/feature/table-feature/table-feature.component';
 import { FeatureService } from './services/feature.service';
 
+
 // определение маршрутов
 const appRoutes: Routes =[
   {path: 'login', component: LoginFormComponent, canActivate: [LoggedOutAuthGuardService]},
@@ -118,7 +121,8 @@ const appRoutes: Routes =[
     EditCreateProductComponent,
     FeaturePageComponent,
     EditCreateFeatureComponent,
-    TableFeatureComponent
+    TableFeatureComponent,
+    jqxKanbanComponent
   ],
   imports: [
     BrowserModule,
@@ -180,7 +184,8 @@ const appRoutes: Routes =[
     SidebarModule,
     AutoCompleteModule,
     OverlayPanelModule,
-    InputTextareaModule
+    InputTextareaModule,
+    NgxDnDModule
    // MessageService
     
   ],

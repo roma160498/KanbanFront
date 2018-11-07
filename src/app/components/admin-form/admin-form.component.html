@@ -1,18 +1,29 @@
 <div class="example-container">
   <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon svgIcon="sidenav"></mat-icon></button>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon svgIcon="sidenav"></mat-icon>
+    </button>
     <h1 class="example-app-name">Kanban Tool</h1>
-    <button mat-flat-button class="logout-button" (click)="logout()">Logout</button>
+    <div class="toolbar-buttons-group">
+      <button mat-flat-button class="toolbar-button">{{userName}} {{userSurname}}</button>
+      <button mat-flat-button class="toolbar-button" (click)="logout()">Logout</button>
+    </div>
   </mat-toolbar>
   <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav #sidenav fixedInViewport="true" fixedTopGap="50" opened="true" mode="side">
       <mat-nav-list>
-        <a mat-list-item routerLink="." (click)="loadTeams()"><mat-icon svgIcon="group" class="sidenav-icons"></mat-icon>Teams</a>
-        <a mat-list-item routerLink="." (click)="loadUsers()"><mat-icon svgIcon="person" class="sidenav-icons"></mat-icon>Users</a>
-        <a mat-list-item routerLink="." (click)="loadProducts()"><mat-icon svgIcon="products" class="sidenav-icons"></mat-icon>Products</a>
-        <a mat-list-item routerLink="." (click)="loadFeatures()"><mat-icon svgIcon="products" class="sidenav-icons"></mat-icon>Features</a>
-        <a mat-list-item routerLink="."><mat-icon svgIcon="objectives" class="sidenav-icons"></mat-icon>Objectives</a>
-        <a mat-list-item routerLink="." (click)="loadBoard()"><mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
+        <a mat-list-item routerLink="." (click)="loadTeams()">
+          <mat-icon svgIcon="group" class="sidenav-icons"></mat-icon>Teams</a>
+        <a mat-list-item routerLink="." (click)="loadUsers()">
+          <mat-icon svgIcon="person" class="sidenav-icons"></mat-icon>Users</a>
+        <a mat-list-item routerLink="." (click)="loadProducts()">
+          <mat-icon svgIcon="products" class="sidenav-icons"></mat-icon>Products</a>
+        <a mat-list-item routerLink="." (click)="loadFeatures()">
+          <mat-icon svgIcon="products" class="sidenav-icons"></mat-icon>Features</a>
+        <a mat-list-item routerLink=".">
+          <mat-icon svgIcon="objectives" class="sidenav-icons"></mat-icon>Objectives</a>
+        <a mat-list-item routerLink="." (click)="loadBoard()">
+          <mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
       </mat-nav-list>
     </mat-sidenav>
 

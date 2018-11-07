@@ -13,7 +13,7 @@ export class KanbanBoardComponent implements OnInit {
       iconRegistry.addSvgIcon('edit', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/edit.svg'));
       iconRegistry.addSvgIcon('delete', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/delete.svg'));
   }
-
+  orderableLists = [['Item 1a', 'Item 2a', 'Item 3a'], ['Item 1b', 'Item 2b', 'Item 3b']]
   ngOnInit() {
   }
 

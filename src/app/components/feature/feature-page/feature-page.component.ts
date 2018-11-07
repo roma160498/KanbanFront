@@ -25,7 +25,10 @@ export class FeaturePageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
-
+	kanbanOneColumns: any[] =
+    [
+        { text: 'Backlog', dataField: 'new', maxItems: 10 }
+    ];
 	constructor() {
 	 }
 

@@ -17,11 +17,13 @@
 .mat-toolbar.mat-primary {
     background: rgb(221, 111, 111);
 }
-.logout-button{
+.toolbar-button{
+    background: rgb(160, 67, 67);
+}
+.toolbar-buttons-group {
     position: absolute;
     right: 0;
     margin-right: 10px;
-    background: rgb(160, 67, 67);
 }
 .example-sidenav-container {
     /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This

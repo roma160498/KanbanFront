@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild, Inject, ViewContainerRef, ComponentFactor
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../models/user';
 import { AuthenticateService } from '../../services/authenticate.service';
-import {Router} from '@angular/router';
-import {MatSidenav} from '@angular/material/sidenav';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { LoggedInAuthGuardService } from '../../services/logged-in-auth-guard.service';
 import { ComponentLoaderService } from '../../services/component-loader.service'
-import {Routes, RouterModule} from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { KanbanBoardComponent } from '../kanban-board/kanban-board.component';
 import { TableTeamsComponent } from '../team/table-teams/table-teams.component';
 import { TableUsersComponent } from '../user/table-users/table-users.component'
@@ -28,7 +28,7 @@ export class AdminFormComponent implements OnInit {
 	componentRef: any;
 	color: string;
 	constructor(private authenticateService: AuthenticateService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-	private componentLoaderService: ComponentLoaderService) {
+		private componentLoaderService: ComponentLoaderService, private route: ActivatedRoute) {
 		iconRegistry.addSvgIcon('sidenav', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/sidenav.svg'));
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
 		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
@@ -40,8 +40,17 @@ export class AdminFormComponent implements OnInit {
 	logout() {
 		this.authenticateService.logout();
 	}
-
-	ngOnInit() {}
+	//userInfo: any;
+	userInfo = {
+		name: 'aaa',
+		surname: 'fff'
+	};
+	userName: string;
+	userSurname: string;
+	ngOnInit() {
+		this.userName = localStorage.getItem('userName');
+		this.userSurname = localStorage.getItem('userSurname');
+	}
 
 	loadBoard() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
