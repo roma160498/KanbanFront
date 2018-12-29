@@ -55,6 +55,11 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
+  keyboardHandler(event) {
+    if (event.keyCode === 13) {
+      this.login();
+    }
+  }
   showSuccess() {
     
   }

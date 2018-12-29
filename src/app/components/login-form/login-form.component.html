@@ -3,8 +3,8 @@
     <div class="form">
       <p class="title">Kanban Tool</p>
       <!-- //<form class="login-form" action="http://localhost:3000/login" method="post"> -->
-        <input type="text" placeholder="username" name="username"  [(ngModel)]="username"/>
-        <input type="password" placeholder="password" name="password"  [(ngModel)]="password"/>
+        <input type="text" placeholder="username" name="username"  [(ngModel)]="username" (keydown)="keyboardHandler($event)"/>
+        <input type="password" placeholder="password" name="password"  [(ngModel)]="password" (keydown)="keyboardHandler($event)"/>
         <button mat-flat-button (click)="login()">Login</button>
       <!-- </form> -->
     </div>
