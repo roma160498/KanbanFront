@@ -14,4 +14,5 @@ export class Feature {
     team_name: string;
     product_id: string;
     product_name: string;
+    status_id: string;
 }

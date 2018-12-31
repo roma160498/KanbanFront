@@ -1,3 +1,53 @@
-<p>
-  edit-create-feature works!
-</p>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<vaadin-split-layout orientation="vertical" style="height: 100%" IronResizableBehavior="true" (iron-resize)="splitterMove($event)">
+  <div style="height: 50%; min-height: 100px;">
+    <p-panel header="Feature">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            Name:
+            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class=" ui-md-offset-1">
+            Description:
+            <textarea [rows]="6" [cols]="42" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
+          </div>
+          <div class=" ui-md-offset-1">
+            Acception criteria:
+            <textarea [rows]="6" [cols]="30" pInputTextarea autoResize="autoResize" [(ngModel)]="acCriteria"></textarea>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            <p>Classification:</p>
+            <p-dropdown [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            <p>Team:</p>
+            <p-dropdown [options]="teamList && teamList.options" [(ngModel)]="team_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+              <p>Product:</p>
+            <p-dropdown [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
+      </p-footer>
+    </p-panel>
+  </div>
+  <div style="height: 50%; min-height: 50px;">
+    <p-tabView>
+      <p-tabPanel header="Feature scope">
+        <!-- <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="userService" [type]="'UsersOfTeam'" [nativeCols]="userCols" [cols]="allRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'User'"></app-relationship-table> -->
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</vaadin-split-layout>

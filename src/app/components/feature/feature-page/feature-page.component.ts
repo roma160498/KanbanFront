@@ -38,18 +38,22 @@ export class FeaturePageComponent implements OnInit {
 	toolbarActionHandler(event) {
 		if (event === 'edit') {
 			const feature = this.selectedFeatures[0];
-   //   this.editComponent.name = feature.name;
-   //   this.editComponent.description = feature.description;
-		//	this.editComponent.selectedFeature = feature;
+        	this.editComponent.name = feature.name;
+			this.editComponent.description = feature.description;
+			this.editComponent.acCriteria = feature.acc_criteria;
+			this.editComponent.product_id = feature.product_id;
+			this.editComponent.team_id = feature.team_id;
+			this.editComponent.type_id = feature.type_id;
+			this.editComponent.selectedFeature = feature;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
-	//	this.tableComponent.toolbarActionHandler(event, {});
-	//	this.editComponent.toolbarActionHandler(event, );
+		this.tableComponent.toolbarActionHandler(event, {});
+		this.editComponent.toolbarActionHandler(event, );
 	}
 
 	rowsAmountChangeHandler(event) {
-	//	this.tableComponent.rowsAmountChangeHandler(event, {});
+		this.tableComponent.rowsAmountChangeHandler(event, {});
 	}
 
 	selectedFeaturesOut(event) {
