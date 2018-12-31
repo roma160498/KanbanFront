@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, Input, EventEmitter, SimpleChange, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, Input, EventEmitter, SimpleChange, Inject, ViewContainerRef } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -23,6 +23,7 @@ export class RelationshipTableComponent implements OnInit {
 	@Input() cols: any[];
 	@Input() nativeCols: any[];
 	@Input() relatedItem: string;
+	@Input() toolbarButtonsInitialState: any;
 
 	amountOfItems: number;
 	specialCols = [];
@@ -40,10 +41,13 @@ export class RelationshipTableComponent implements OnInit {
 	cities: any[];
 	selectedPopup: any;
 	selectedSpecialCol: any;
+	searchIsVisible: boolean = true;
+	searchLabel: string = 'Hide Search';
 
 	constructor(private messageService: MessageService, public dialog: MatDialog) { }
 
 	ngOnInit() {
+		debugger;
 		this.mainService[`get${this.type}`]({}, this.updatedItem.id).subscribe(items => {
 			this.items = items;
 			this.loading = false;
@@ -134,6 +138,15 @@ export class RelationshipTableComponent implements OnInit {
 					}
 
 				}
+			}
+			case 'hideSearch': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (this.searchIsVisible) {
+					this.searchLabel = 'Hide Search';
+				} else {
+					this.searchLabel = 'Show Search';
+				}
+				this.table['__proto__'].reset.call(this.table);
 			}
 		}
 	}

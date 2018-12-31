@@ -9,7 +9,7 @@ export class TeamService {
 
 	constructor(private http: HttpClient, private roleService: RoleService) { }
 	getTeam(args): Observable<Team[]> {
-		return this.http.get('http://localhost:3000/team', {
+		return this.http.get('http://localhost:3000/teams', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -74,7 +74,7 @@ export class TeamService {
 
 	}
 	getTeamCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/team', {
+		return this.http.get('http://localhost:3000/teams', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -89,7 +89,7 @@ export class TeamService {
 			});
 	}
 	deleteTeam(args) {
-		return this.http.delete('http://localhost:3000/team/' + args.id, { withCredentials: true }).
+		return this.http.delete('http://localhost:3000/teams/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -112,7 +112,7 @@ export class TeamService {
 	}
 	insertTeam(team: Team) {
 		const body = { team: team };
-		return this.http.post('http://localhost:3000/team/', body, { withCredentials: true }).
+		return this.http.post('http://localhost:3000/teams/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -126,7 +126,7 @@ export class TeamService {
 	updateTeam(team: Team, id) {
 		const body = { team: team };
 		console.log(team);
-		return this.http.put('http://localhost:3000/team/' + id, body, { withCredentials: true }).
+		return this.http.put('http://localhost:3000/teams/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;

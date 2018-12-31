@@ -141,10 +141,10 @@ export class TableFeatureComponent implements OnInit {
 			this.amountOfFeatures--;
 			this.selectedFeatures
 			const name = this.selectedFeatures[i].name;
-			/*this.featureService.deleteFeature({ id: selectedId }).subscribe(res => {
+			this.featureService.deleteFeature({ id: selectedId }).subscribe(res => {
 				this.table['__proto__'].reset.call(this.table);
 				this.showSuccess(name);
-			});*/
+			});
 		}
 		this.selectedFeatures = [];
 		this.selectedFeaturesOut.emit(this.selectedFeatures);

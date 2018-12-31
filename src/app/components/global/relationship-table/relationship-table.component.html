@@ -1,16 +1,19 @@
 <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
 <mat-toolbar color="primary">
-    <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="isSideBarVisible = true" (click)="toolbarActionHandler('add')">
+    <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="isSideBarVisible = true" (click)="toolbarActionHandler('add')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.add === false)">
         <mat-icon svgIcon="add"></mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="toolbarActionHandler('delete')" [disabled]="!selectedItems || selectedItems && !selectedItems.length">
+    <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="toolbarActionHandler('delete')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.delete === false) || !selectedItems || selectedItems && !selectedItems.length">
         <mat-icon svgIcon="delete"></mat-icon>
     </button>
     <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="toolbarActionHandler('refresh')">
         <mat-icon svgIcon="refresh"></mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Save Related" matTooltipPosition="below" (click)="toolbarActionHandler('save')">
+    <button mat-icon-button matTooltip="Save Related" matTooltipPosition="below" (click)="toolbarActionHandler('save')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.save === false)">
         <mat-icon svgIcon="save"></mat-icon>
+    </button>
+    <button mat-icon-button [matTooltip]="searchLabel" matTooltipPosition="below" (click)="toolbarActionHandler('hideSearch')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.hideSearch === false)">
+        <mat-icon svgIcon="search"></mat-icon>
     </button>
 </mat-toolbar>
 <p-table #table [columns]="nativeCols" [specialCols]="specialCols" [value]="items" [scrollable]="true" [resizableColumns]="true"
@@ -30,7 +33,7 @@
                 {{col.header}}
             </th>
         </tr>
-        <tr>
+        <tr *ngIf="searchIsVisible">
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <input *ngSwitchCase="col.field" pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)"
                     style="width:100%">
