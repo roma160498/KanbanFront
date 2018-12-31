@@ -69,4 +69,33 @@ export class ProductService {
 				return Observable.throw(e);
 			});
 	}
+	getFeaturesOfProductCount(args, productId): Observable<Product[]> {
+		return this.http.get('http://localhost:3000/products/' + productId + '/features', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getFeaturesOfProduct(args, productId): Observable<Product[]> {
+		return this.http.get('http://localhost:3000/products/' + productId + '/features', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

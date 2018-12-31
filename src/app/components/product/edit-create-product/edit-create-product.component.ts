@@ -19,26 +19,35 @@ export class EditCreateProductComponent implements OnInit {
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
   
-  userCols: any;
+  featureCols: any;
   allRelatedCols: any;
   
   @Output() updatedProductOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
   constructor(private productService: ProductService, private messageService: MessageService) { }
   ngOnInit() {
-	// this.allRelatedCols = [
-	// 	{ field: 'name', header: 'Name' },
-	// 	{ field: 'surname', header: 'Surname' },
-	// 	{ field: 'login', header: 'Login' },
-	// 	{ field: 'email', header: 'Email'},
-	// 	{ field: 'roleName', header: 'Role', service: this.roleService}
-	// ];
-	this.userCols = [
-		{field: 'name', header: 'Name' },
-		{ field: 'surname', header: 'Surname' },
-		{ field: 'login', header: 'Login' },
-		{ field: 'email', header: 'Email'},
-	];
+		this.allRelatedCols = [
+			{ field: 'name', header: 'Name' },
+			{ field: 'description', header: 'Description' },
+			{ field: 'acc_criteria', header: 'Acception criteria' },
+			{ field: 'creator_name', header: 'Creator' },
+			{ field: 'team_name', header: 'Team' },
+			{ field: 'type_name', header: 'Classification' },
+			{ field: 'created_on', header: 'Created' },
+			{ field: 'modified_on', header: 'Modified' },
+			{ field: 'closed_on', header: 'Closed' }
+		];
+		this.featureCols = [
+			{ field: 'name', header: 'Name' },
+			{ field: 'description', header: 'Description' },
+			{ field: 'acc_criteria', header: 'Acception criteria' },
+			{ field: 'creator_name', header: 'Creator' },
+			{ field: 'team_name', header: 'Team' },
+			{ field: 'type_name', header: 'Classification' },
+			{ field: 'created_on', header: 'Created' },
+			{ field: 'modified_on', header: 'Modified' },
+			{ field: 'closed_on', header: 'Closed' }
+		];
   }
   toolbarActionHandler(action) {
 		const product = new Product();

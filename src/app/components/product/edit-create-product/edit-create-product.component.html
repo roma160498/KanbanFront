@@ -24,7 +24,8 @@
   <div style="height: 50%; min-height: 50px;">
     <p-tabView>
       <p-tabPanel header="Feature scope">
-        <!-- <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="userService" [type]="'UsersOfTeam'" [nativeCols]="userCols" [cols]="allRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'User'"></app-relationship-table> -->
+        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="productService" [relatedService]="featureService" [type]="'FeaturesOfProduct'" [nativeCols]="featureCols" [cols]="allRelatedCols" [updatedItem]="selectedProduct" [relatedItem]="'Feature'"
+        [toolbarButtonsInitialState] = "{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>
