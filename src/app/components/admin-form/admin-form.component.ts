@@ -16,6 +16,7 @@ import { UserPageComponent } from '../user/user-page/user-page.component'
 import { TeamPageComponent } from '../team/team-page/team-page.component';
 import { ProductPageComponent } from '../product/product-page/product-page.component';
 import { FeaturePageComponent } from '../feature/feature-page/feature-page.component';
+import { IncrementPageComponent } from '../increment/increment-page/increment-page.component';
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -36,6 +37,7 @@ export class AdminFormComponent implements OnInit {
 		iconRegistry.addSvgIcon('products', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
 		iconRegistry.addSvgIcon('board', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/board.svg'));
 		iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/search.svg'));
+		iconRegistry.addSvgIcon('increment', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/increment.svg'));
 	}
 
 	logout() {
@@ -75,5 +77,10 @@ export class AdminFormComponent implements OnInit {
 	loadFeatures() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(FeaturePageComponent);
+	}
+
+	loadIncrements() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(IncrementPageComponent);
 	}
 }

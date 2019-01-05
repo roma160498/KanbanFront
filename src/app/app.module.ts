@@ -64,6 +64,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { jqxKanbanComponent  } from 'jqwidgets-framework/jqwidgets-ts/angular_jqxkanban';
 import { NgxDnDModule } from '@swimlane/ngx-dnd'
+import { DndListModule } from 'ngx-drag-and-drop-lists'
+import {CalendarModule} from 'primeng/calendar';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
@@ -94,6 +96,11 @@ import { FeaturePageComponent } from './components/feature/feature-page/feature-
 import { EditCreateFeatureComponent } from './components/feature/edit-create-feature/edit-create-feature.component';
 import { TableFeatureComponent } from './components/feature/table-feature/table-feature.component';
 import { FeatureService } from './services/feature.service';
+import { IncrementPageComponent } from './components/increment/increment-page/increment-page.component';
+import { EditCreateIncrementComponent } from './components/increment/edit-create-increment/edit-create-increment.component';
+import { TableIncrementComponent } from './components/increment/table-increment/table-increment.component';
+import { IncrementService } from './services/increment.service';
+import { DateHelperService } from './services/date-helper.service';
 
 
 // определение маршрутов
@@ -122,7 +129,10 @@ const appRoutes: Routes =[
     FeaturePageComponent,
     EditCreateFeatureComponent,
     TableFeatureComponent,
-    jqxKanbanComponent
+    jqxKanbanComponent,
+    IncrementPageComponent, 
+    EditCreateIncrementComponent, 
+    TableIncrementComponent  
   ],
   imports: [
     BrowserModule,
@@ -185,14 +195,16 @@ const appRoutes: Routes =[
     AutoCompleteModule,
     OverlayPanelModule,
     InputTextareaModule,
-    NgxDnDModule
+    DndListModule,
+    CalendarModule
+    //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent]
 })
 export class AppModule { }

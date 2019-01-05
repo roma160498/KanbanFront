@@ -1,0 +1,16 @@
+:host ::ng-deep .ui-table {
+    height: calc(100% - 40px) !important;
+}
+
+:host ::ng-deep .ui-paginator-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+:host ::ng-deep .ui-table-tbody> tr> td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}

@@ -5,27 +5,28 @@ import { ProductService } from '../../../services/product.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
-  selector: 'app-edit-create-product',
-  templateUrl: './edit-create-product.component.html',
-  styleUrls: ['./edit-create-product.component.css'],
+	selector: 'app-edit-create-product',
+	templateUrl: './edit-create-product.component.html',
+	styleUrls: ['./edit-create-product.component.css'],
 	providers: [MessageService]
 })
 export class EditCreateProductComponent implements OnInit {
-  selectedProduct: Product;
+	selectedProduct: Product;
 	id: number;
-  name: string = '';
-  description: string = '';
+	name: string = '';
+	description: string = '';
 	selectedProducts: Product[];
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
-  
-  featureCols: any;
-  allRelatedCols: any;
-  
-  @Output() updatedProductOut: EventEmitter<any> = new EventEmitter();
+
+	featureCols: any;
+	incrementCols: any;
+	allRelatedCols: any;
+
+	@Output() updatedProductOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
-  constructor(private productService: ProductService, private messageService: MessageService) { }
-  ngOnInit() {
+	constructor(private productService: ProductService, private messageService: MessageService) { }
+	ngOnInit() {
 		this.allRelatedCols = [
 			{ field: 'name', header: 'Name' },
 			{ field: 'description', header: 'Description' },
@@ -48,8 +49,15 @@ export class EditCreateProductComponent implements OnInit {
 			{ field: 'modified_on', header: 'Modified' },
 			{ field: 'closed_on', header: 'Closed' }
 		];
-  }
-  toolbarActionHandler(action) {
+		this.incrementCols = [
+			{ field: 'number', header: 'Number' },
+			{ field: 'name', header: 'Name' },
+			{ field: 'start_date', header: 'Started On' },
+			{ field: 'end_date', header: 'Ended On' },
+			{ field: 'status_name', header: 'Status' }
+		];
+	}
+	toolbarActionHandler(action) {
 		const product = new Product();
 		if (action === 'save') {
 			if (this._isInputDataInvalid()) {
@@ -63,7 +71,7 @@ export class EditCreateProductComponent implements OnInit {
 					if (result) {
 						this.updatedProductOut.emit({
 							isNew: true,
-							product: product 
+							product: product
 						});
 						this.isSavedResultSuccesOut.emit(true);
 						this._clearForm();
@@ -79,7 +87,7 @@ export class EditCreateProductComponent implements OnInit {
 						product[key] = this[key]
 					}
 				}
-				this.productService.updateProduct(product, this.selectedProduct.id).subscribe((result)=>{
+				this.productService.updateProduct(product, this.selectedProduct.id).subscribe((result) => {
 					if (result) {
 						this.updatedProductOut.emit({
 							isNew: false,
@@ -106,12 +114,12 @@ export class EditCreateProductComponent implements OnInit {
 		return this.name === '';
 	}
 
-  _clearForm() {
+	_clearForm() {
 		this.name = '';
 		this.description = '';
-  }
-  
-  discard() {
+	}
+
+	discard() {
 		this._clearForm();
 		this.isSavedResultSuccesOut.emit(true);
 		this.editMode = null;

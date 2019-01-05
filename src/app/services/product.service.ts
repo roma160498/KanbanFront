@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Product } from '../models/product';
+import { DateHelperService } from './date-helper.service';
 
 @Injectable()
 export class ProductService {
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient, private dateHelper: DateHelperService) { }
 	getProduct(args): Observable<Product[]> {
 		return this.http.get('http://localhost:3000/products', {
 			withCredentials: true, params: {
@@ -93,6 +94,46 @@ export class ProductService {
 			}
 		}).
 			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIncrementsOfProductCount(args, productId): Observable<Product[]> {
+		return this.http.get('http://localhost:3000/products/' + productId + '/increments', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIncrementsOfProduct(args, productId): Observable<Product[]> {
+		return this.http.get('http://localhost:3000/products/' + productId + '/increments', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+			map((response: any[]) => {
+				response.forEach(element => {
+					debugger;
+					const zeroAmount = 6 - element.id.toString().length;
+					let zeroString = '';
+					for (let i = 0; i < zeroAmount; i++) {
+						zeroString += '0';
+					}
+					element.number = 'PI-' + zeroString + element.id;
+					element.end_date = this.dateHelper.getDateFormat((new Date(element.end_date)));
+					element.start_date = this.dateHelper.getDateFormat((new Date(element.start_date)));
+				});
 				return response
 			}).catch(e => {
 				return Observable.throw(e);
