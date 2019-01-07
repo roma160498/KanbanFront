@@ -28,8 +28,8 @@ export class TableFeatureComponent implements OnInit {
 	constructor(private featureService: FeatureService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		debugger;
 		this.featureService.getFeatureCount({}).subscribe(res => {
+			debugger;
 			this.amountOfFeatures = res[0]['sum'];
 		});
 		this.cols = [
@@ -124,6 +124,7 @@ export class TableFeatureComponent implements OnInit {
 
 	_refreshGrid(table) {
 		this.featureService.getFeatureCount({}).subscribe(res => {
+			debugger;
 			this.amountOfFeatures = res[0]['sum'];
 		});
 		this.loading = true;
@@ -155,6 +156,7 @@ export class TableFeatureComponent implements OnInit {
 	}
 
 	loadFeaturesLazy(event) {
+		debugger;
 			this.loading = true;
 		this.featureService.getFeature({
 			offset: event.first,

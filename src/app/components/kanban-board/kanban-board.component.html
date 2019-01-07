@@ -15,3 +15,25 @@
     <div>First content element</div>
     <div>Second content element</div>
   </vaadin-split-layout>
+  <!-- <div *ngFor="let list of models.lists;let i = index">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">List {{i}}</h3>
+      </div>
+      <div class="panel-body">
+        <ul [dndList]="{
+            ,
+            horizontal: true}"
+          [dndModel]="list">
+          <li *ngFor="let item of list;let i = index"
+            [dndType]="'item'"
+            [dndDraggable]="{draggable:true, effectAllowed:'move'}"
+            [dndObject]="item"
+            (dndMoved)="removeMovedItem(i, list)"
+            (dndSelected)="log('selected')"
+            [class.selected]="models.selected === item">
+            {{item.label}}
+          </li>
+        </ul>
+      </div>
+    </div> -->

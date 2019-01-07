@@ -19,5 +19,6 @@ export class ComponentLoaderService {
     const factory = this.factoryResolver.resolveComponentFactory(componentName)
     const componentInstance = factory.create(this.rootViewContainer.parentInjector)
     this.rootViewContainer.insert(componentInstance.hostView);
+    return componentInstance;
   }
 }
