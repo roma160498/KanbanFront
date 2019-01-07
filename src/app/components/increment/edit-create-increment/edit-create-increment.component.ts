@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, ViewContainerRef } from '@angular/core';
 import { Increment } from '../../../models/increment';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { IncrementService } from '../../../services/increment.service';
 import { ProductService } from '../../../services/product.service';
 import { DateHelperService } from '../../../services/date-helper.service';
+import { ComponentLoaderService } from '../../../services/component-loader.service';
+import { EditCreateIterationComponent } from '../../iteration/edit-create-iteration/edit-create-iteration.component';
 
 @Component({
   selector: 'app-edit-create-increment',
@@ -23,38 +25,36 @@ export class EditCreateIncrementComponent implements OnInit {
   selectedIncrements: Increment[];
   editMode: string;
   @ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+  @ViewChild('newIterationForm', { read: ViewContainerRef }) entry: ViewContainerRef;
 
-  featureCols: any;
+  iterationCols: any;
   allRelatedCols: any;
   productList: any = {};
   product_id: any;
+  isIterationFormVisible: Boolean = false;
+  iterationFormComponent: any;
 
   @Output() updatedIncrementOut: EventEmitter<any> = new EventEmitter();
   @Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
   constructor(private incrementService: IncrementService, private messageService: MessageService,
-    private productService: ProductService, private dateHelper: DateHelperService) { }
+    private productService: ProductService, private dateHelper: DateHelperService,
+    private componentLoaderService: ComponentLoaderService,) { }
   ngOnInit() {
     this.allRelatedCols = [
-      { field: 'name', header: 'Name' },
-      { field: 'description', header: 'Description' },
-      { field: 'acc_criteria', header: 'Acception criteria' },
-      { field: 'creator_name', header: 'Creator' },
-      { field: 'team_name', header: 'Team' },
-      { field: 'type_name', header: 'Classification' },
-      { field: 'created_on', header: 'Created' },
-      { field: 'modified_on', header: 'Modified' },
-      { field: 'closed_on', header: 'Closed' }
+			{ field: 'number', header: 'Iteration number' },
+			{ field: 'name', header: 'Iteration name' },
+			{ field: 'start_date', header: 'Started On' },
+			{ field: 'end_date', header: 'Ended On' },
+			{ field: 'story_points', header: 'Story points' },
+			{ field: 'status_name', header: 'Status' }
     ];
-    this.featureCols = [
-      { field: 'name', header: 'Name' },
-      { field: 'description', header: 'Description' },
-      { field: 'acc_criteria', header: 'Acception criteria' },
-      { field: 'creator_name', header: 'Creator' },
-      { field: 'team_name', header: 'Team' },
-      { field: 'type_name', header: 'Classification' },
-      { field: 'created_on', header: 'Created' },
-      { field: 'modified_on', header: 'Modified' },
-      { field: 'closed_on', header: 'Closed' }
+    this.iterationCols = [
+			{ field: 'number', header: 'Iteration number' },
+			{ field: 'name', header: 'Iteration name' },
+			{ field: 'start_date', header: 'Started On' },
+			{ field: 'end_date', header: 'Ended On' },
+			{ field: 'story_points', header: 'Story points' },
+			{ field: 'status_name', header: 'Status' }
     ];
     this.productService.getProduct({}).subscribe(items => {
       this.productList.options = items.map(el => {
@@ -147,5 +147,26 @@ export class EditCreateIncrementComponent implements OnInit {
 
   splitterMove(event) {
     console.log(event)
+  }
+
+  createNewIteration() {
+    this.isIterationFormVisible = true;
+    this.componentLoaderService.setRootViewContainerRef(this.entry);
+    this.iterationFormComponent = this.componentLoaderService.addComponent(EditCreateIterationComponent);
+    this.iterationFormComponent.instance.increment_id = this.selectedIncrement.id;
+    this.iterationFormComponent.instance.isCalendarDisabled = false;
+    this.iterationFormComponent.instance.isPopupMode = true;
+    this.iterationFormComponent.instance.minDate = new Date(this.selectedIncrement.start_date);
+    this.iterationFormComponent.instance.maxDate = new Date(this.selectedIncrement.end_date);
+    this.iterationFormComponent.instance.completeness = 0;
+    this.iterationFormComponent.instance.story_points = 0;
+    this.iterationFormComponent.instance.popupComponent = this.iterationFormComponent;
+    this.iterationFormComponent.instance.isSavedResultSuccesOutInPopupMode.subscribe((() => {
+      this.isIterationFormVisible = false;
+    }).bind(this));
+  }
+
+  onHideIterationForm() {
+    this.iterationFormComponent.destroy();
   }
 }

@@ -81,7 +81,6 @@ export class TableIncrementComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-debugger;
 		console.log(changes['updatedIncrement'])
 		if (changes['updatedIncrement']) {
 			const increment = changes['updatedIncrement'];

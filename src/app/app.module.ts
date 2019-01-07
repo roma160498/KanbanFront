@@ -66,6 +66,7 @@ import { jqxKanbanComponent  } from 'jqwidgets-framework/jqwidgets-ts/angular_jq
 import { NgxDnDModule } from '@swimlane/ngx-dnd'
 import { DndListModule } from 'ngx-drag-and-drop-lists'
 import {CalendarModule} from 'primeng/calendar';
+import {ProgressBarModule} from 'primeng/progressbar';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
@@ -101,6 +102,11 @@ import { EditCreateIncrementComponent } from './components/increment/edit-create
 import { TableIncrementComponent } from './components/increment/table-increment/table-increment.component';
 import { IncrementService } from './services/increment.service';
 import { DateHelperService } from './services/date-helper.service';
+import { IterationPageComponent } from './components/iteration/iteration-page/iteration-page.component';
+import { EditCreateIterationComponent } from './components/iteration/edit-create-iteration/edit-create-iteration.component';
+import { TableIterationsComponent } from './components/iteration/table-iterations/table-iterations.component';
+import { IterationService } from './services/iteration.service';
+import { SequenceHelperService } from './services/sequence-helper.service';
 
 
 // определение маршрутов
@@ -132,7 +138,7 @@ const appRoutes: Routes =[
     jqxKanbanComponent,
     IncrementPageComponent, 
     EditCreateIncrementComponent, 
-    TableIncrementComponent  
+    TableIncrementComponent, IterationPageComponent, EditCreateIterationComponent, TableIterationsComponent  
   ],
   imports: [
     BrowserModule,
@@ -196,15 +202,16 @@ const appRoutes: Routes =[
     OverlayPanelModule,
     InputTextareaModule,
     DndListModule,
-    CalendarModule
+    CalendarModule,
+    ProgressBarModule
     //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent]
 })
 export class AppModule { }

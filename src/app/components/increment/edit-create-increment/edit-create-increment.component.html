@@ -35,18 +35,29 @@
             <textarea [rows]="6" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="business_objectives"></textarea>
           </div>
         </div>
+        <div class="ui-grid-row" >
+            <div class=" ui-md-offset-1">
+                <button [disabled]="!selectedIncrement" pButton type="button" icon="pi pi-plus" label="Crate Iteration" (click)="createNewIteration()"></button>
+            </div>
+          </div>
       </div>
-        <p-footer>
-          <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
-        </p-footer>
+      <p-footer>
+        <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
+      </p-footer>
+      <p-sidebar [(visible)]="isIterationFormVisible" [fullScreen]="true" [modal]="false" [dismissible]="false" (onHide)="onHideIterationForm()">
+          <div #newIterationForm></div>
+      </p-sidebar>
     </p-panel>
-    </div>
-    <div style="height: 50%; min-height: 50px;">
+  </div>
+  <div style="height: 50%; min-height: 50px;">
     <p-tabView>
-        <p-tabPanel header="Iterations">
-            </p-tabPanel>
+      <p-tabPanel header="Iterations">
+        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="incrementService"
+          [relatedService]="iterationService" [type]="'IterationsOfIncrement'" [nativeCols]="iterationCols" [cols]="allRelatedCols"
+          [updatedItem]="selectedIncrement" [relatedItem]="'Iterations'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+      </p-tabPanel>
       <p-tabPanel header="Feature scope">
-        </p-tabPanel>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </vaadin-split-layout>

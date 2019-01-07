@@ -1,5 +1,5 @@
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedIncrements"
-[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Increments'" [iconName]="'increment'"></app-items-toolbar>
 
  <app-edit-create-increment #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
 (updatedIncrementOut)="updatedIncrementOut($event)" [selectedIncrements]="selectedIncrements" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-increment>

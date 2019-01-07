@@ -1,0 +1,54 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<vaadin-split-layout orientation="vertical" style="height: 100%" IronResizableBehavior="true">
+  <div style="height: 50%; min-height: 100px;">
+    <p-panel header="Iteration">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
+            Iteration Number:
+            <input pInputText type="text" placeholder="" [(ngModel)]="number" disabled="true" />
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            Iteration Name:
+            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-1">
+            Started On:
+            <p-calendar [(ngModel)]="start_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            Ended On:
+            <p-calendar [(ngModel)]="end_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            <p>Program Increment:</p>
+            <p-dropdown [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true" (onChange)="incrementSelectHandler($event)"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            <p>Completeness: {{completeness}}/{{story_points}} story points</p>
+            <p-progressBar [value]="completePercent"></p-progressBar>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
+        <button *ngIf="isPopupMode" pButton type="button" icon="pi pi-check" label="Save" (click)="saveItself()"></button>
+      </p-footer>
+    </p-panel>
+  </div>
+  <div *ngIf="!isPopupMode" style="height: 50%; min-height: 50px;">
+    <p-tabView>
+      <p-tabPanel header="Issue scope">
+        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="iterationService"
+          [relatedService]="featureService" [type]="'FeaturesOfIteration'" [nativeCols]="featureCols" [cols]="allRelatedCols"
+          [updatedItem]="selectedIteration" [relatedItem]="'Feature'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</vaadin-split-layout>

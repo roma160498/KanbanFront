@@ -1,0 +1,8 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedIterations"
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Iterations'" [iconName]="'iteration'"></app-items-toolbar>
+
+ <app-edit-create-iteration #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
+(updatedIterationOut)="updatedIterationOut($event)" [selectedIterations]="selectedIterations" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-iteration>
+
+<app-table-iterations #iterationTable  (selectedIterationsOut)="selectedIterationsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
+[updatedIteration]="updatedIteration"></app-table-iterations>
