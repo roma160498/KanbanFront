@@ -1,4 +1,7 @@
 <mat-toolbar color="primary">
+    <mat-icon style="color: black" svgIcon="{{iconName}}" class="sidenav-icons"></mat-icon>
+    <h1 style="font-style: italic; color: black; padding-right: 15px">{{itemName}}</h1>
+    <div style="border: 1px solid gray; height: 70%; background: gray"></div>
     <button mat-icon-button matTooltip="Add item" matTooltipPosition="below" (click)="add()" [disabled]="disabledOptions.isAddDisabled">
         <mat-icon svgIcon="add"></mat-icon>
     </button>

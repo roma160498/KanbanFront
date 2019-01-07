@@ -1,5 +1,5 @@
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedTeams"
-[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Teams'" [iconName]="'group'"></app-items-toolbar>
 
 <app-edit-create-team #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
 (updatedTeamOut)="updatedTeamOut($event)" [selectedTeams]="selectedTeams" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-team>

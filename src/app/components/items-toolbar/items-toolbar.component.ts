@@ -13,6 +13,8 @@ import { User } from '../../models/user';
 export class ItemsToolbarComponent implements OnInit {
 	@Input() selectedItems: any[];
 	@Input() disabledOptions: any;
+	@Input() itemName: string;
+	@Input() iconName: string;
 
 	rowsAmountArray: any[] = [{ name: 'All Rows', value: -1 }];
 	selectedRowsAmount: any;

@@ -1,5 +1,5 @@
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedFeatures"
-[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Features'" [iconName]="'feature'"></app-items-toolbar>
 
  <app-edit-create-feature #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
 (updatedFeatureOut)="updatedFeatureOut($event)" [selectedFeatures]="selectedFeatures" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-feature>

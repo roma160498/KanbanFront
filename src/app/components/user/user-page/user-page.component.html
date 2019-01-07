@@ -1,5 +1,5 @@
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedUsers"
-[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Users'" [iconName]="'person'"></app-items-toolbar>
 
 
 <app-edit-create-user #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"

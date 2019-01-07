@@ -1,5 +1,5 @@
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedProducts"
-[disabledOptions]="toolbarButtonsDisabledOptions"></app-items-toolbar>
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Products'" [iconName]="'products'"></app-items-toolbar>
 
  <app-edit-create-product #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
 (updatedProductOut)="updatedProductOut($event)" [selectedProducts]="selectedProducts" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-product>
