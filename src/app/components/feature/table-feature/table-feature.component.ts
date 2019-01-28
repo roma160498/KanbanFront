@@ -33,9 +33,9 @@ export class TableFeatureComponent implements OnInit {
 			this.amountOfFeatures = res[0]['sum'];
 		});
 		this.cols = [
+			{ field: 'number', header: 'Feature Number' },
 			{ field: 'name', header: 'Name' },
-			{ field: 'description', header: 'Description' },
-			{ field: 'acc_criteria', header: 'Acception criteria' },
+			{ field: 'increment_number', header: 'Program Increment' },
 			{ field: 'creator_name', header: 'Creator' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },

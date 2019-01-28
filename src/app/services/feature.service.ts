@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Feature } from '../models/feature';
+import { SequenceHelperService } from './sequence-helper.service';
+import { Issue } from '../models/issue';
 
 @Injectable()
 export class FeatureService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sequenceHelper: SequenceHelperService) { }
   getFeatureCount(args): Observable<any> {
 		return this.http.get('http://localhost:3000/features', {
 			withCredentials: true, params: {
@@ -30,7 +32,11 @@ export class FeatureService {
 				'properties': args.properties
 			}
 		}).
-			map((response: Response) => {
+			map((response: Feature[]) => {
+				response.forEach(element => {
+					element.number = this.sequenceHelper.getSequenceFor('F-', 6, element.id);
+					element.increment_number = this.sequenceHelper.getSequenceFor('PI-', 6, element.increment_id);
+				});
 				return response
 			}).catch(e => {
 				return Observable.throw(e);
@@ -76,6 +82,40 @@ export class FeatureService {
 				'amount': args.amount,
 				'offset': args.offset,
 				'properties': args.properties
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIssuesOfFeature(args, featureId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/features/' + featureId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+		map((response: Issue[]) => {
+			response.forEach(element => {
+				element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
+				element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
+				element.iteration_number = this.sequenceHelper.getSequenceFor('IT-', 6, element.iteration_id);
+			});
+			return response
+		}).catch(e => {
+			return Observable.throw(e);
+		});
+	}
+	getIssuesOfFeatureCount(args, featureId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/features/' + featureId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
 			}
 		}).
 			map((response: Response) => {

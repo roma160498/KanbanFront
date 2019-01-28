@@ -44,6 +44,7 @@ export class FeaturePageComponent implements OnInit {
 			this.editComponent.product_id = feature.product_id;
 			this.editComponent.team_id = feature.team_id;
 			this.editComponent.type_id = feature.type_id;
+			this.editComponent.number = feature.number;
 			this.editComponent.selectedFeature = feature;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;

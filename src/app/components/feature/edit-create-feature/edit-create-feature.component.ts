@@ -6,6 +6,9 @@ import { FeatureService } from '../../../services/feature.service';
 import { SelectItem } from 'primeng/components/common/api';
 import { TeamService } from '../../../services/team.service';
 import { ProductService } from '../../../services/product.service';
+import { IncrementService } from '../../../services/increment.service';
+import { SequenceHelperService } from '../../../services/sequence-helper.service';
+import { elementAt } from 'rxjs/operator/elementAt';
 @Component({
 	selector: 'app-edit-create-feature',
 	templateUrl: './edit-create-feature.component.html',
@@ -15,12 +18,13 @@ export class EditCreateFeatureComponent implements OnInit {
 	selectedFeature: Feature;
 	id: number;
 	name: string = '';
+	number: string = '';
 	description: string = '';
 	acCriteria: string = '';
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 
-	userCols: any;
+	issueCols: any;
 	allRelatedCols: any;
 	classificationList: any = {};
 	type_id: any;
@@ -28,18 +32,25 @@ export class EditCreateFeatureComponent implements OnInit {
 	team_id: any;
 	productList: any = {};
 	product_id: any;
+	incrementList: any = {};
+	increment_id: any;
 
 	@Output() updatedFeatureOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
 	constructor(private featureService: FeatureService, private messageService: MessageService,
-		private teamService: TeamService, private productService: ProductService) { }
+		private teamService: TeamService, private productService: ProductService,
+		private incrementService: IncrementService, private sequenceHelper: SequenceHelperService) { }
 	ngOnInit() {
 
-		this.userCols = [
-			{ field: 'name', header: 'Name' },
-			{ field: 'surname', header: 'Surname' },
-			{ field: 'login', header: 'Login' },
-			{ field: 'email', header: 'Email' },
+		this.allRelatedCols = this.issueCols = [
+			{ field: 'number', header: 'Issue number' },
+			{ field: 'name', header: 'Issue name' },
+			{ field: 'iteration_number', header: 'Iteration number' },
+			{ field: 'classification_name', header: 'Classification' },
+			{ field: 'status_id', header: 'Status' },
+			{ field: 'team_name', header: 'Team' },
+			{ field: 'user_fullname', header: 'Assignee' },
+			{ field: 'story_points', header: 'Story Points' },
 		];
 
 		this.featureService.getFeatureClassification({}).subscribe(items => {
@@ -65,7 +76,15 @@ export class EditCreateFeatureComponent implements OnInit {
 					value: el.id
 				}
 			})
-		})
+		});
+		this.incrementService.getIncrement({}).subscribe(items => {
+			this.incrementList.options = items.map(el => {
+				return {
+					label: `${this.sequenceHelper.getSequenceFor('PI-', 6, el.id)} ${el.name}`,
+					value: el.id
+				}
+			})
+		});
 	}
 	toolbarActionHandler(action) {
 		const feature = new Feature();
@@ -84,6 +103,7 @@ export class EditCreateFeatureComponent implements OnInit {
 				feature.type_id = this.type_id;
 				feature.creater_id = localStorage.getItem('id');
 				feature.status_id = '1';// MOCK 
+				feature.increment_id = this.increment_id;
 				this.featureService.insertFeature(feature).subscribe((result) => {
 					if (result) {
 						this.updatedFeatureOut.emit({
@@ -134,6 +154,11 @@ export class EditCreateFeatureComponent implements OnInit {
 		this.name = '';
 		this.description = '';
 		this.acCriteria = '';
+		this.number = '';
+		this.type_id = '';
+		this.product_id = '';
+		this.team_id = '';
+		this.increment_id = '';
 	}
 
 	discard() {

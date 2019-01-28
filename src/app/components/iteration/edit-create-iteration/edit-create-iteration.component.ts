@@ -13,6 +13,8 @@ import { Subject } from 'rxjs';
 	providers: [MessageService]
 })
 export class EditCreateIterationComponent implements OnInit {
+	issueCols: any;
+	allRelatedCols: any;
 	selectedIteration: Iteration;
 	id: number;
 	name: string = '';
@@ -49,6 +51,16 @@ export class EditCreateIterationComponent implements OnInit {
 				}
 			})
 		});
+		this.allRelatedCols = this.issueCols = [
+			{ field: 'number', header: 'Issue number' },
+			{ field: 'name', header: 'Issue name' },
+			{ field: 'feature_number', header: 'Feature number' },
+			{ field: 'classification_name', header: 'Classification' },
+			{ field: 'status_id', header: 'Status' },
+			{ field: 'team_name', header: 'Team' },
+			{ field: 'user_fullname', header: 'Assignee' },
+			{ field: 'story_points', header: 'Story Points' },
+		];
 	}
 	toolbarActionHandler(action) {
 		debugger;

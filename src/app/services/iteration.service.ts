@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Iteration } from '../models/iteration';
 import { DateHelperService } from './date-helper.service';
 import { SequenceHelperService } from './sequence-helper.service';
+import { Issue } from '../models/issue';
 
 @Injectable()
 export class IterationService {
@@ -75,6 +76,40 @@ export class IterationService {
 				} else {
 					return null;
 				}
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIssuesOfIteration(args, featureId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/iterations/' + featureId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+		map((response: Issue[]) => {
+			response.forEach(element => {
+				element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
+				element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
+				element.feature_number = this.sequenceHelper.getSequenceFor('F-', 6, element.feature_id);
+			});
+			return response
+		}).catch(e => {
+			return Observable.throw(e);
+		});
+	}
+	getIssuesOfIterationCount(args, featureId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/iterations/' + featureId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
+			}
+		}).
+			map((response: Response) => {
+				return response
 			}).catch(e => {
 				return Observable.throw(e);
 			});
