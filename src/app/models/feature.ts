@@ -1,6 +1,7 @@
 export class Feature {
     id: number;
     name: string;
+    number: string;
     description: string;
     acc_criteria: string;
     modified_on: string;
@@ -15,4 +16,7 @@ export class Feature {
     product_id: string;
     product_name: string;
     status_id: string;
+    increment_id: number;
+    increment_name: string;
+    increment_number: string;
 }

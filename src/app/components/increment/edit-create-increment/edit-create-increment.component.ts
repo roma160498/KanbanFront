@@ -7,6 +7,7 @@ import { ProductService } from '../../../services/product.service';
 import { DateHelperService } from '../../../services/date-helper.service';
 import { ComponentLoaderService } from '../../../services/component-loader.service';
 import { EditCreateIterationComponent } from '../../iteration/edit-create-iteration/edit-create-iteration.component';
+import { FeatureService } from '../../../services/feature.service';
 
 @Component({
   selector: 'app-edit-create-increment',
@@ -28,6 +29,7 @@ export class EditCreateIncrementComponent implements OnInit {
   @ViewChild('newIterationForm', { read: ViewContainerRef }) entry: ViewContainerRef;
 
   iterationCols: any;
+  featuresCols: any;
   allRelatedCols: any;
   productList: any = {};
   product_id: any;
@@ -38,16 +40,16 @@ export class EditCreateIncrementComponent implements OnInit {
   @Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
   constructor(private incrementService: IncrementService, private messageService: MessageService,
     private productService: ProductService, private dateHelper: DateHelperService,
-    private componentLoaderService: ComponentLoaderService,) { }
+    private componentLoaderService: ComponentLoaderService, private featureService: FeatureService) { }
   ngOnInit() {
-    this.allRelatedCols = [
-			{ field: 'number', header: 'Iteration number' },
-			{ field: 'name', header: 'Iteration name' },
-			{ field: 'start_date', header: 'Started On' },
-			{ field: 'end_date', header: 'Ended On' },
-			{ field: 'story_points', header: 'Story points' },
-			{ field: 'status_name', header: 'Status' }
-    ];
+    // this.allRelatedCols = [
+		// 	{ field: 'number', header: 'Iteration number' },
+		// 	{ field: 'name', header: 'Iteration name' },
+		// 	{ field: 'start_date', header: 'Started On' },
+		// 	{ field: 'end_date', header: 'Ended On' },
+		// 	{ field: 'story_points', header: 'Story points' },
+		// 	{ field: 'status_name', header: 'Status' }
+    // ];
     this.iterationCols = [
 			{ field: 'number', header: 'Iteration number' },
 			{ field: 'name', header: 'Iteration name' },
@@ -55,6 +57,17 @@ export class EditCreateIncrementComponent implements OnInit {
 			{ field: 'end_date', header: 'Ended On' },
 			{ field: 'story_points', header: 'Story points' },
 			{ field: 'status_name', header: 'Status' }
+    ];
+    this.allRelatedCols = this.featuresCols = [
+      { field: 'number', header: 'Feature Number' },
+			{ field: 'name', header: 'Name' },
+			{ field: 'creator_name', header: 'Creator' },
+			{ field: 'team_name', header: 'Team' },
+			{ field: 'type_name', header: 'Classification' },
+			{ field: 'product_name', header: 'Product' },
+			{ field: 'created_on', header: 'Created' },
+			{ field: 'modified_on', header: 'Modified' },
+			{ field: 'closed_on', header: 'Closed' }
     ];
     this.productService.getProduct({}).subscribe(items => {
       this.productList.options = items.map(el => {

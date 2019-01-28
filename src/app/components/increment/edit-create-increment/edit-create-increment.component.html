@@ -57,6 +57,9 @@
           [updatedItem]="selectedIncrement" [relatedItem]="'Iterations'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
       </p-tabPanel>
       <p-tabPanel header="Feature scope">
+          <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="incrementService"
+          [relatedService]="featureService" [type]="'FeaturesOfIncrement'" [nativeCols]="featuresCols" [cols]="allRelatedCols"
+          [updatedItem]="selectedIncrement" [relatedItem]="'Features'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>
