@@ -1,0 +1,30 @@
+export class Issue {
+    id: number;
+    number: string;
+    status_id: number;
+    status_name: string;
+    feature_id: number;
+    feature_name: string;
+    feature_number: string;
+    iteration_id: number;
+    iteration_name: string;
+    iteration_number: string;
+    classification_id: number;
+    classification_name: string;
+    product_id: number;
+    product_name: string;
+    team_id: number;
+    team_name: string;
+    user_id: number;
+    user_fullname: string;
+    user_name: string;
+    user_surname: string;
+    story_points: number;
+    completeness: number;
+    name: string;
+    description: string;
+    accCriteria: string;
+    modified_on: string;
+    created_on: string;
+    closed_on: string;
+}

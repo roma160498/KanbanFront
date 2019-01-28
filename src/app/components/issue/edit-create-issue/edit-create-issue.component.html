@@ -1,0 +1,79 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<vaadin-split-layout orientation="vertical" style="height: 100%" IronResizableBehavior="true">
+  <div style="height: 50%; min-height: 100px;">
+    <p-panel header="Issue">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
+            Issue Number:
+            <input pInputText type="text" placeholder="" [(ngModel)]="number" disabled="true" />
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            Issue Name:
+            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <p>Classification:</p>
+            <p-dropdown [options]="classificationList && classificationList.options" [(ngModel)]="classification_id" placeholder="Select"
+              [showClear]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-md-offset-1">
+            <p>Feature:</p>
+            <p-dropdown [options]="featureList && featureList.options" [(ngModel)]="feature_id" placeholder="Select" [showClear]="true"
+              (onChange)="featureSelectHandler($event)"></p-dropdown>
+          </div>
+          <div>
+            <p>Iteration:</p>
+            <p-dropdown [options]="iterationList && iterationList.options" [(ngModel)]="iteration_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+        <div class="ui-lg-offset-1">
+          <p>Team:</p>
+          <p-dropdown [options]="teamList && teamList.options" [(ngModel)]="team_id" placeholder="Select" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-1">
+          <p>Assignee:</p>
+          <p-dropdown [options]="userList && userList.options" [(ngModel)]="user_id" placeholder="Select" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-g-12 ui-md-6 ui-lg-1 ui-md-offset-1">
+          <p>Story points:</p>
+          <input pInputText type="text" placeholder="" [(ngModel)]="story_points" pKeyFilter="num" />
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-1">
+          <p>Completeness:</p>
+          <p-dropdown [options]="completenessList && completenessList.options" [(ngModel)]="completeness" placeholder="Select"
+            [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class=" ui-md-offset-1">
+          Description:
+          <textarea [rows]="6" [cols]="42" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
+        </div>
+        <div class=" ui-md-offset-1">
+          Acception criteria:
+          <textarea [rows]="6" [cols]="32" pInputTextarea autoResize="autoResize" [(ngModel)]="accCriteria"></textarea>
+        </div>
+      </div>
+  </div>
+  <p-footer>
+    <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
+    <button *ngIf="isPopupMode" pButton type="button" icon="pi pi-check" label="Save" (click)="saveItself()"></button>
+  </p-footer>
+  </p-panel>
+  </div>
+  <div *ngIf="!isPopupMode" style="height: 50%; min-height: 50px;">
+    <p-tabView>
+      <!-- <p-tabPanel header="Issue scope">
+        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="issueService" [relatedService]="featureService"
+          [type]="'FeaturesOfIssue'" [nativeCols]="featureCols" [cols]="allRelatedCols" [updatedItem]="selectedIssue" [relatedItem]="'Feature'"
+          [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+      </p-tabPanel> -->
+    </p-tabView>
+  </div>
+</vaadin-split-layout>

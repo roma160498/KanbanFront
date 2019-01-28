@@ -1,0 +1,8 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedIssues"
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Issues'" [iconName]="'issue'"></app-items-toolbar>
+
+ <app-edit-create-issue #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
+(updatedIssueOut)="updatedIssueOut($event)" [selectedIssues]="selectedIssues" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-issue>
+
+<app-table-issues #issueTable  (selectedIssuesOut)="selectedIssuesOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
+[updatedIssue]="updatedIssue"></app-table-issues>
