@@ -3,11 +3,14 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Team } from '../models/team';
 import { RoleService } from './role.service';
+import { Issue } from '../models/issue';
+import { SequenceHelperService } from './sequence-helper.service';
 
 @Injectable()
 export class TeamService {
 
-	constructor(private http: HttpClient, private roleService: RoleService) { }
+	constructor(private http: HttpClient, private roleService: RoleService,
+		private sequenceHelper: SequenceHelperService) { }
 	getTeam(args): Observable<Team[]> {
 		return this.http.get('http://localhost:3000/teams', {
 			withCredentials: true, params: {
@@ -133,6 +136,41 @@ export class TeamService {
 				} else {
 					return null;
 				}
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIssuesOfTeam(args, teamId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/teams/' + teamId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+			map((response: Issue[]) => {
+				response.forEach(element => {
+					element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
+					element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
+					element.feature_number = this.sequenceHelper.getSequenceFor('F-', 6, element.feature_id);
+					element.iteration_number = this.sequenceHelper.getSequenceFor('IT-', 6, element.iteration_id);
+				});
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+	getIssuesOfTeamCount(args, teamId): Observable<Issue[]> {
+		return this.http.get('http://localhost:3000/teams/' + teamId + '/issues', {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties,
+				'isCount': 'true'
+			}
+		}).
+			map((response: Response) => {
+				return response
 			}).catch(e => {
 				return Observable.throw(e);
 			});

@@ -21,24 +21,37 @@ export class EditCreateTeamComponent implements OnInit {
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
   
   userCols: any;
-  allRelatedCols: any;
+  issueCols: any;
+  issueAllRelatedCols: any;
+  userAllRelatedCols: any;
   
   @Output() updatedTeamOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
   constructor(private teamService: TeamService, private messageService: MessageService, private userService: UserService, private roleService: RoleService) { }
   ngOnInit() {
-	this.allRelatedCols = [
+	this.userAllRelatedCols = [
 		{ field: 'name', header: 'Name' },
 		{ field: 'surname', header: 'Surname' },
 		{ field: 'login', header: 'Login' },
 		{ field: 'email', header: 'Email'},
 		{ field: 'roleName', header: 'Role', service: this.roleService}
 	];
+	
 	this.userCols = [
 		{field: 'name', header: 'Name' },
 		{ field: 'surname', header: 'Surname' },
 		{ field: 'login', header: 'Login' },
 		{ field: 'email', header: 'Email'},
+	];
+	this.issueAllRelatedCols = this.issueCols = [
+		{ field: 'number', header: 'Issue number' },
+		{ field: 'name', header: 'Issue name' },
+		{ field: 'feature_number', header: 'Feature number' },
+		{ field: 'iteration_number', header: 'Iteration number' },
+		{ field: 'classification_name', header: 'Classification' },
+		{ field: 'status_id', header: 'Status' },
+		{ field: 'user_fullname', header: 'Assignee' },
+		{ field: 'story_points', header: 'Story Points' },
 	];
   }
   toolbarActionHandler(action) {
