@@ -18,20 +18,16 @@ export class TableFeatureComponent implements OnInit {
 	amountOfFeatures: number;
 	cols: any[];
 	features: Feature[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedFeatures: Feature[];
 	selectedFeature: Feature;
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 
 	constructor(private featureService: FeatureService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		this.featureService.getFeatureCount({}).subscribe(res => {
-			debugger;
-			this.amountOfFeatures = res[0]['sum'];
-		});
 		this.cols = [
 			{ field: 'number', header: 'Feature Number' },
 			{ field: 'name', header: 'Name' },
@@ -44,30 +40,19 @@ export class TableFeatureComponent implements OnInit {
 			{ field: 'modified_on', header: 'Modified' },
 			{ field: 'closed_on', header: 'Closed' }
 		];
-		this.loading = true;
+		this.featureService.getFeature({}).subscribe(features => {
+			this.amountOfFeatures = features.length;
+			this.features = features;
+		});
 	}
 
 	_isScrollExist(element): boolean {
 		return element.scrollHeight > parseInt(this.scrollHeight);
 	}
 
-	onResize(event) {
-		/*this.scrollHeight = this.el.nativeElement.getElementsByTagName('p-table')[0].firstElementChild.offsetHeight - 70 + 'px';
-		const header: HTMLElement = <HTMLElement>document.getElementsByClassName('ui-table-scrollable-header')[0];
-		if (this._isScrollExist(this.el.nativeElement.getElementsByClassName('ui-table-scrollable-body-table')[0])) {
-			header.style.marginRight = '17px';
-		} else {
-			header.style.marginRight = '0px';
-		}*/
-	}
-
 	rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfFeatures : amount;
-		this.loadFeaturesLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
 	toolbarActionHandler(action, table) {
@@ -88,29 +73,34 @@ export class TableFeatureComponent implements OnInit {
 				this.selectedFeaturesOut.emit(this.selectedFeatures);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-
-		console.log(changes['updatedFeature'])
 		if (changes['updatedFeature']) {
 			const feature = changes['updatedFeature'];
 			if (feature.currentValue && feature.currentValue.isNew) {
 				this.features.push(feature.currentValue.feature);
 				this.amountOfFeatures++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = feature.currentValue.feature.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature ${name} created successfully.` });
 			}
 			if (feature.currentValue && !feature.currentValue.isNew) {
-				console.log("UPDSTE")
+				debugger;
 				const updatedFeature = this.features.find((value, index) => feature.currentValue.featureID == value.id);
 				for (let key of Object.keys(feature.currentValue.updatedProps)) {
-					updatedFeature[key] = feature.currentValue.updatedProps[key];
+					if (feature.currentValue.updatedProps[key] !== undefined) {
+						updatedFeature[key] = feature.currentValue.updatedProps[key];
+					}
 				}
-				this.table['__proto__'].reset.call(this.table);
-				console.log(feature.currentValue)
+				this.resetTable();
 				const name = feature.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature ${name} updated successfully.` });
 			}
@@ -118,20 +108,15 @@ export class TableFeatureComponent implements OnInit {
 	}
 
 	onSelectUnselectRow(event) {
-		console.log(this.selectedFeatures)
 		this.selectedFeaturesOut.emit(this.selectedFeatures);
 	}
 
 	_refreshGrid(table) {
-		this.featureService.getFeatureCount({}).subscribe(res => {
-			debugger;
-			this.amountOfFeatures = res[0]['sum'];
+		this.featureService.getFeature({}).subscribe(features => {
+			this.amountOfFeatures = features.length;
+			this.features = features;
 		});
-		this.loading = true;
-		this.loadFeaturesLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -143,7 +128,7 @@ export class TableFeatureComponent implements OnInit {
 			this.selectedFeatures
 			const name = this.selectedFeatures[i].name;
 			this.featureService.deleteFeature({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -155,16 +140,16 @@ export class TableFeatureComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature ${name} deleted successfully.` });
 	}
 
-	loadFeaturesLazy(event) {
-		debugger;
-			this.loading = true;
-		this.featureService.getFeature({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(features => {
-			this.features = features;
-			this.loading = false;
-			this.onResize({});
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		//this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

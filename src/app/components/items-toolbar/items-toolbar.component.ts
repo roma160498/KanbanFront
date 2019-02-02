@@ -63,4 +63,8 @@ export class ItemsToolbarComponent implements OnInit {
 	edit() {
 		this.actionClicked.emit('edit');
 	}
+
+	showHideFilter() {
+		this.actionClicked.emit('filter');
+	}
 }

@@ -20,7 +20,7 @@ export class EditCreateFeatureComponent implements OnInit {
 	name: string = '';
 	number: string = '';
 	description: string = '';
-	acCriteria: string = '';
+	acc_criteria: string = '';
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 
@@ -97,7 +97,7 @@ export class EditCreateFeatureComponent implements OnInit {
 			if (this.editMode === 'add') {
 				feature.name = this.name;
 				feature.description = this.description;
-				feature.acc_criteria = this.acCriteria;
+				feature.acc_criteria = this.acc_criteria;
 				feature.team_id = this.team_id;
 				feature.product_id = this.product_id;
 				feature.type_id = this.type_id;
@@ -153,7 +153,7 @@ export class EditCreateFeatureComponent implements OnInit {
 	_clearForm() {
 		this.name = '';
 		this.description = '';
-		this.acCriteria = '';
+		this.acc_criteria = '';
 		this.number = '';
 		this.type_id = '';
 		this.product_id = '';

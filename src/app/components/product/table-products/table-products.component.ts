@@ -5,66 +5,50 @@ import { Product } from '../../../models/product';
 import { ProductService } from '../../../services/product.service';
 
 @Component({
-  selector: 'app-table-products',
-  templateUrl: './table-products.component.html',
-  styleUrls: ['./table-products.component.css'],
-  providers: [MessageService]
+	selector: 'app-table-products',
+	templateUrl: './table-products.component.html',
+	styleUrls: ['./table-products.component.css'],
+	providers: [MessageService]
 })
 export class TableProductsComponent implements OnInit {
 
-  @ViewChild('table') table: TableModule;
+	@ViewChild('table') table: TableModule;
 	@Output() selectedProductsOut: EventEmitter<Product[]> = new EventEmitter();
 	@Input() updatedProduct: any;
-  
-  amountOfProducts: number;
+
+	amountOfProducts: number;
 	cols: any[];
 	products: Product[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedProducts: Product[];
 	selectedProduct: Product;
 	rowsAmount: number = 25;
-  isTableDisplayed: boolean = true;
-  
-  constructor(private productService: ProductService, private el: ElementRef, private messageService: MessageService) { }
+	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
+	
+	constructor(private productService: ProductService, private el: ElementRef, private messageService: MessageService) { }
 
-  ngOnInit() {
-    console.log(12)
-    this.productService.getProductCount({}).subscribe(res => {
-      this.amountOfProducts = res[0]['sum'];
-      console.log(this.amountOfProducts)
-		});
+	ngOnInit() {
 		this.cols = [
-      { field: 'name', header: 'Name' },
-      { field: 'description', header: 'Description' }
+			{ field: 'name', header: 'Name' },
+			{ field: 'description', header: 'Description' }
 		];
-		this.loading = true;
-  }
+		this.productService.getProduct({}).subscribe(products => {
+			this.amountOfProducts = products.length;
+			this.products = products;
+		});
+	}
 
-  _isScrollExist(element): boolean {
+	_isScrollExist(element): boolean {
 		return element.scrollHeight > parseInt(this.scrollHeight);
 	}
 
-	onResize(event) {
-		/*this.scrollHeight = this.el.nativeElement.getElementsByTagName('p-table')[0].firstElementChild.offsetHeight - 70 + 'px';
-		const header: HTMLElement = <HTMLElement>document.getElementsByClassName('ui-table-scrollable-header')[0];
-		if (this._isScrollExist(this.el.nativeElement.getElementsByClassName('ui-table-scrollable-body-table')[0])) {
-			header.style.marginRight = '17px';
-		} else {
-			header.style.marginRight = '0px';
-		}*/
-	}
-
-  rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
+	rowsAmountChangeHandler(amount, aaa) {
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfProducts : amount;
-		this.loadProductsLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
-  toolbarActionHandler(action, table) {
+	toolbarActionHandler(action, table) {
 		switch (action) {
 			case 'delete': {
 				this._deleteItem(table);
@@ -82,29 +66,31 @@ export class TableProductsComponent implements OnInit {
 				this.selectedProductsOut.emit(this.selectedProducts);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-
-		console.log(changes['updatedProduct'])
 		if (changes['updatedProduct']) {
 			const product = changes['updatedProduct'];
 			if (product.currentValue && product.currentValue.isNew) {
 				this.products.push(product.currentValue.product);
 				this.amountOfProducts++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = product.currentValue.product.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Product ${name} created successfully.` });
 			}
 			if (product.currentValue && !product.currentValue.isNew) {
-				console.log("UPDSTE")
 				const updatedProduct = this.products.find((value, index) => product.currentValue.productID == value.id);
 				for (let key of Object.keys(product.currentValue.updatedProps)) {
 					updatedProduct[key] = product.currentValue.updatedProps[key];
 				}
-				this.table['__proto__'].reset.call(this.table);
-				console.log(product.currentValue)
+				this.resetTable();
 				const name = product.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Product ${name} updated successfully.` });
 			}
@@ -112,19 +98,15 @@ export class TableProductsComponent implements OnInit {
 	}
 
 	onSelectUnselectRow(event) {
-		console.log(this.selectedProducts)
 		this.selectedProductsOut.emit(this.selectedProducts);
 	}
 
 	_refreshGrid(table) {
-		this.productService.getProductCount({}).subscribe(res => {
-			this.amountOfProducts = res[0]['sum'];
+		this.productService.getProduct({}).subscribe(products => {
+			this.amountOfProducts = products.length;
+			this.products = products;
 		});
-		this.loading = true;
-		this.loadProductsLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -136,7 +118,7 @@ export class TableProductsComponent implements OnInit {
 			this.selectedProducts
 			const name = this.selectedProducts[i].name;
 			this.productService.deleteProduct({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -148,15 +130,16 @@ export class TableProductsComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Product ${name} deleted successfully.` });
 	}
 
-	loadProductsLazy(event) {
-		this.loading = true;
-		this.productService.getProduct({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(products => {
-			this.products = products;
-			this.loading = false;
-			this.onResize({});
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

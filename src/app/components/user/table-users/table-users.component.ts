@@ -23,18 +23,15 @@ export class TableUsersComponent implements OnInit {
 	amountOfUsers: number;
 	cols: any[];
 	users: User[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedUsers: User[];
 	selectedUser: User;
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 	constructor(private userService: UserService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		this.userService.getUserCount({}).subscribe(res => {
-			this.amountOfUsers = res[0]['sum'];
-		});
 		this.cols = [
 			{ field: 'name', header: 'Name' },
 			{ field: 'surname', header: 'Surname' },
@@ -42,30 +39,19 @@ export class TableUsersComponent implements OnInit {
 			{ field: 'password', header: 'Password' },
 			{ field: 'email', header: 'Email' }
 		];
-		this.loading = true;
+		this.userService.getUser({}).subscribe(users => {
+			this.amountOfUsers = users.length;
+			this.users = users;
+		});
 	}
 
 	_isScrollExist(element): boolean {
 		return element.scrollHeight > parseInt(this.scrollHeight);
 	}
 
-	onResize(event) {
-		this.scrollHeight = this.el.nativeElement.getElementsByTagName('p-table')[0].firstElementChild.offsetHeight - 70 + 'px';
-		const header: HTMLElement = <HTMLElement>document.getElementsByClassName('ui-table-scrollable-header')[0];
-		if (this._isScrollExist(this.el.nativeElement.getElementsByClassName('ui-table-scrollable-body-table')[0])) {
-			header.style.marginRight = '17px';
-		} else {
-			header.style.marginRight = '0px';
-		}
-	}
-
 	rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfUsers : amount;
-		this.loadUsersLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
 	toolbarActionHandler(action, table) {
@@ -86,6 +72,12 @@ export class TableUsersComponent implements OnInit {
 				this.selectedUsersOut.emit(this.selectedUsers);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
@@ -95,7 +87,7 @@ export class TableUsersComponent implements OnInit {
 			if (user.currentValue && user.currentValue.isNew) {
 				this.users.push(user.currentValue.user);
 				this.amountOfUsers++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = this._getUserName(user.currentValue.user);
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} created successfully.` });
 			}
@@ -104,7 +96,7 @@ export class TableUsersComponent implements OnInit {
 				for (let key of Object.keys(user.currentValue.updatedProps)) {
 					updatedUser[key] = user.currentValue.updatedProps[key];
 				}
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = this._getUserName(updatedUser);
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} updated successfully.` });
 			}
@@ -112,19 +104,15 @@ export class TableUsersComponent implements OnInit {
 	}
 
 	onSelectUnselectRow(event) {
-		console.log(this.selectedUsers)
 		this.selectedUsersOut.emit(this.selectedUsers);
 	}
 
 	_refreshGrid(table) {
-		this.userService.getUserCount({}).subscribe(res => {
-			this.amountOfUsers = res[0]['sum'];
+		this.userService.getUser({}).subscribe(users => {
+			this.amountOfUsers = users.length;
+			this.users = users;
 		});
-		this.loading = true;
-		this.loadUsersLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -136,7 +124,7 @@ export class TableUsersComponent implements OnInit {
 			this.selectedUsers
 			const name = this._getUserName(this.selectedUsers[i]);
 			this.userService.deleteUser({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -159,15 +147,16 @@ export class TableUsersComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `User ${name} deleted successfully.` });
 	}
 
-	loadUsersLazy(event) {
-		this.loading = true;
-		this.userService.getUser({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(users => {
-			this.users = users;
-			this.loading = false;
-			this.onResize({});
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

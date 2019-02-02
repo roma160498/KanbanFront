@@ -19,19 +19,16 @@ export class TableIterationsComponent implements OnInit {
 	amountOfIterations: number;
 	cols: any[];
 	iterations: Iteration[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedIterations: Iteration[];
 	selectedIteration: Iteration;
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 
 	constructor(private iterationService: IterationService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		this.iterationService.getIterationCount({}).subscribe(res => {
-			this.amountOfIterations = res[0]['sum'];
-		});
 		this.cols = [
 			{ field: 'number', header: 'Iteration number' },
 			{ field: 'name', header: 'Iteration name' },
@@ -42,7 +39,10 @@ export class TableIterationsComponent implements OnInit {
 			{ field: 'story_points', header: 'Story points' },
 			{ field: 'status_name', header: 'Status' }
 		];
-		this.loading = true;
+		this.iterationService.getIteration({}).subscribe(iterations => {
+			this.amountOfIterations = iterations.length;
+			this.iterations = iterations;
+		});
 	}
 
 	_isScrollExist(element): boolean {
@@ -50,12 +50,8 @@ export class TableIterationsComponent implements OnInit {
 	}
 
 	rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfIterations : amount;
-		this.loadIterationsLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
 	toolbarActionHandler(action, table) {
@@ -76,6 +72,12 @@ export class TableIterationsComponent implements OnInit {
 				this.selectedIterationsOut.emit(this.selectedIterations);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
@@ -85,16 +87,18 @@ export class TableIterationsComponent implements OnInit {
 			if (iteration.currentValue && iteration.currentValue.isNew) {
 				this.iterations.push(iteration.currentValue.iteration);
 				this.amountOfIterations++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = iteration.currentValue.iteration.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Iteration ${name} created successfully.` });
 			}
 			if (iteration.currentValue && !iteration.currentValue.isNew) {
 				const updatedIteration = this.iterations.find((value, index) => iteration.currentValue.iterationID == value.id);
 				for (let key of Object.keys(iteration.currentValue.updatedProps)) {
-					updatedIteration[key] = iteration.currentValue.updatedProps[key];
+					if (iteration.currentValue.updatedProps[key]) {
+						updatedIteration[key] = iteration.currentValue.updatedProps[key];
+					}
 				}
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = iteration.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Iteration ${name} updated successfully.` });
 			}
@@ -106,14 +110,11 @@ export class TableIterationsComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.iterationService.getIterationCount({}).subscribe(res => {
-			this.amountOfIterations = res[0]['sum'];
+		this.iterationService.getIteration({}).subscribe(iterations => {
+			this.amountOfIterations = iterations.length;
+			this.iterations = iterations;
 		});
-		this.loading = true;
-		this.loadIterationsLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -125,7 +126,7 @@ export class TableIterationsComponent implements OnInit {
 			this.selectedIterations
 			const name = this.selectedIterations[i].name;
 			this.iterationService.deleteIteration({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -137,14 +138,16 @@ export class TableIterationsComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Iteration ${name} deleted successfully.` });
 	}
 
-	loadIterationsLazy(event) {
-		this.loading = true;
-		this.iterationService.getIteration({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(iterations => {
-			this.iterations = iterations;
-			this.loading = false;
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

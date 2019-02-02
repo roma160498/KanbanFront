@@ -5,65 +5,49 @@ import { TeamService } from '../../../services/team.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
-  selector: 'app-table-teams',
-  templateUrl: './table-teams.component.html',
-  styleUrls: ['./table-teams.component.css'],
-  providers: [MessageService]
+	selector: 'app-table-teams',
+	templateUrl: './table-teams.component.html',
+	styleUrls: ['./table-teams.component.css'],
+	providers: [MessageService]
 })
 export class TableTeamsComponent implements OnInit {
 
-  @ViewChild('table') table: TableModule;
+	@ViewChild('table') table: TableModule;
 	@Output() selectedTeamsOut: EventEmitter<Team[]> = new EventEmitter();
 	@Input() updatedTeam: any;
-  
-  amountOfTeams: number;
+
+	amountOfTeams: number;
 	cols: any[];
 	teams: Team[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedTeams: Team[];
 	selectedTeam: Team;
 	rowsAmount: number = 25;
-  isTableDisplayed: boolean = true;
-  
-  constructor(private teamService: TeamService, private el: ElementRef, private messageService: MessageService) { }
+	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 
-  ngOnInit() {
-    console.log(12)
-    this.teamService.getTeamCount({}).subscribe(res => {
-      this.amountOfTeams = res[0]['sum'];
-      console.log(this.amountOfTeams)
-		});
+	constructor(private teamService: TeamService, private el: ElementRef, private messageService: MessageService) { }
+
+	ngOnInit() {
 		this.cols = [
 			{ field: 'name', header: 'Name' }
 		];
-		this.loading = true;
-  }
-
-  _isScrollExist(element): boolean {
-		return element.scrollHeight > parseInt(this.scrollHeight);
-	}
-
-	onResize(event) {
-		/*this.scrollHeight = this.el.nativeElement.getElementsByTagName('p-table')[0].firstElementChild.offsetHeight - 70 + 'px';
-		const header: HTMLElement = <HTMLElement>document.getElementsByClassName('ui-table-scrollable-header')[0];
-		if (this._isScrollExist(this.el.nativeElement.getElementsByClassName('ui-table-scrollable-body-table')[0])) {
-			header.style.marginRight = '17px';
-		} else {
-			header.style.marginRight = '0px';
-		}*/
-	}
-
-  rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
-		this.rowsAmount = amount === -1 ? this.amountOfTeams : amount;
-		this.loadTeamsLazy({
-			first: 0,
-			rows: this.rowsAmount
+		this.teamService.getTeam({}).subscribe(teams => {
+			this.amountOfTeams = teams.length;
+			this.teams = teams;
 		});
 	}
 
-  toolbarActionHandler(action, table) {
+	_isScrollExist(element): boolean {
+		return element.scrollHeight > parseInt(this.scrollHeight);
+	}
+
+	rowsAmountChangeHandler(amount, aaa) {
+		this.resetTable();
+		this.rowsAmount = amount === -1 ? this.amountOfTeams : amount;
+	}
+
+	toolbarActionHandler(action, table) {
 		switch (action) {
 			case 'delete': {
 				this._deleteItem(table);
@@ -81,29 +65,31 @@ export class TableTeamsComponent implements OnInit {
 				this.selectedTeamsOut.emit(this.selectedTeams);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-
-		console.log(changes['updatedTeam'])
 		if (changes['updatedTeam']) {
 			const team = changes['updatedTeam'];
 			if (team.currentValue && team.currentValue.isNew) {
 				this.teams.push(team.currentValue.team);
 				this.amountOfTeams++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = team.currentValue.team.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} created successfully.` });
 			}
 			if (team.currentValue && !team.currentValue.isNew) {
-				console.log("UPDSTE")
 				const updatedTeam = this.teams.find((value, index) => team.currentValue.teamID == value.id);
 				for (let key of Object.keys(team.currentValue.updatedProps)) {
 					updatedTeam[key] = team.currentValue.updatedProps[key];
 				}
-				this.table['__proto__'].reset.call(this.table);
-				console.log(team.currentValue)
+				this.resetTable();
 				const name = team.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} updated successfully.` });
 			}
@@ -111,19 +97,15 @@ export class TableTeamsComponent implements OnInit {
 	}
 
 	onSelectUnselectRow(event) {
-		console.log(this.selectedTeams)
 		this.selectedTeamsOut.emit(this.selectedTeams);
 	}
 
 	_refreshGrid(table) {
-		this.teamService.getTeamCount({}).subscribe(res => {
-			this.amountOfTeams = res[0]['sum'];
+		this.teamService.getTeam({}).subscribe(teams => {
+			this.amountOfTeams = this.teams.length;
+			this.teams = teams;
 		});
-		this.loading = true;
-		this.loadTeamsLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -135,7 +117,7 @@ export class TableTeamsComponent implements OnInit {
 			this.selectedTeams
 			const name = this.selectedTeams[i].name;
 			this.teamService.deleteTeam({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -147,15 +129,16 @@ export class TableTeamsComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} deleted successfully.` });
 	}
 
-	loadTeamsLazy(event) {
-		this.loading = true;
-		this.teamService.getTeam({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(teams => {
-			this.teams = teams;
-			this.loading = false;
-			this.onResize({});
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

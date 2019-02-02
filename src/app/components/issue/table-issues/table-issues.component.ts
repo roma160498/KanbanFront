@@ -5,10 +5,10 @@ import { Issue } from '../../../models/issue';
 import { IssueService } from '../../../services/issue.service';
 
 @Component({
-  selector: 'app-table-issues',
-  templateUrl: './table-issues.component.html',
-  styleUrls: ['./table-issues.component.css'],
-  providers: [MessageService]
+	selector: 'app-table-issues',
+	templateUrl: './table-issues.component.html',
+	styleUrls: ['./table-issues.component.css'],
+	providers: [MessageService]
 })
 export class TableIssuesComponent implements OnInit {
 
@@ -19,19 +19,16 @@ export class TableIssuesComponent implements OnInit {
 	amountOfIssues: number;
 	cols: any[];
 	issues: Issue[];
-	loading: boolean;
 	scrollHeight: string;
 	selectedIssues: Issue[];
 	selectedIssue: Issue;
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 
 	constructor(private issueService: IssueService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		this.issueService.getIssueCount({}).subscribe(res => {
-			this.amountOfIssues = res[0]['sum'];
-		});
 		this.cols = [
 			{ field: 'number', header: 'Issue number' },
 			{ field: 'name', header: 'Issue name' },
@@ -43,7 +40,10 @@ export class TableIssuesComponent implements OnInit {
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
 		];
-		this.loading = true;
+		this.issueService.getIssue({}).subscribe(issues => {
+			this.amountOfIssues = issues.length;
+			this.issues = issues;
+		});
 	}
 
 	_isScrollExist(element): boolean {
@@ -51,12 +51,8 @@ export class TableIssuesComponent implements OnInit {
 	}
 
 	rowsAmountChangeHandler(amount, aaa) {
-		this.table['__proto__'].reset.call(this.table);
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfIssues : amount;
-		this.loadIssuesLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
 	toolbarActionHandler(action, table) {
@@ -77,6 +73,12 @@ export class TableIssuesComponent implements OnInit {
 				this.selectedIssuesOut.emit(this.selectedIssues);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
@@ -86,16 +88,18 @@ export class TableIssuesComponent implements OnInit {
 			if (issue.currentValue && issue.currentValue.isNew) {
 				this.issues.push(issue.currentValue.issue);
 				this.amountOfIssues++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = issue.currentValue.issue.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue ${name} created successfully.` });
 			}
 			if (issue.currentValue && !issue.currentValue.isNew) {
 				const updatedIssue = this.issues.find((value, index) => issue.currentValue.issueID == value.id);
 				for (let key of Object.keys(issue.currentValue.updatedProps)) {
-					updatedIssue[key] = issue.currentValue.updatedProps[key];
+					if (issue.currentValue.updatedProps[key] !== undefined) {
+						updatedIssue[key] = issue.currentValue.updatedProps[key];
+					}
 				}
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = issue.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue ${name} updated successfully.` });
 			}
@@ -107,14 +111,11 @@ export class TableIssuesComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.issueService.getIssueCount({}).subscribe(res => {
-			this.amountOfIssues = res[0]['sum'];
+		this.issueService.getIssue({}).subscribe(issues => {
+			this.amountOfIssues = issues.length;
+			this.issues = issues;
 		});
-		this.loading = true;
-		this.loadIssuesLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -126,7 +127,7 @@ export class TableIssuesComponent implements OnInit {
 			this.selectedIssues
 			const name = this.selectedIssues[i].name;
 			this.issueService.deleteIssue({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -138,14 +139,16 @@ export class TableIssuesComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue ${name} deleted successfully.` });
 	}
 
-	loadIssuesLazy(event) {
-		this.loading = true;
-		this.issueService.getIssue({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(issues => {
-			this.issues = issues;
-			this.loading = false;
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

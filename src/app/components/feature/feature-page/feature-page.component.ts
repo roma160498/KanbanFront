@@ -40,11 +40,12 @@ export class FeaturePageComponent implements OnInit {
 			const feature = this.selectedFeatures[0];
         	this.editComponent.name = feature.name;
 			this.editComponent.description = feature.description;
-			this.editComponent.acCriteria = feature.acc_criteria;
+			this.editComponent.acc_criteria = feature.acc_criteria;
 			this.editComponent.product_id = feature.product_id;
 			this.editComponent.team_id = feature.team_id;
 			this.editComponent.type_id = feature.type_id;
 			this.editComponent.number = feature.number;
+			this.editComponent.increment_id = feature.increment_id;
 			this.editComponent.selectedFeature = feature;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
@@ -80,7 +81,8 @@ export class FeaturePageComponent implements OnInit {
 			isSaveDisabled: this.isTableDisplayed,
 			isRefreshDisabled: !this.isTableDisplayed,
 			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed
+			isAddDisabled: !this.isTableDisplayed,
+			isFilterDisabled: !this.isTableDisplayed
 		}
 	}
 }

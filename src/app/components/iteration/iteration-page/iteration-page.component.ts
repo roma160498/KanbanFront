@@ -81,7 +81,8 @@ export class IterationPageComponent implements OnInit {
 			isSaveDisabled: this.isTableDisplayed,
 			isRefreshDisabled: !this.isTableDisplayed,
 			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed
+			isAddDisabled: !this.isTableDisplayed,
+			isFilterDisabled: !this.isTableDisplayed
 		}
 	}
 }

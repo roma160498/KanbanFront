@@ -1,6 +1,6 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<p-table #table (window:resize)="onResize($event)" [columns]="cols" [value]="increments" [lazy]="true" (onLazyLoad)="loadIncrementsLazy($event)"
-    [paginator]="true" [rows]="rowsAmount" [totalRecords]="amountOfIncrements" [loading]="loading" [scrollable]="true" [scrollHeight]="scrollHeight"
+<p-table #table [columns]="cols" [value]="increments"
+    [paginator]="true" [rows]="rowsAmount" [totalRecords]="amountOfIncrements" [scrollable]="true" [scrollHeight]="scrollHeight"
     [resizableColumns]="true" selectionMode="multiple" [(selection)]="selectedIncrements" [metaKeySelection]="true" [showClear]="true"
     *ngIf="isTableDisplayed" (onRowSelect)="onSelectUnselectRow($event)" (onRowUnselect)="onSelectUnselectRow($event)">
     <ng-template pTemplate="colgroup" let-columns>
@@ -12,6 +12,12 @@
         <tr>
             <th *ngFor="let col of columns" pResizableColumn>
                 {{col.header}}
+            </th>
+        </tr>
+        <tr *ngIf="searchIsVisible">
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input class="filterInput" *ngSwitchCase="col.field" pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)"
+                    style="width:100%">
             </th>
         </tr>
     </ng-template>

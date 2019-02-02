@@ -25,15 +25,11 @@ export class TableIncrementComponent implements OnInit {
 	selectedIncrement: Increment;
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
+	searchIsVisible: boolean = true;
 
 	constructor(private incrementService: IncrementService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
-		this.incrementService.getIncrementCount({}).subscribe(res => {
-			debugger;
-			this.amountOfIncrements = res[0]['sum'];
-			console.log(this.amountOfIncrements)
-		});
 		this.cols = [
 			{ field: 'number', header: 'Number' },
 			{ field: 'name', header: 'Name' },
@@ -42,7 +38,10 @@ export class TableIncrementComponent implements OnInit {
 			{ field: 'end_date', header: 'Ended On' },
 			{ field: 'status_name', header: 'Status' }
 		];
-		this.loading = true;
+		this.incrementService.getIncrement({}).subscribe(increments => {
+			this.amountOfIncrements = increments.length;
+			this.increments = increments;
+		});
 	}
 
 	_isScrollExist(element): boolean {
@@ -50,13 +49,8 @@ export class TableIncrementComponent implements OnInit {
 	}
 
 	rowsAmountChangeHandler(amount, aaa) {
-		debugger;
-		this.table['__proto__'].reset.call(this.table);
+		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfIncrements : amount;
-		this.loadIncrementsLazy({
-			first: 0,
-			rows: this.rowsAmount
-		});
 	}
 
 	toolbarActionHandler(action, table) {
@@ -77,28 +71,33 @@ export class TableIncrementComponent implements OnInit {
 				this.selectedIncrementsOut.emit(this.selectedIncrements);
 				break;
 			}
+			case 'filter': {
+				this.searchIsVisible = !this.searchIsVisible;
+				if (!this.searchIsVisible) {
+					this.clearFilterInputs();
+				}
+			}
 		}
 	}
 
 	ngOnChanges(changes: SimpleChange) {
-		console.log(changes['updatedIncrement'])
 		if (changes['updatedIncrement']) {
 			const increment = changes['updatedIncrement'];
 			if (increment.currentValue && increment.currentValue.isNew) {
 				this.increments.push(increment.currentValue.increment);
 				this.amountOfIncrements++;
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				const name = increment.currentValue.increment.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Increment "${name}" created successfully.` });
 			}
 			if (increment.currentValue && !increment.currentValue.isNew) {
-				console.log("UPDSTE")
 				const updatedIncrement = this.increments.find((value, index) => increment.currentValue.incrementID == value.id);
 				for (let key of Object.keys(increment.currentValue.updatedProps)) {
-					updatedIncrement[key] = increment.currentValue.updatedProps[key];
+					if (increment.currentValue.updatedProps[key] !== undefined) {
+						updatedIncrement[key] = increment.currentValue.updatedProps[key];
+					}
 				}
-				this.table['__proto__'].reset.call(this.table);
-				console.log(increment.currentValue)
+				this.resetTable();
 				const name = increment.currentValue.updatedProps.name || increment.currentValue.keyed_name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Increment "${name}" updated successfully.` });
 			}
@@ -110,15 +109,11 @@ export class TableIncrementComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.incrementService.getIncrementCount({}).subscribe(res => {
-			debugger;
-			this.amountOfIncrements = res[0]['sum'];
+		this.incrementService.getIncrement({}).subscribe(increments => {
+			this.amountOfIncrements = increments.length;
+			this.increments = increments;
 		});
-		this.loading = true;
-		this.loadIncrementsLazy({
-			first: table.first,
-			rows: this.rowsAmount
-		});
+		this.clearFilterInputs();
 	}
 
 	_deleteItem(table) {
@@ -130,7 +125,7 @@ export class TableIncrementComponent implements OnInit {
 			this.selectedIncrements
 			const name = this.selectedIncrements[i].name;
 			this.incrementService.deleteIncrement({ id: selectedId }).subscribe(res => {
-				this.table['__proto__'].reset.call(this.table);
+				this.resetTable();
 				this.showSuccess(name);
 			});
 		}
@@ -142,14 +137,16 @@ export class TableIncrementComponent implements OnInit {
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: `Increment ${name} deleted successfully.` });
 	}
 
-	loadIncrementsLazy(event) {
-		this.loading = true;
-		this.incrementService.getIncrement({
-			offset: event.first,
-			amount: event.rows
-		}).subscribe(increments => {
-			this.increments = increments;
-			this.loading = false;
-		});
+	resetTable() {
+		this.table['__proto__'].reset.call(this.table);
+		this.clearFilterInputs();
+	}
+
+	clearFilterInputs() {
+		const filters = document.getElementsByClassName('filterInput');
+		for (let i = 0; i < filters.length; i++) {
+			(<HTMLInputElement>filters[i]).value = '';
+			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
+		}
 	}
 }

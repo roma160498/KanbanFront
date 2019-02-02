@@ -19,4 +19,7 @@
     <button mat-icon-button matTooltip="Save" matTooltipPosition="below" (click)="save()" [disabled]="disabledOptions.isSaveDisabled">
         <mat-icon svgIcon="save"></mat-icon>
     </button>
+    <button mat-icon-button matTooltip="Show/Hide filters" matTooltipPosition="below" (click)="showHideFilter()" [disabled]="disabledOptions.isFilterDisabled">
+        <mat-icon svgIcon="search"></mat-icon>
+    </button>
 </mat-toolbar>
