@@ -1,3 +1,7 @@
 :host ::ng-deep .ui-tabview-panels {
     padding: 0px !important;
 }
+
+.requiredField {
+    background: #d2def7;
+}

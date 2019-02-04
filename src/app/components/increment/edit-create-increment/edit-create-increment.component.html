@@ -10,23 +10,23 @@
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-4">
             Programm Increment Name:
-            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+            <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-1">
             Started On:
-            <p-calendar [(ngModel)]="start_date" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030"></p-calendar>
+            <p-calendar class="requiredField" [(ngModel)]="start_date" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030"></p-calendar>
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-3">
             Ended On:
-            <p-calendar [(ngModel)]="end_date" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030"></p-calendar>
+            <p-calendar class="requiredField" [(ngModel)]="end_date" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030"></p-calendar>
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Product:</p>
-            <p-dropdown [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">

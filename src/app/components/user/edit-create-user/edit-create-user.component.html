@@ -13,22 +13,22 @@
 		</div>
 		<div class="ui-grid-row">
 			<div class="ui-g-12 ui-md-6 ui-lg-2  ui-md-offset-1">
-				Email *:
-				<input pInputText type="text" placeholder="" [(ngModel)]="email" />
+				Email:
+				<input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="email" />
 			</div>
 			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
-				Login *:
-				<input pInputText type="text" placeholder="" [(ngModel)]="login" />
+				Login:
+				<input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="login" />
 			</div>
 		</div>
 		<div class="ui-grid-row">
 			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
-				Password *:
-				<input type="password" pPassword [feedback]="true" weakLabel="Weak password" mediumLabel="Medium password" Label="Strong password" [(ngModel)]="password"/>
+				Password:
+				<input class="requiredField" type="password" pPassword [feedback]="true" weakLabel="Weak password" mediumLabel="Medium password" Label="Strong password" [(ngModel)]="password"/>
 			</div>
 			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
-				Confirm Password *:
-				<input type="password" promptLabel="" pPassword [feedback]="false" [(ngModel)]="confirmPassword"/>
+				Confirm Password:
+				<input class="requiredField" type="password" promptLabel="" pPassword [feedback]="false" [(ngModel)]="confirmPassword"/>
 			</div>
 		</div>
 	</div>

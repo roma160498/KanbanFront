@@ -10,18 +10,18 @@
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-4">
             Issue Name:
-            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+            <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-4">
             <p>Classification:</p>
-            <p-dropdown [options]="classificationList && classificationList.options" [(ngModel)]="classification_id" placeholder="Select"
+            <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="classification_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-md-offset-1">
             <p>Feature:</p>
-            <p-dropdown [options]="featureList && featureList.options" [(ngModel)]="feature_id" placeholder="Select" [showClear]="true"
+            <p-dropdown class="requiredField" [options]="featureList && featureList.options" [(ngModel)]="feature_id" placeholder="Select" [showClear]="true"
               (onChange)="featureSelectHandler($event)"></p-dropdown>
           </div>
           <div>

@@ -10,23 +10,23 @@
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-4">
             Iteration Name:
-            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+            <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-1">
             Started On:
-            <p-calendar [(ngModel)]="start_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
+            <p-calendar class="requiredField" [(ngModel)]="start_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
           </div>
           <div class="ui-g-12 ui-md-6 ui-lg-3">
             Ended On:
-            <p-calendar [(ngModel)]="end_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
+            <p-calendar class="requiredField" [(ngModel)]="end_date" [minDate]="minDate" [maxDate]="maxDate" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="true" yearRange="2000:2030" [disabled]="isCalendarDisabled"></p-calendar>
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Program Increment:</p>
-            <p-dropdown [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true" (onChange)="incrementSelectHandler($event)"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true" (onChange)="incrementSelectHandler($event)"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">

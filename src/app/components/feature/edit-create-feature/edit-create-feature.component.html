@@ -10,7 +10,7 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             Name:
-            <input pInputText type="text" placeholder="" [(ngModel)]="name" />
+            <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
         </div>
         <div class="ui-grid-row">
@@ -26,7 +26,7 @@
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Classification:</p>
-            <p-dropdown [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select" [showClear]="true"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
@@ -44,7 +44,7 @@
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Product:</p>
-            <p-dropdown [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
       </div>
