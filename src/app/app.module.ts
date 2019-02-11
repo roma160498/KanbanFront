@@ -67,6 +67,8 @@ import { NgxDnDModule } from '@swimlane/ngx-dnd'
 import { DndListModule } from 'ngx-drag-and-drop-lists'
 import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
+import {KeyFilterModule} from 'primeng/keyfilter';
+import {CheckboxModule} from 'primeng/checkbox';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
 import { AppComponent } from './app.component';
@@ -107,6 +109,12 @@ import { EditCreateIterationComponent } from './components/iteration/edit-create
 import { TableIterationsComponent } from './components/iteration/table-iterations/table-iterations.component';
 import { IterationService } from './services/iteration.service';
 import { SequenceHelperService } from './services/sequence-helper.service';
+import { IssuePageComponent } from './components/issue/issue-page/issue-page.component';
+import { TableIssuesComponent } from './components/issue/table-issues/table-issues.component';
+import { EditCreateIssueComponent } from './components/issue/edit-create-issue/edit-create-issue.component';
+import { IssueService } from './services/issue.service';
+import { PermissionPageComponent } from './components/permission/permission-page/permission-page.component';
+import { PermissionService } from './services/permission.service';
 
 
 // определение маршрутов
@@ -138,7 +146,14 @@ const appRoutes: Routes =[
     jqxKanbanComponent,
     IncrementPageComponent, 
     EditCreateIncrementComponent, 
-    TableIncrementComponent, IterationPageComponent, EditCreateIterationComponent, TableIterationsComponent  
+    TableIncrementComponent,
+    IterationPageComponent,
+    EditCreateIterationComponent,
+    TableIterationsComponent, 
+    IssuePageComponent, 
+    TableIssuesComponent,
+    EditCreateIssueComponent,
+    PermissionPageComponent
   ],
   imports: [
     BrowserModule,
@@ -203,15 +218,17 @@ const appRoutes: Routes =[
     InputTextareaModule,
     DndListModule,
     CalendarModule,
-    ProgressBarModule
+    ProgressBarModule,
+    KeyFilterModule,
+    CheckboxModule
     //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent]
 })
 export class AppModule { }
