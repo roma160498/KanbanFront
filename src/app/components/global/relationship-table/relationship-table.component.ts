@@ -24,6 +24,7 @@ export class RelationshipTableComponent implements OnInit {
 	@Input() nativeCols: any[];
 	@Input() relatedItem: string;
 	@Input() toolbarButtonsInitialState: any;
+	@Input() canGet: boolean;
 
 	amountOfItems: number;
 	specialCols = [];
@@ -47,12 +48,13 @@ export class RelationshipTableComponent implements OnInit {
 	constructor(private messageService: MessageService, public dialog: MatDialog) { }
 
 	ngOnInit() {
-		debugger;
-		this.mainService[`get${this.type}`]({}, this.updatedItem.id).subscribe(items => {
-			this.items = items;
-			this.loading = false;
-			this.onResize({});
-		});
+		if (this.canGet) {
+			this.mainService[`get${this.type}`]({}, this.updatedItem.id).subscribe(items => {
+				this.items = items;
+				this.loading = false;
+				this.onResize({});
+			});
+		}
 		this.loading = true;
 		for (let col of this.cols) {
 			if (col['service'])
@@ -180,11 +182,13 @@ export class RelationshipTableComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.mainService[`get${this.type}Count`]({}).subscribe(res => {
-			this.amountOfItems = res[0]['sum'];
-		});
-		this.loading = true;
-		this.loadItemsLazy({});
+		if (this.canGet) {
+			this.mainService[`get${this.type}Count`]({}).subscribe(res => {
+				this.amountOfItems = res[0]['sum'];
+			});
+			this.loading = true;
+			this.loadItemsLazy({});
+		}
 	}
 
 	_deleteItem(table) {

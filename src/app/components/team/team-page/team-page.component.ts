@@ -23,11 +23,16 @@ export class TeamPageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
+	editMode: boolean = false;
+
+	userPermissions: any = {};
 
 	constructor() {
-	 }
+	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -35,6 +40,9 @@ export class TeamPageComponent implements OnInit {
 			const team = this.selectedTeams[0];
 			this.editComponent.name = team.name;
 			this.editComponent.selectedTeam = team;
+			this.editMode = true;
+		} else {
+			this.editMode = false;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
@@ -63,13 +71,14 @@ export class TeamPageComponent implements OnInit {
 	}
 
 	_updateToolbarButtonsDisabledStates() {
+		debugger;
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedTeams && this.selectedTeams.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled: !this.userPermissions.teams.get || !this.userPermissions.teams.delete || !(this.selectedTeams && this.selectedTeams.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedTeams && this.selectedTeams.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions.teams.create && !this.userPermissions.teams.update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions.teams.update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions.teams.get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions.teams.get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions.teams.get || !this.userPermissions.teams.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

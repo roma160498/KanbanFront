@@ -15,10 +15,11 @@ export class TableIncrementComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedIncrementsOut: EventEmitter<Increment[]> = new EventEmitter();
 	@Input() updatedIncrement: any;
+	@Input() canGet: boolean;
 
 	amountOfIncrements: number;
 	cols: any[];
-	increments: Increment[];
+	increments: Increment[] = [];
 	loading: boolean;
 	scrollHeight: string;
 	selectedIncrements: Increment[];
@@ -38,10 +39,16 @@ export class TableIncrementComponent implements OnInit {
 			{ field: 'end_date', header: 'Ended On' },
 			{ field: 'status_name', header: 'Status' }
 		];
-		this.incrementService.getIncrement({}).subscribe(increments => {
-			this.amountOfIncrements = increments.length;
-			this.increments = increments;
-		});
+		this.getPIs();
+	}
+
+	getPIs() {
+		if (this.canGet) {
+			this.incrementService.getIncrement({}).subscribe(increments => {
+				this.amountOfIncrements = increments.length;
+				this.increments = increments;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -109,10 +116,7 @@ export class TableIncrementComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.incrementService.getIncrement({}).subscribe(increments => {
-			this.amountOfIncrements = increments.length;
-			this.increments = increments;
-		});
+		this.getPIs();
 		this.clearFilterInputs();
 	}
 

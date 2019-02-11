@@ -15,10 +15,11 @@ export class TableTeamsComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedTeamsOut: EventEmitter<Team[]> = new EventEmitter();
 	@Input() updatedTeam: any;
+	@Input() canGet: boolean;
 
 	amountOfTeams: number;
 	cols: any[];
-	teams: Team[];
+	teams: Team[] = [];
 	scrollHeight: string;
 	selectedTeams: Team[];
 	selectedTeam: Team;
@@ -32,10 +33,16 @@ export class TableTeamsComponent implements OnInit {
 		this.cols = [
 			{ field: 'name', header: 'Name' }
 		];
-		this.teamService.getTeam({}).subscribe(teams => {
-			this.amountOfTeams = teams.length;
-			this.teams = teams;
-		});
+		this.getTeams();
+	}
+
+	getTeams() {
+		if (this.canGet) {
+			this.teamService.getTeam({}).subscribe(teams => {
+				this.amountOfTeams = teams.length;
+				this.teams = teams;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -101,10 +108,7 @@ export class TableTeamsComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.teamService.getTeam({}).subscribe(teams => {
-			this.amountOfTeams = this.teams.length;
-			this.teams = teams;
-		});
+		this.getTeams();
 		this.clearFilterInputs();
 	}
 

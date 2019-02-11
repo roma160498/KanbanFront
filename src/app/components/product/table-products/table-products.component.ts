@@ -15,10 +15,11 @@ export class TableProductsComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedProductsOut: EventEmitter<Product[]> = new EventEmitter();
 	@Input() updatedProduct: any;
+	@Input() canGet: boolean;
 
-	amountOfProducts: number;
+	amountOfProducts: number = 0;
 	cols: any[];
-	products: Product[];
+	products: Product[] = [];
 	scrollHeight: string;
 	selectedProducts: Product[];
 	selectedProduct: Product;
@@ -33,10 +34,16 @@ export class TableProductsComponent implements OnInit {
 			{ field: 'name', header: 'Name' },
 			{ field: 'description', header: 'Description' }
 		];
-		this.productService.getProduct({}).subscribe(products => {
-			this.amountOfProducts = products.length;
-			this.products = products;
-		});
+		this.getProducts();
+	}
+
+	getProducts() {
+		if (this.canGet) {
+			this.productService.getProduct({}).subscribe(products => {
+				this.amountOfProducts = products.length;
+				this.products = products;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -102,10 +109,7 @@ export class TableProductsComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.productService.getProduct({}).subscribe(products => {
-			this.amountOfProducts = products.length;
-			this.products = products;
-		});
+		this.getProducts();
 		this.clearFilterInputs();
 	}
 

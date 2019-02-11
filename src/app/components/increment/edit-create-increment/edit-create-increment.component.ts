@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, ViewContainerRef, Input } from '@angular/core';
 import { Increment } from '../../../models/increment';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -27,7 +27,8 @@ export class EditCreateIncrementComponent implements OnInit {
   editMode: string;
   @ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
   @ViewChild('newIterationForm', { read: ViewContainerRef }) entry: ViewContainerRef;
-
+  @Input() relationshipPermissions: any;
+  
   iterationCols: any;
   featuresCols: any;
   allRelatedCols: any;
@@ -42,6 +43,7 @@ export class EditCreateIncrementComponent implements OnInit {
     private productService: ProductService, private dateHelper: DateHelperService,
     private componentLoaderService: ComponentLoaderService, private featureService: FeatureService) { }
   ngOnInit() {
+    debugger;
     // this.allRelatedCols = [
 		// 	{ field: 'number', header: 'Iteration number' },
 		// 	{ field: 'name', header: 'Iteration name' },
@@ -150,6 +152,7 @@ export class EditCreateIncrementComponent implements OnInit {
     delete this.end_date;
     this.number = '';
     this.product_id = '';
+    this.selectedIncrement = null;
   }
 
   discard() {

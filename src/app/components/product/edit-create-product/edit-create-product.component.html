@@ -26,12 +26,12 @@
       <p-tabPanel header="Feature scope">
         <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="productService"
           [relatedService]="featureService" [type]="'FeaturesOfProduct'" [nativeCols]="featureCols" [cols]="allRelatedCols"
-          [updatedItem]="selectedProduct" [relatedItem]="'Feature'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+          [updatedItem]="selectedProduct" [relatedItem]="'Feature'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.features.get}" [canGet]="relationshipPermissions.features.get"></app-relationship-table>
       </p-tabPanel>
       <p-tabPanel header="Program Increments">
         <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="productService"
           [relatedService]="featureService" [type]="'IncrementsOfProduct'" [nativeCols]="incrementCols" [cols]="allRelatedCols"
-          [updatedItem]="selectedProduct" [relatedItem]="'Increment'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+          [updatedItem]="selectedProduct" [relatedItem]="'Increment'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions['program increments'].get}" [canGet]="relationshipPermissions['program increments'].get"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>

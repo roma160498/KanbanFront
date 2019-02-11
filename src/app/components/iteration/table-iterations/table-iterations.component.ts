@@ -15,10 +15,11 @@ export class TableIterationsComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedIterationsOut: EventEmitter<Iteration[]> = new EventEmitter();
 	@Input() updatedIteration: any;
+	@Input() canGet: boolean;
 
 	amountOfIterations: number;
 	cols: any[];
-	iterations: Iteration[];
+	iterations: Iteration[] = [];
 	scrollHeight: string;
 	selectedIterations: Iteration[];
 	selectedIteration: Iteration;
@@ -39,10 +40,16 @@ export class TableIterationsComponent implements OnInit {
 			{ field: 'story_points', header: 'Story points' },
 			{ field: 'status_name', header: 'Status' }
 		];
-		this.iterationService.getIteration({}).subscribe(iterations => {
-			this.amountOfIterations = iterations.length;
-			this.iterations = iterations;
-		});
+		this.getIterations();
+	}
+
+	getIterations() {
+		if (this.canGet) {
+			this.iterationService.getIteration({}).subscribe(iterations => {
+				this.amountOfIterations = iterations.length;
+				this.iterations = iterations;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -110,10 +117,7 @@ export class TableIterationsComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.iterationService.getIteration({}).subscribe(iterations => {
-			this.amountOfIterations = iterations.length;
-			this.iterations = iterations;
-		});
+		this.getIterations();
 		this.clearFilterInputs();
 	}
 

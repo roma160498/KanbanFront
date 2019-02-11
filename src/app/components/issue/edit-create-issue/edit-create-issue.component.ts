@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Issue } from '../../../models/issue';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
@@ -31,6 +31,7 @@ export class EditCreateIssueComponent implements OnInit {
 	selectedIssues: Issue[];
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@Input() relationshipPermissions: any;
 
 	teamList: any = {};
 	team_id: any = null;
@@ -199,6 +200,7 @@ export class EditCreateIssueComponent implements OnInit {
 	}
 
 	_clearForm() {
+		this.number = '';
 		this.name = '';
 		this.feature_id = null;
 		this.iteration_id = null;
@@ -209,6 +211,7 @@ export class EditCreateIssueComponent implements OnInit {
 		this.completeness = null;
 		this.description = '';
 		this.accCriteria = '';
+		this.selectedIssue = null;
 	}
 
 	saveItself() {

@@ -2,7 +2,7 @@
 [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Issues'" [iconName]="'issue'"></app-items-toolbar>
 
  <app-edit-create-issue #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
-(updatedIssueOut)="updatedIssueOut($event)" [selectedIssues]="selectedIssues" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-issue>
+(updatedIssueOut)="updatedIssueOut($event)" [selectedIssues]="selectedIssues" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-issue>
 
 <app-table-issues #issueTable  (selectedIssuesOut)="selectedIssuesOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedIssue]="updatedIssue"></app-table-issues>
+[updatedIssue]="updatedIssue" [canGet]="userPermissions.issues.get"></app-table-issues>

@@ -23,11 +23,16 @@ export class IterationPageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
+	editMode: boolean = false;
+
+	userPermissions: any = {};
 
 	constructor() {
-	 }
+	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -43,7 +48,10 @@ export class IterationPageComponent implements OnInit {
       this.editComponent.selectedIteration = iteration;
       this.editComponent.isCalendarDisabled = false;
       this.editComponent.completePercent = Math.round(iteration.completeness !== 0 ? iteration.completeness / iteration.story_points * 100 : 0);
-    }
+			this.editMode = true;
+		} else {
+			this.editMode = false;
+		}
     if (event === 'add') {
       this.editComponent.completeness = 0;
       this.editComponent.story_points = 0;
@@ -76,12 +84,12 @@ export class IterationPageComponent implements OnInit {
 
 	_updateToolbarButtonsDisabledStates() {
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedIterations && this.selectedIterations.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled: !this.userPermissions.iterations.get || !this.userPermissions.iterations.delete || !(this.selectedIterations && this.selectedIterations.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedIterations && this.selectedIterations.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions.iterations.create && !this.userPermissions.iterations.update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions.iterations.update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions.iterations.get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions.iterations.get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions.iterations.get || !this.userPermissions.iterations.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

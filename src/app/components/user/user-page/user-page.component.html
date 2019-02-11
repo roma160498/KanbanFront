@@ -7,6 +7,6 @@
 
 
 <app-table-users #userTable  (selectedUsersOut)="selectedUsersOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedUser]="updatedUser"></app-table-users>
+[updatedUser]="updatedUser" [canGet]="userPermissions.users.get"></app-table-users>
 
 

@@ -2,7 +2,7 @@
 [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Iterations'" [iconName]="'iteration'"></app-items-toolbar>
 
  <app-edit-create-iteration #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
-(updatedIterationOut)="updatedIterationOut($event)" [selectedIterations]="selectedIterations" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-iteration>
+(updatedIterationOut)="updatedIterationOut($event)" [selectedIterations]="selectedIterations" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)" [relationshipPermissions]="userPermissions"></app-edit-create-iteration>
 
 <app-table-iterations #iterationTable  (selectedIterationsOut)="selectedIterationsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedIteration]="updatedIteration"></app-table-iterations>
+[updatedIteration]="updatedIteration" [canGet]="userPermissions.iterations.get"></app-table-iterations>

@@ -2,7 +2,7 @@
 [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Increments'" [iconName]="'increment'"></app-items-toolbar>
 
  <app-edit-create-increment #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
-(updatedIncrementOut)="updatedIncrementOut($event)" [selectedIncrements]="selectedIncrements" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-increment>
+(updatedIncrementOut)="updatedIncrementOut($event)" [selectedIncrements]="selectedIncrements" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-increment>
 
 <app-table-increment #incrementTable  (selectedIncrementsOut)="selectedIncrementsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedIncrement]="updatedIncrement"></app-table-increment>
+[updatedIncrement]="updatedIncrement" [canGet]="userPermissions['program increments'].get"></app-table-increment>

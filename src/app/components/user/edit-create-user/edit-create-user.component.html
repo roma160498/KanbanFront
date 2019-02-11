@@ -24,15 +24,21 @@
 		<div class="ui-grid-row">
 			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
 				Password:
-				<input class="requiredField" type="password" pPassword [feedback]="true" weakLabel="Weak password" mediumLabel="Medium password" Label="Strong password" [(ngModel)]="password"/>
+				<input class="requiredField" type="password" pPassword [feedback]="true" weakLabel="Weak password" mediumLabel="Medium password"
+				 Label="Strong password" [(ngModel)]="password" />
 			</div>
 			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
 				Confirm Password:
-				<input class="requiredField" type="password" promptLabel="" pPassword [feedback]="false" [(ngModel)]="confirmPassword"/>
+				<input class="requiredField" type="password" promptLabel="" pPassword [feedback]="false" [(ngModel)]="confirmPassword" />
+			</div>
+		</div>
+		<div class="ui-grid-row" *ngIf="currentUserIsAdmin">
+			<div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
+				<p-checkbox [(ngModel)]="is_admin" binary="true" label="Is Admin"></p-checkbox>
 			</div>
 		</div>
 	</div>
 	<p-footer>
-        <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
-    </p-footer>
+		<button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
+	</p-footer>
 </p-panel>

@@ -20,9 +20,11 @@ export class EditCreateUserComponent implements OnInit {
 	login: string = '';
 	password: string = '';
 	email: string = '';
+	is_admin: boolean = false;
 	confirmPassword: string = '';
 	selectedUsers: User[];
 	editMode: string;
+	currentUserIsAdmin: boolean;
 
 	@Output() updatedUserOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
@@ -30,6 +32,7 @@ export class EditCreateUserComponent implements OnInit {
 	constructor(private userService: UserService, private messageService: MessageService) { }
 
 	ngOnInit() {
+		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
 	}
 
 	toolbarActionHandler(action) {
@@ -49,8 +52,10 @@ export class EditCreateUserComponent implements OnInit {
 				user.login = this.login;
 				user.password = this.password;
 				user.email = this.email;
+				user.is_admin = this.is_admin ? 1 : 0;
 				this.userService.insertUser(user).subscribe((result) => {
 					if (result) {
+						user.id = result.insertId;
 						this.updatedUserOut.emit({
 							isNew: true,
 							user: user 
@@ -64,12 +69,16 @@ export class EditCreateUserComponent implements OnInit {
 				})
 			} else if (this.editMode === 'edit') {
 				for (let key in this.selectedUser) {
-					if (this[key] !== this.selectedUser[key] && key != 'id') {
+					if (this[key] !== this.selectedUser[key] && key != 'id' && key != 'is_admin') {
 						user[key] = this[key]
+					}
+					if (key === 'is_admin') {
+						user[key] = this[key] ? 1 : 0;
 					}
 				}
 				this.userService.updateUser(user, this.selectedUser.id).subscribe((result)=>{
 					if (result) {
+						debugger;
 						this.updatedUserOut.emit({
 							isNew: false,
 							userID: this.selectedUser.id,
@@ -105,6 +114,8 @@ export class EditCreateUserComponent implements OnInit {
 		this.password = '';
 		this.email = '';
 		this.confirmPassword = '';
+		this.is_admin = false;
+		this.selectedUser = null;
 	}
 
 	discard() {

@@ -29,10 +29,16 @@ export class FeaturePageComponent implements OnInit {
     [
         { text: 'Backlog', dataField: 'new', maxItems: 10 }
     ];
+	editMode: boolean = false;
+
+	userPermissions: any = {};
+
 	constructor() {
-	 }
+	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -47,6 +53,9 @@ export class FeaturePageComponent implements OnInit {
 			this.editComponent.number = feature.number;
 			this.editComponent.increment_id = feature.increment_id;
 			this.editComponent.selectedFeature = feature;
+			this.editMode = true;
+		} else {
+			this.editMode = false;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
@@ -76,12 +85,12 @@ export class FeaturePageComponent implements OnInit {
 
 	_updateToolbarButtonsDisabledStates() {
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedFeatures && this.selectedFeatures.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled:  !this.userPermissions.features.get || !this.userPermissions.features.delete || !(this.selectedFeatures && this.selectedFeatures.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedFeatures && this.selectedFeatures.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions.features.create && !this.userPermissions.features.update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions.features.update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions.features.get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions.features.get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions.features.get || !this.userPermissions.features.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { Feature } from '../../../models/feature';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -23,6 +23,7 @@ export class EditCreateFeatureComponent implements OnInit {
 	acc_criteria: string = '';
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@Input() relationshipPermissions: any;
 
 	issueCols: any;
 	allRelatedCols: any;
@@ -151,6 +152,7 @@ export class EditCreateFeatureComponent implements OnInit {
 	}
 
 	_clearForm() {
+		this.number = '';
 		this.name = '';
 		this.description = '';
 		this.acc_criteria = '';
@@ -159,6 +161,7 @@ export class EditCreateFeatureComponent implements OnInit {
 		this.product_id = '';
 		this.team_id = '';
 		this.increment_id = '';
+		this.selectedFeature = null;
 	}
 
 	discard() {

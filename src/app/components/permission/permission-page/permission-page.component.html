@@ -1,0 +1,43 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedUsers"
+    [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Permission'" [iconName]="'person'"></app-items-toolbar>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="">
+    <div class="ui-grid-row" style="padding: 15px">
+        <div class="ui-g-12 ui-md-3">
+                <span style="font-family:'Open Sans', 'Helvetica Neue', sans-serif; font-size: 30px;">User permissions:</span>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+                <p-dropdown [options]="userList && userList.options" [(ngModel)]="user_id" [style]="{'width':'400px'}" filter="true" (onChange)="userSelectHandler($event)"
+                placeholder="Select user" [showClear]="true">
+            </p-dropdown>
+        </div>
+    </div>
+    <p-table [value]="sectionsPermissions">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Section name</th>
+                <th>Can get</th>
+                <th>Can create</th>
+                <th>Can update</th>
+                <th>Can delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                <td>{{row.sectionName}}</td>
+                <td style="text-align: center;">
+                    <p-checkbox [disabled]="isCBDisabled" name="row.sectionName" binary="true" [(ngModel)]="row.get"></p-checkbox>
+                </td>
+                <td style="text-align: center;">
+                    <p-checkbox [disabled]="isCBDisabled" name="row.sectionName" binary="true" [(ngModel)]="row.create"></p-checkbox>
+                </td>
+                <td style="text-align: center;">
+                    <p-checkbox [disabled]="isCBDisabled" name="row.sectionName" binary="true" [(ngModel)]="row.update"></p-checkbox>
+                </td>
+                <td style="text-align: center;">
+                    <p-checkbox [disabled]="isCBDisabled" name="row.sectionName" binary="true" [(ngModel)]="row.delete"></p-checkbox>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

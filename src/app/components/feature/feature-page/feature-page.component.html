@@ -2,8 +2,8 @@
 [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Features'" [iconName]="'feature'"></app-items-toolbar>
 
  <app-edit-create-feature #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
-(updatedFeatureOut)="updatedFeatureOut($event)" [selectedFeatures]="selectedFeatures" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-feature>
+(updatedFeatureOut)="updatedFeatureOut($event)" [selectedFeatures]="selectedFeatures" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-feature>
 
 
 <app-table-feature #featureTable  (selectedFeaturesOut)="selectedFeaturesOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedFeature]="updatedFeature"></app-table-feature>
+[updatedFeature]="updatedFeature" [canGet]="userPermissions.features.get"></app-table-feature>

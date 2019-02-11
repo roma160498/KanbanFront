@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { Team } from '../../../models/team';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { TeamService } from '../../../services/team.service';
@@ -19,6 +19,7 @@ export class EditCreateTeamComponent implements OnInit {
 	selectedTeams: Team[];
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@Input() relationshipPermissions: any;
   
   userCols: any;
   issueCols: any;
@@ -112,6 +113,7 @@ export class EditCreateTeamComponent implements OnInit {
 
   _clearForm() {
 		this.name = '';
+		this.selectedTeam = null;
   }
   
   discard() {

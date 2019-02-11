@@ -6,7 +6,7 @@
     <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below" (click)="toolbarActionHandler('delete')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.delete === false) || !selectedItems || selectedItems && !selectedItems.length">
         <mat-icon svgIcon="delete"></mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="toolbarActionHandler('refresh')">
+    <button mat-icon-button matTooltip="Refresh" matTooltipPosition="below" (click)="toolbarActionHandler('refresh')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.refresh === false)">
         <mat-icon svgIcon="refresh"></mat-icon>
     </button>
     <button mat-icon-button matTooltip="Save Related" matTooltipPosition="below" (click)="toolbarActionHandler('save')" [disabled]="(toolbarButtonsInitialState && toolbarButtonsInitialState.save === false)">

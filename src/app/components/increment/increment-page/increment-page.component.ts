@@ -23,11 +23,16 @@ export class IncrementPageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
+	editMode: boolean = false;
+
+	userPermissions: any = {};
 
 	constructor() {
 	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -40,6 +45,9 @@ export class IncrementPageComponent implements OnInit {
 			this.editComponent.start_date = new Date(increment.start_date);
 			this.editComponent.end_date = new Date(increment.end_date);
 			this.editComponent.selectedIncrement = increment;
+			this.editMode = true;
+		} else {
+			this.editMode = false;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
@@ -69,12 +77,12 @@ export class IncrementPageComponent implements OnInit {
 
 	_updateToolbarButtonsDisabledStates() {
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedIncrements && this.selectedIncrements.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled: !this.userPermissions['program increments'].get || !this.userPermissions['program increments'].delete || !(this.selectedIncrements && this.selectedIncrements.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedIncrements && this.selectedIncrements.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions['program increments'].create && !this.userPermissions['program increments'].update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions['program increments'].update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions['program increments'].get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions['program increments'].get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions['program increments'].get || !this.userPermissions['program increments'].create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

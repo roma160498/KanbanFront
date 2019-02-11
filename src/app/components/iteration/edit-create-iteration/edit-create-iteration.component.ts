@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { Iteration } from '../../../models/iteration';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -26,6 +26,7 @@ export class EditCreateIterationComponent implements OnInit {
 	selectedIterations: Iteration[];
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@Input() relationshipPermissions: any;
 
 	incrementList: any = {};
 	increment_id: any;
@@ -141,6 +142,7 @@ export class EditCreateIterationComponent implements OnInit {
 		delete this.maxDate;
 		this.isCalendarDisabled = true;
 		this.completePercent = 0;
+		this.selectedIteration = null;
 	}
 
 	saveItself() {

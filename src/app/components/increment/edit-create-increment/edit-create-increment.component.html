@@ -37,7 +37,7 @@
         </div>
         <div class="ui-grid-row" >
             <div class=" ui-md-offset-1">
-                <button [disabled]="!selectedIncrement" pButton type="button" icon="pi pi-plus" label="Crate Iteration" (click)="createNewIteration()"></button>
+                <button [disabled]="!selectedIncrement || !relationshipPermissions.iterations.create" pButton type="button" icon="pi pi-plus" label="Crate Iteration" (click)="createNewIteration()"></button>
             </div>
           </div>
       </div>
@@ -54,12 +54,12 @@
       <p-tabPanel header="Iterations">
         <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="incrementService"
           [relatedService]="iterationService" [type]="'IterationsOfIncrement'" [nativeCols]="iterationCols" [cols]="allRelatedCols"
-          [updatedItem]="selectedIncrement" [relatedItem]="'Iterations'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+          [updatedItem]="selectedIncrement" [relatedItem]="'Iterations'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.iterations.get}"  [canGet]="relationshipPermissions.iterations.get"></app-relationship-table>
       </p-tabPanel>
       <p-tabPanel header="Feature scope">
           <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="incrementService"
           [relatedService]="featureService" [type]="'FeaturesOfIncrement'" [nativeCols]="featuresCols" [cols]="allRelatedCols"
-          [updatedItem]="selectedIncrement" [relatedItem]="'Features'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+          [updatedItem]="selectedIncrement" [relatedItem]="'Features'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.features.get}" [canGet]="relationshipPermissions.features.get"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>

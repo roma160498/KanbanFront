@@ -40,6 +40,8 @@ export class LoggedInAuthGuardService implements CanActivate{
 						localStorage.setItem('userName', res.user.name);
 						localStorage.setItem('userSurname', res.user.surname);
 						localStorage.setItem('id', res.user.id);
+						localStorage.setItem('is_admin', res.user.is_admin);
+						localStorage.setItem('permissions', res.user.permissions);
 						this.router.navigate(['/admin']);
 					}
 				}

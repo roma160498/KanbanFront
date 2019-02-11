@@ -14,10 +14,11 @@ export class TableFeatureComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedFeaturesOut: EventEmitter<Feature[]> = new EventEmitter();
 	@Input() updatedFeature: any;
+	@Input() canGet: boolean;
 
 	amountOfFeatures: number;
 	cols: any[];
-	features: Feature[];
+	features: Feature[] = [];
 	scrollHeight: string;
 	selectedFeatures: Feature[];
 	selectedFeature: Feature;
@@ -40,10 +41,16 @@ export class TableFeatureComponent implements OnInit {
 			{ field: 'modified_on', header: 'Modified' },
 			{ field: 'closed_on', header: 'Closed' }
 		];
-		this.featureService.getFeature({}).subscribe(features => {
-			this.amountOfFeatures = features.length;
-			this.features = features;
-		});
+		this.getFeatures();
+	}
+
+	getFeatures() {
+		if (this.canGet) {
+			this.featureService.getFeature({}).subscribe(features => {
+				this.amountOfFeatures = features.length;
+				this.features = features;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -112,10 +119,7 @@ export class TableFeatureComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.featureService.getFeature({}).subscribe(features => {
-			this.amountOfFeatures = features.length;
-			this.features = features;
-		});
+		this.getFeatures();
 		this.clearFilterInputs();
 	}
 

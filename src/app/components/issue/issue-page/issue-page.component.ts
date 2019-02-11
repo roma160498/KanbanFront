@@ -23,11 +23,16 @@ export class IssuePageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
+	editMode: boolean = false;
+
+	userPermissions: any = {};
 
 	constructor() {
 	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -46,6 +51,9 @@ export class IssuePageComponent implements OnInit {
 			this.editComponent.description = issue.description;
 			this.editComponent.accCriteria = issue.accCriteria;
 			this.editComponent.selectedIssue = issue;
+			this.editMode = true;
+		} else {
+			this.editMode = false;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
@@ -75,12 +83,12 @@ export class IssuePageComponent implements OnInit {
 
 	_updateToolbarButtonsDisabledStates() {
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedIssues && this.selectedIssues.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled: !this.userPermissions.issues.get || !this.userPermissions.issues.delete || !(this.selectedIssues && this.selectedIssues.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedIssues && this.selectedIssues.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions.issues.create && !this.userPermissions.issues.update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions.issues.update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions.issues.get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions.issues.get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions.issues.get || !this.userPermissions.issues.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

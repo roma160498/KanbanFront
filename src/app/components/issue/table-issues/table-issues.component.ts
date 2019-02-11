@@ -15,10 +15,11 @@ export class TableIssuesComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedIssuesOut: EventEmitter<Issue[]> = new EventEmitter();
 	@Input() updatedIssue: any;
+	@Input() canGet: boolean;
 
 	amountOfIssues: number;
 	cols: any[];
-	issues: Issue[];
+	issues: Issue[] = [];
 	scrollHeight: string;
 	selectedIssues: Issue[];
 	selectedIssue: Issue;
@@ -40,10 +41,16 @@ export class TableIssuesComponent implements OnInit {
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
 		];
-		this.issueService.getIssue({}).subscribe(issues => {
-			this.amountOfIssues = issues.length;
-			this.issues = issues;
-		});
+		this.getIssues();
+	}
+
+	getIssues() {
+		if (this.canGet) {
+			this.issueService.getIssue({}).subscribe(issues => {
+				this.amountOfIssues = issues.length;
+				this.issues = issues;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -111,10 +118,7 @@ export class TableIssuesComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.issueService.getIssue({}).subscribe(issues => {
-			this.amountOfIssues = issues.length;
-			this.issues = issues;
-		});
+		this.getIssues();
 		this.clearFilterInputs();
 	}
 

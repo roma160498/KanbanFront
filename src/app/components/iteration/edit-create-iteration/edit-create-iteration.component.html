@@ -47,7 +47,7 @@
       <p-tabPanel header="Issue scope">
         <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="iterationService"
           [relatedService]="issueService" [type]="'IssuesOfIteration'" [nativeCols]="issueCols" [cols]="allRelatedCols"
-          [updatedItem]="selectedIteration" [relatedItem]="'Feature'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false}"></app-relationship-table>
+          [updatedItem]="selectedIteration" [relatedItem]="'Feature'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}" [canGet]="relationshipPermissions.issues.get"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>

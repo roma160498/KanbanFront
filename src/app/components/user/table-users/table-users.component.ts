@@ -19,7 +19,9 @@ export class TableUsersComponent implements OnInit {
 	@ViewChild('table') table: TableModule;
 	@Output() selectedUsersOut: EventEmitter<User[]> = new EventEmitter();
 	@Input() updatedUser: any;
+	@Input() canGet: boolean;
 
+	currentUserIsAdmin: boolean;
 	amountOfUsers: number;
 	cols: any[];
 	users: User[];
@@ -32,17 +34,24 @@ export class TableUsersComponent implements OnInit {
 	constructor(private userService: UserService, private el: ElementRef, private messageService: MessageService) { }
 
 	ngOnInit() {
+		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
 		this.cols = [
 			{ field: 'name', header: 'Name' },
 			{ field: 'surname', header: 'Surname' },
 			{ field: 'login', header: 'Login' },
-			{ field: 'password', header: 'Password' },
+			{ field: 'password', header: 'Password', forAdmin: true },
 			{ field: 'email', header: 'Email' }
 		];
-		this.userService.getUser({}).subscribe(users => {
-			this.amountOfUsers = users.length;
-			this.users = users;
-		});
+		this.getUsers();
+	}
+
+	getUsers() {
+		if (this.canGet) {
+			this.userService.getUser({}).subscribe(users => {
+				this.amountOfUsers = users.length;
+				this.users = users;
+			});
+		}
 	}
 
 	_isScrollExist(element): boolean {
@@ -108,10 +117,7 @@ export class TableUsersComponent implements OnInit {
 	}
 
 	_refreshGrid(table) {
-		this.userService.getUser({}).subscribe(users => {
-			this.amountOfUsers = users.length;
-			this.users = users;
-		});
+		this.getUsers();
 		this.clearFilterInputs();
 	}
 

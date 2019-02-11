@@ -23,8 +23,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-user let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="user" [pSelectableRowIndex]="rowIndex">
-            <td *ngFor="let col of columns" class="ui-resizable-column">
-                {{user[col.field]}}
+            <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="{'color': (col.forAdmin && !currentUserIsAdmin) ? 'red' : 'black'}">
+                {{col.forAdmin && !currentUserIsAdmin ? "Restricted" : user[col.field]}}
             </td>
         </tr>
     </ng-template>

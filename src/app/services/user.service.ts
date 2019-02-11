@@ -76,4 +76,33 @@ export class UserService {
 				return Observable.throw(e);
 			});
 	}
+
+	getUserPermission(args, id) {
+		return this.http.get(`http://localhost:3000/user/${id}/permissions`, {
+			withCredentials: true, params: {
+				'amount': args.amount,
+				'offset': args.offset,
+				'properties': args.properties
+			}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+
+	updateUserPermission(permissions, userId) {
+		const body = { permissions: JSON.stringify(permissions) };
+		return this.http.put(`http://localhost:3000/user/${userId}/permissions`, body, { withCredentials: true }).
+			map((response: Response) => {
+				if (response.status == 201) {
+					return response;
+				} else {
+					return null;
+				}
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

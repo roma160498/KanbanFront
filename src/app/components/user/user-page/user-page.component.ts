@@ -23,11 +23,16 @@ export class UserPageComponent implements OnInit {
 		isRowsDownDisabled: false,
 		isAddDisabled: false
 	};
+	editMode: boolean = false;
+
+	userPermissions: any = {};
 
 	constructor() {
-	 }
+	}
 
 	ngOnInit() {
+		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
+		this._updateToolbarButtonsDisabledStates();
 	}
 
 	toolbarActionHandler(event) {
@@ -39,7 +44,11 @@ export class UserPageComponent implements OnInit {
 			this.editComponent.password = user.password;
 			this.editComponent.email = user.email;
 			this.editComponent.confirmPassword = user.password;
+			this.editComponent.is_admin = user.is_admin === 1;
 			this.editComponent.selectedUser = user;
+			this.editMode = true;
+		} else {
+			this.editMode = false;
 		}
 		this.isTableDisplayed = event === 'add' || event === 'edit' || event === 'save' ? false : true;
 		this._updateToolbarButtonsDisabledStates();
@@ -69,12 +78,12 @@ export class UserPageComponent implements OnInit {
 
 	_updateToolbarButtonsDisabledStates() {
 		this.toolbarButtonsDisabledOptions = {
-			isDeleteDisabled: !(this.selectedUsers && this.selectedUsers.length > 0) || !this.isTableDisplayed,
+			isDeleteDisabled: !this.userPermissions.users.get || !this.userPermissions.users.delete || !(this.selectedUsers && this.selectedUsers.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedUsers && this.selectedUsers.length == 1) || !this.isTableDisplayed,
-			isSaveDisabled: this.isTableDisplayed,
-			isRefreshDisabled: !this.isTableDisplayed,
-			isRowsDownDisabled: !this.isTableDisplayed,
-			isAddDisabled: !this.isTableDisplayed,
+			isSaveDisabled: (!this.userPermissions.users.create && !this.userPermissions.users.update) || (!this.isTableDisplayed && this.editMode && !this.userPermissions.users.update) || this.isTableDisplayed,
+			isRefreshDisabled: !this.userPermissions.users.get || !this.isTableDisplayed,
+			isRowsDownDisabled: !this.userPermissions.users.get || !this.isTableDisplayed,
+			isAddDisabled: !this.userPermissions.users.get || !this.userPermissions.users.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
 	}

@@ -42,10 +42,15 @@ export class LoginFormComponent implements OnInit {
       return;
     }
     this.authenticateService.login(this.username, this.password).subscribe(res => {
+
+      debugger;
       if (res.status === 200) {
+        debugger;
         localStorage.setItem('userName', res.user.name);
         localStorage.setItem('userSurname', res.user.surname);
         localStorage.setItem('id', res.user.id);
+        localStorage.setItem('is_admin', res.user.is_admin);
+        localStorage.setItem('permissions', res.user.permissions);
         this.router.navigate(['/admin']);
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `Authentication failed for ${this.username}.` });

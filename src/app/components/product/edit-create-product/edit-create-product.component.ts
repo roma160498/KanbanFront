@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { Product } from '../../../models/product';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { ProductService } from '../../../services/product.service';
@@ -18,6 +18,7 @@ export class EditCreateProductComponent implements OnInit {
 	selectedProducts: Product[];
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@Input() relationshipPermissions: any;
 
 	featureCols: any;
 	incrementCols: any;
@@ -117,6 +118,7 @@ export class EditCreateProductComponent implements OnInit {
 	_clearForm() {
 		this.name = '';
 		this.description = '';
+		this.selectedProduct = null;
 	}
 
 	discard() {

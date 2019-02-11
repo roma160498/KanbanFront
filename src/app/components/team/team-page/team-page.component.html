@@ -2,7 +2,7 @@
 [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Teams'" [iconName]="'group'"></app-items-toolbar>
 
 <app-edit-create-team #editComponent [style.display]="!isTableDisplayed ? 'inline' : 'none'"
-(updatedTeamOut)="updatedTeamOut($event)" [selectedTeams]="selectedTeams" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-team>
+(updatedTeamOut)="updatedTeamOut($event)" [selectedTeams]="selectedTeams" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-team>
 
 <app-table-teams #teamTable  (selectedTeamsOut)="selectedTeamsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedTeam]="updatedTeam"></app-table-teams>
+[updatedTeam]="updatedTeam" [canGet]="userPermissions.teams.get"></app-table-teams>
