@@ -18,6 +18,8 @@ import { ProductPageComponent } from '../product/product-page/product-page.compo
 import { FeaturePageComponent } from '../feature/feature-page/feature-page.component';
 import { IncrementPageComponent } from '../increment/increment-page/increment-page.component';
 import { IterationPageComponent } from '../iteration/iteration-page/iteration-page.component';
+import { IssuePageComponent } from '../issue/issue-page/issue-page.component';
+import { PermissionPageComponent } from '../permission/permission-page/permission-page.component';
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -40,6 +42,7 @@ export class AdminFormComponent implements OnInit {
 		iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/search.svg'));
 		iconRegistry.addSvgIcon('increment', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/increment.svg'));
 		iconRegistry.addSvgIcon('iteration', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/iteration.svg'));
+		iconRegistry.addSvgIcon('issue', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/issue.svg'));
 	}
 
 	logout() {
@@ -52,9 +55,12 @@ export class AdminFormComponent implements OnInit {
 	};
 	userName: string;
 	userSurname: string;
+	currentUserIsAdmin: boolean;
 	ngOnInit() {
+		debugger;
 		this.userName = localStorage.getItem('userName');
 		this.userSurname = localStorage.getItem('userSurname');
+		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
 	}
 
 	loadBoard() {
@@ -88,5 +94,14 @@ export class AdminFormComponent implements OnInit {
 	loadIterations() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(IterationPageComponent);
+	}
+	loadIssues() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(IssuePageComponent);
+	}
+
+	loadPermissions() {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.componentLoaderService.addComponent(PermissionPageComponent);
 	}
 }
