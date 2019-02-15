@@ -4,9 +4,33 @@
         <p-panel header="Team">
             <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
                 <div class="ui-grid-row">
-                    <div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
+                    <div class="ui-g-12 ui-md-6 ui-lg-2">
                         Name:
                         <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span style="margin-right: .5em; font-size: 24px">Kanban board columns:</span>
+                <button pButton type="button" icon="pi pi-plus" title="Add Column" (click)="addKanbanColumn()" [disabled]="kanbanColsAmount === 9"
+                    style="margin-right: .5em"></button>
+
+                <div class="p-grid" style="margin-top: .5em">
+                    <div class="p-col" *ngFor="let col of kanbanColumns; let i=index" [ngStyle]="{'display':col.state === 'delete' ? 'none' : 'inline' }">
+                        <div class="box">
+                            {{col.state}}
+                            <div class="ui-grid-row" style="text-align: right; padding-right: 15px;">
+                                <button pButton type="button" icon="pi pi-trash" title="Remove" (click)="removeKanbanColumn(i)" [disabled]="kanbanColsAmount === 1 || col.name === 'Backlog'" 
+                                    style="width: 21px; height: 21px"></button>
+                            </div>
+                            <div class="ui-grid-row">
+                                <input class="requiredField" [disabled]="col.name === 'Backlog'" style="width: 110px;" type="text" pInputText [(ngModel)]="col.name" placeholder="Column name" (change)="kanbanColContentChange(i)"/>
+                            </div>
+                            <div class="ui-grid-row" style="padding-top:5px">
+                                <span>Max:</span>
+                                <input [disabled]="col.name === 'Backlog'" style="width: 30px;" type="text" pInputText [(ngModel)]="col.max" (change)="kanbanColContentChange(i)"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -15,15 +39,17 @@
             </p-footer>
         </p-panel>
     </div>
-    <div style="height: 65%; min-height: 50px;">
+    <div style="height: 30%; min-height: 50px;">
         <p-tabView>
             <p-tabPanel header="Users">
                 <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="userService"
-                    [type]="'UsersOfTeam'" [nativeCols]="userCols" [cols]="userAllRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'User'" [canGet]="relationshipPermissions.users.get" [toolbarButtonsInitialState]="{'delete': relationshipPermissions.teams.update, 'save': relationshipPermissions.teams.update, 'add': relationshipPermissions.users.get && relationshipPermissions.teams.update, 'refresh': relationshipPermissions.users.get}"></app-relationship-table>
+                    [type]="'UsersOfTeam'" [nativeCols]="userCols" [cols]="userAllRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'User'"
+                    [canGet]="relationshipPermissions.users.get" [toolbarButtonsInitialState]="{'delete': relationshipPermissions.teams.update, 'save': relationshipPermissions.teams.update, 'add': relationshipPermissions.users.get && relationshipPermissions.teams.update, 'refresh': relationshipPermissions.users.get}"></app-relationship-table>
             </p-tabPanel>
             <p-tabPanel header="Issue Scope">
                 <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="issueService"
-                    [type]="'IssuesOfTeam'" [nativeCols]="issueCols" [cols]="issueAllRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'Issue'" [canGet]="relationshipPermissions.issues.get" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}"></app-relationship-table>
+                    [type]="'IssuesOfTeam'" [nativeCols]="issueCols" [cols]="issueAllRelatedCols" [updatedItem]="selectedTeam"
+                    [relatedItem]="'Issue'" [canGet]="relationshipPermissions.issues.get" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}"></app-relationship-table>
             </p-tabPanel>
         </p-tabView>
     </div>

@@ -43,6 +43,8 @@ export class EditCreateIssueComponent implements OnInit {
 	iteration_id: any = null;
 	classificationList: any = {};
 	classification_id: any = null;
+	statusList: any = {};
+	status_id: any = null;
 
 
 	minDate: Date;
@@ -136,7 +138,7 @@ export class EditCreateIssueComponent implements OnInit {
 			}
 			if (this.editMode === 'add') {
 				issue.name = this.name;
-				issue.status_id = 0; // MOCK
+				issue.status_id = this.status_id;
 				issue.feature_id = this.feature_id;
 				issue.iteration_id = this.iteration_id;
 				issue.classification_id = this.classification_id;
@@ -150,6 +152,7 @@ export class EditCreateIssueComponent implements OnInit {
 
 				this.issueService.insertIssue(issue).subscribe((result) => {
 						if (result) {
+							issue.id = result.insertId;
 							this.updatedIssueOut.emit({
 								isNew: true,
 								issue: issue
@@ -207,6 +210,7 @@ export class EditCreateIssueComponent implements OnInit {
 		this.classification_id = null;
 		this.team_id = null;
 		this.user_id = null;
+		this.status_id = null;
 		this.story_points = null;
 		this.completeness = null;
 		this.description = '';
@@ -246,5 +250,17 @@ export class EditCreateIssueComponent implements OnInit {
 			})
 		});
 		
+	}
+
+	teamSelectHandler(event, idToSelect) {
+		this.teamService.getKanbanOfTeam({}, event.value).subscribe(items => {
+			this.statusList.options = items.map(el => {
+				return {
+					label: el.name,
+					value: el.id
+				}
+			});
+			this.status_id = idToSelect ? idToSelect : items[0] && items[0].id;
+		});
 	}
 }

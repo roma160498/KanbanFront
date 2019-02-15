@@ -175,4 +175,14 @@ export class TeamService {
 				return Observable.throw(e);
 			});
 	}
+	getKanbanOfTeam(args, teamId): Observable<any[]> {
+		return this.http.get('http://localhost:3000/teams/' + teamId + '/issuestates', {
+			withCredentials: true, params: {}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

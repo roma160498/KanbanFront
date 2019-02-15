@@ -36,19 +36,26 @@ export class TableIssuesComponent implements OnInit {
 			{ field: 'feature_number', header: 'Feature number' },
 			{ field: 'iteration_number', header: 'Iteration number' },
 			{ field: 'classification_name', header: 'Classification' },
-			{ field: 'status_id', header: 'Status' },
+			{ field: 'status_name', header: 'Status' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
 		];
-		this.getIssues();
+		this.getIssues(null);
 	}
 
-	getIssues() {
+	getIssues(idToSelect) {
 		if (this.canGet) {
 			this.issueService.getIssue({}).subscribe(issues => {
 				this.amountOfIssues = issues.length;
 				this.issues = issues;
+				debugger;
+				if (idToSelect) {
+					const issueToSelect = issues.find(el => el.id === idToSelect);
+					this.selectedIssues.push(issueToSelect);
+					this.selectedIssue = issueToSelect;
+					this.onSelectUnselectRow({});					
+				}
 			});
 		}
 	}
@@ -69,7 +76,7 @@ export class TableIssuesComponent implements OnInit {
 				break;
 			}
 			case 'refresh': {
-				this._refreshGrid(table);
+				this._refreshGrid(table, null);
 				break;
 			}
 			case 'add': {
@@ -98,6 +105,7 @@ export class TableIssuesComponent implements OnInit {
 				this.resetTable();
 				const name = issue.currentValue.issue.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue ${name} created successfully.` });
+				this._refreshGrid(this.table, issue.currentValue.issue.id);
 			}
 			if (issue.currentValue && !issue.currentValue.isNew) {
 				const updatedIssue = this.issues.find((value, index) => issue.currentValue.issueID == value.id);
@@ -109,6 +117,7 @@ export class TableIssuesComponent implements OnInit {
 				this.resetTable();
 				const name = issue.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue ${name} updated successfully.` });
+				this._refreshGrid(this.table, issue.currentValue.issueID);
 			}
 		}
 	}
@@ -117,8 +126,8 @@ export class TableIssuesComponent implements OnInit {
 		this.selectedIssuesOut.emit(this.selectedIssues);
 	}
 
-	_refreshGrid(table) {
-		this.getIssues();
+	_refreshGrid(table, idToSelect) {
+		this.getIssues(idToSelect);
 		this.clearFilterInputs();
 	}
 

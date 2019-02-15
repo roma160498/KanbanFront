@@ -48,7 +48,7 @@ export class EditCreateFeatureComponent implements OnInit {
 			{ field: 'name', header: 'Issue name' },
 			{ field: 'iteration_number', header: 'Iteration number' },
 			{ field: 'classification_name', header: 'Classification' },
-			{ field: 'status_id', header: 'Status' },
+			{ field: 'status_name', header: 'Status' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
