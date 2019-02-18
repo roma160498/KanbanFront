@@ -26,7 +26,7 @@
           <mat-icon svgIcon="increment" class="sidenav-icons"></mat-icon>Program Increments</a>
         <a mat-list-item routerLink="." (click)="loadIterations()">
           <mat-icon svgIcon="iteration" class="sidenav-icons"></mat-icon>Iterations</a>
-        <a mat-list-item routerLink=".">
+        <a mat-list-item routerLink="." (click)="loadBoard()">
           <mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
         <a mat-list-item routerLink="." *ngIf="currentUserIsAdmin" (click)="loadPermissions()">
           <mat-icon svgIcon="objectives" class="sidenav-icons"></mat-icon>Permissions</a>

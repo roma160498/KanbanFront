@@ -70,6 +70,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {CheckboxModule} from 'primeng/checkbox';
 //import {MessageService} from 'primeng/components/common/messageservice';
+import {DragDropModule} from 'primeng/dragdrop';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -220,7 +221,8 @@ const appRoutes: Routes =[
     CalendarModule,
     ProgressBarModule,
     KeyFilterModule,
-    CheckboxModule
+    CheckboxModule,
+    DragDropModule
     //NgxDnDModule
    // MessageService
     

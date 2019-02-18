@@ -102,10 +102,11 @@ export class EditCreateIssueComponent implements OnInit {
 			  }
 			})
 		});
+		debugger;
 		this.userService.getUser({}).subscribe(items => {
 			this.userList.options = items.map(el => {
 			  return {
-				label: `${el.name} ${el.surname}` ,
+				label: el.name ==='' || el.surname === '' ? el.login : `${el.name} ${el.surname}`,
 				value: el.id
 			  }
 			})

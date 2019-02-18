@@ -131,11 +131,7 @@ export class TeamService {
 		console.log(team);
 		return this.http.put('http://localhost:3000/teams/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
-				if (response.status == 201) {
-					return response;
-				} else {
-					return null;
-				}
+				return response;
 			}).catch(e => {
 				return Observable.throw(e);
 			});

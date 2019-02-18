@@ -1,39 +1,60 @@
-<mat-toolbar color="primary">
-        <mat-button-toggle-group #group="matButtonToggleGroup">
-            <button mat-icon-button matTooltip="Add item" matTooltipPosition="below">
-                <mat-icon svgIcon="add"></mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Edit item" matTooltipPosition="below">
-                <mat-icon svgIcon="edit"></mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Delete item" matTooltipPosition="below">
-                <mat-icon svgIcon="delete"></mat-icon>
-            </button>
-          </mat-button-toggle-group>
-  </mat-toolbar>
-  <vaadin-split-layout>
-    <div>First content element</div>
-    <div>Second content element</div>
-  </vaadin-split-layout>
-  <!-- <div *ngFor="let list of models.lists;let i = index">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">List {{i}}</h3>
-      </div>
-      <div class="panel-body">
-        <ul [dndList]="{
-            ,
-            horizontal: true}"
-          [dndModel]="list">
-          <li *ngFor="let item of list;let i = index"
-            [dndType]="'item'"
-            [dndDraggable]="{draggable:true, effectAllowed:'move'}"
-            [dndObject]="item"
-            (dndMoved)="removeMovedItem(i, list)"
-            (dndSelected)="log('selected')"
-            [class.selected]="models.selected === item">
-            {{item.label}}
-          </li>
-        </ul>
-      </div>
-    </div> -->
+<div style="height: -webkit-fill-available; overflow: scroll; margin-bottom: 50px">
+    <p-dropdown filter="true" [style]="{'width':'400px'}" [options]="usersList && usersList.options" [(ngModel)]="userFilterId" placeholder="Filter by user" [showClear]="true"></p-dropdown>
+    <p-dropdown filter="true" [style]="{'width':'400px'}" [options]="iterationsList && iterationsList.options" [(ngModel)]="iterationFilterId" placeholder="Filter by iteration" [showClear]="true"></p-dropdown>
+    <p-panel *ngFor="let board of userBoards" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="p-grid" style="width: -webkit-fill-available; display: -webkit-inline-box; overflow-x: auto;">
+            <div class="p-col" *ngFor="let col of board.states" style="min-width:280px; max-width:280px" pDroppable="{{board.name}}" (onDrop)="drop($event, col)">
+                <p-panel header="{{col.name}}">
+                    <div *ngFor="let issue of col.issues" >
+                    <div pDraggable="{{board.name}}" (onDragStart)="dragStart($event, issue)" (onDragEnd)="dragEnd($event)" class="issueCard" [ngStyle]="{'border-left': '8px ' + getCardColor(issue) + ' solid'}"
+                    *ngIf="needToDisplayIssueCard(issue)">
+                        <div class="issueName">
+                            {{sequenceHelper.getSequenceFor('I-', 6, issue.id) + ' "' + issue.name + '"'}}
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}</div>
+
+                            <div *ngIf="issue.storyPoints" class="ui-g-12 ui-md-6 ui-lg-5 storyPoints" title = "Story points">
+                                    {{issue.storyPoints}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </p-panel>
+            </div>
+        </div>
+    </p-panel>
+    <h3>Drag and Drop to Table</h3>
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad drag-column">
+            <ul style="margin:0;padding:0">
+                <li *ngFor="let car of availableCars" class="ui-helper-clearfix" pDraggable="cars" (onDragStart)="dragStart($event,car)"
+                    (onDragEnd)="dragEnd($event)">
+                    <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
+                    <div style="margin:8px 0 0 8px;float:left">{{car.name}}</div>
+                </li>
+            </ul>
+        </div>
+        <h1>{{draggedCar}}</h1>
+        <div class="ui-g-12 ui-md-6 drop-column" pDroppable="cars" (onDrop)="drop($event)" [ngClass]="{'ui-highlight-car':draggedCar}">
+            <p-table [value]="selectedCars">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Vin</th>
+                        <th>Year</th>
+                        <th>Brand</th>
+                        <th>Color</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-car>
+                    <tr>
+                        <td>{{car.name}}</td>
+                        <td>{{car.name}}</td>
+                        <td>{{car.name}}</td>
+                        <td>{{car.name}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

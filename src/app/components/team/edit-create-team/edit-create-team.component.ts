@@ -132,9 +132,8 @@ export class EditCreateTeamComponent implements OnInit {
 					}
 				}
 				team.kanbanColumns = this.kanbanColumns;
-				debugger;
 				this.teamService.updateTeam(team, this.selectedTeam.id).subscribe((result) => {
-					if (result) {
+					if (result.status === 201) {
 						this.updatedTeamOut.emit({
 							isNew: false,
 							teamID: this.selectedTeam.id,
@@ -144,7 +143,7 @@ export class EditCreateTeamComponent implements OnInit {
 						this._clearForm();
 					} else {
 						this.isSavedResultSuccesOut.emit(false);
-						this.messageService.add({ severity: 'error', summary: 'Error', detail: `Team with ${this.name} name can not be updated.` });
+						this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message || `Team with ${this.name} name can not be updated.` });
 					}
 				})
 			}

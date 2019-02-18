@@ -105,4 +105,15 @@ export class UserService {
 				return Observable.throw(e);
 			});
 	}
+
+	getKanbanForUser(args, userId) {
+		return this.http.get(`http://localhost:3000/user/${userId}/kanbans`, {
+			withCredentials: true, params: {}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

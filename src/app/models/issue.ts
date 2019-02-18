@@ -19,6 +19,7 @@ export class Issue {
     user_fullname: string;
     user_name: string;
     user_surname: string;
+    user_login: string;
     story_points: number;
     completeness: number;
     name: string;

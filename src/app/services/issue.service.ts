@@ -20,7 +20,7 @@ export class IssueService {
 		}).
 			map((response: Issue[]) => {
 				response.forEach(element => {
-					element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
+					element.user_fullname = element.user_login ? element.user_name === '' || element.user_surname === '' ? element.user_login : `${element.user_name} ${element.user_surname}` : ' ';
 					element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
 					element.feature_number = this.sequenceHelper.getSequenceFor('F-', 6, element.feature_id);
 					element.iteration_number = this.sequenceHelper.getSequenceFor('IT-', 6, element.iteration_id);
