@@ -114,4 +114,14 @@ export class IterationService {
 				return Observable.throw(e);
 			});
 	}
+	getIterationStates(): Observable<any[]> {
+		return this.http.get('http://localhost:3000/iterationstates/', {
+			withCredentials: true
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

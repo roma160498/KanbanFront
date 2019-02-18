@@ -30,6 +30,8 @@ export class EditCreateIterationComponent implements OnInit {
 
 	incrementList: any = {};
 	increment_id: any;
+	statusList: any = {};
+	status_id: any;
 	minDate: Date;
 	maxDate: Date;
 	isCalendarDisabled: Boolean = true;
@@ -52,6 +54,16 @@ export class EditCreateIterationComponent implements OnInit {
 				}
 			})
 		});
+		this.iterationService.getIterationStates().subscribe(items => {
+			this.statusList.list = items;
+			this.statusList.options = items.map(el => {
+				return {
+					label: el.name,
+					value: el.id
+				}
+			});
+			this.status_id = 1; // future state
+		})
 		this.allRelatedCols = this.issueCols = [
 			{ field: 'number', header: 'Issue number' },
 			{ field: 'name', header: 'Issue name' },
@@ -76,7 +88,7 @@ export class EditCreateIterationComponent implements OnInit {
 				iteration.start_date = this.dateHelper.getDateFormat(this.start_date);
 				iteration.end_date = this.dateHelper.getDateFormat(this.end_date);
 				iteration.increment_id = this.increment_id;
-				iteration.status_id = 1;// MOCK
+				iteration.status_id = this.status_id;
 				iteration.story_points = 0;// mock
 				iteration.completeness = 0;// mock
 				this.iterationService.insertIteration(iteration).subscribe((result) => {
@@ -143,6 +155,7 @@ export class EditCreateIterationComponent implements OnInit {
 		this.isCalendarDisabled = true;
 		this.completePercent = 0;
 		this.selectedIteration = null;
+		this.status_id = 1;
 	}
 
 	saveItself() {

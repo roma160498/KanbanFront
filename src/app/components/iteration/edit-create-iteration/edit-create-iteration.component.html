@@ -28,6 +28,10 @@
             <p>Program Increment:</p>
             <p-dropdown class="requiredField" [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true" (onChange)="incrementSelectHandler($event)"></p-dropdown>
           </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <p>Status:</p>
+            <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">

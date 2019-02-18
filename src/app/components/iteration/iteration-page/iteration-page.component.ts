@@ -46,7 +46,8 @@ export class IterationPageComponent implements OnInit {
 			this.editComponent.start_date = new Date(iteration.start_date);
 			this.editComponent.end_date = new Date(iteration.end_date);
       this.editComponent.selectedIteration = iteration;
-      this.editComponent.isCalendarDisabled = false;
+			this.editComponent.isCalendarDisabled = false;
+			this.editComponent.status_id = iteration.status_id;
       this.editComponent.completePercent = Math.round(iteration.completeness !== 0 ? iteration.completeness / iteration.story_points * 100 : 0);
 			this.editMode = true;
 		} else {
