@@ -45,6 +45,7 @@ export class IncrementPageComponent implements OnInit {
 			this.editComponent.start_date = new Date(increment.start_date);
 			this.editComponent.end_date = new Date(increment.end_date);
 			this.editComponent.selectedIncrement = increment;
+			this.editComponent.status_id = increment.status_id;
 			this.editMode = true;
 		} else {
 			this.editMode = false;

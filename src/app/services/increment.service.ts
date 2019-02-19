@@ -148,4 +148,14 @@ export class IncrementService {
 				return Observable.throw(e);
 			});
 	}
+	getIncrementStates() : Observable<any[]>{
+		return this.http.get('http://localhost:3000/incrementstates/', {
+			withCredentials: true
+		}).
+			map((response: any[]) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

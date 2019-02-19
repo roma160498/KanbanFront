@@ -34,6 +34,8 @@ export class EditCreateIncrementComponent implements OnInit {
   allRelatedCols: any;
   productList: any = {};
   product_id: any;
+  statusList: any = {};
+  status_id: any = null;
   isIterationFormVisible: Boolean = false;
   iterationFormComponent: any;
 
@@ -78,7 +80,17 @@ export class EditCreateIncrementComponent implements OnInit {
           value: el.id
         }
       })
-    })
+    });
+    this.incrementService.getIncrementStates().subscribe(items => {
+			this.statusList.list = items;
+			this.statusList.options = items.map(el => {
+				return {
+					label: el.name,
+					value: el.id
+				}
+			});
+			this.status_id = 1; // future state
+		})
   }
   toolbarActionHandler(action) {
     const increment = new Increment();
@@ -94,7 +106,7 @@ export class EditCreateIncrementComponent implements OnInit {
         increment.start_date = this.dateHelper.getDateFormat(this.start_date);
         increment.end_date = this.dateHelper.getDateFormat(this.end_date);
         increment.product_id = this.product_id;
-        increment.status_id = 1;// MOCK
+        increment.status_id = this.status_id;
         this.incrementService.insertIncrement(increment).subscribe((result) => {
           if (result) {
             this.updatedIncrementOut.emit({
@@ -152,6 +164,7 @@ export class EditCreateIncrementComponent implements OnInit {
     delete this.end_date;
     this.number = '';
     this.product_id = '';
+    this.status_id = 1;
     this.selectedIncrement = null;
   }
 

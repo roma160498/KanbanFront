@@ -28,6 +28,10 @@
             <p>Product:</p>
             <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2">
+            <p>Status:</p>
+            <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
         </div>
         <div class="ui-grid-row">
           <div class=" ui-md-offset-1">
