@@ -68,6 +68,7 @@ export class EditCreateIncrementComponent implements OnInit {
 			{ field: 'creator_name', header: 'Creator' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },
+			{ field: 'status_name', header: 'Status' },
 			{ field: 'product_name', header: 'Product' },
 			{ field: 'created_on', header: 'Created' },
 			{ field: 'modified_on', header: 'Modified' },

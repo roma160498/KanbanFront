@@ -35,6 +35,8 @@ export class EditCreateFeatureComponent implements OnInit {
 	product_id: any;
 	incrementList: any = {};
 	increment_id: any;
+	statusList: any = {};
+	status_id: any = null;
 
 	@Output() updatedFeatureOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
@@ -85,6 +87,15 @@ export class EditCreateFeatureComponent implements OnInit {
 					value: el.id
 				}
 			})
+		});
+		this.featureService.getFeatureStates().subscribe(items => {
+			this.statusList.options = items.map(el => {
+				return {
+					label: `${el.name}`,
+					value: el.id
+				}
+			});
+			this.status_id = 1;
 		});
 	}
 	toolbarActionHandler(action) {
@@ -162,6 +173,7 @@ export class EditCreateFeatureComponent implements OnInit {
 		this.team_id = '';
 		this.increment_id = '';
 		this.selectedFeature = null;
+		this.status_id = 1;
 	}
 
 	discard() {

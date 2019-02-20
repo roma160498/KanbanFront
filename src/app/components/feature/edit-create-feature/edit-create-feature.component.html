@@ -47,6 +47,12 @@
             <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
+        <div class="ui-grid-row">
+        <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <p>Status:</p>
+          <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
       </div>
       <p-footer>
         <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>

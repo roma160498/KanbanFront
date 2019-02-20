@@ -16,6 +16,7 @@ export class Feature {
     product_id: string;
     product_name: string;
     status_id: string;
+    status_name: string;
     increment_id: number;
     increment_name: string;
     increment_number: string;

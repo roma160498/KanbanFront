@@ -124,4 +124,14 @@ export class FeatureService {
 				return Observable.throw(e);
 			});
 	}
+	getFeatureStates(): Observable<any[]> {
+		return this.http.get('http://localhost:3000/featurestates/', {
+			withCredentials: true
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

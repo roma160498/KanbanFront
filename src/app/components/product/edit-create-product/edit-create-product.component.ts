@@ -46,6 +46,7 @@ export class EditCreateProductComponent implements OnInit {
 			{ field: 'creator_name', header: 'Creator' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },
+			{ field: 'status_name', header: 'Status' },
 			{ field: 'created_on', header: 'Created' },
 			{ field: 'modified_on', header: 'Modified' },
 			{ field: 'closed_on', header: 'Closed' }
