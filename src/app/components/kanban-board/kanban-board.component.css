@@ -10,6 +10,7 @@
     padding-bottom: 1em;
     border-radius: 4px;
     margin-bottom: 7px;
+    cursor: pointer;
 }
 
 .issueName {
@@ -29,4 +30,23 @@
     text-decoration: underline;
     color: darkgray;
     font-style: italic;
+}
+
+:host ::ng-deep .ng-untouched .ng-pristine .ng-valid {
+    position: absolute;
+}
+
+#messageArea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 100px;
+    overflow: auto;
+    padding: 2px;
+    resize: vertical;
+    width: 330px;
+    margin: 5px;
+    border-radius: 3px;
 }

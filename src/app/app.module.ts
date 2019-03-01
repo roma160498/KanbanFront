@@ -69,8 +69,13 @@ import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {CheckboxModule} from 'primeng/checkbox';
+import {CardModule} from 'primeng/card';
 //import {MessageService} from 'primeng/components/common/messageservice';
 import {DragDropModule} from 'primeng/dragdrop';
+import {ListboxModule} from 'primeng/listbox';
+import {InplaceModule} from 'primeng/inplace';
+
+import { MentionModule } from 'angular-mentions/mention';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -116,6 +121,8 @@ import { EditCreateIssueComponent } from './components/issue/edit-create-issue/e
 import { IssueService } from './services/issue.service';
 import { PermissionPageComponent } from './components/permission/permission-page/permission-page.component';
 import { PermissionService } from './services/permission.service';
+import { CommentService } from './services/comment.service';
+import { CommentComponent } from './components/global/comment/comment.component';
 
 
 // определение маршрутов
@@ -154,7 +161,8 @@ const appRoutes: Routes =[
     IssuePageComponent, 
     TableIssuesComponent,
     EditCreateIssueComponent,
-    PermissionPageComponent
+    PermissionPageComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
@@ -222,13 +230,17 @@ const appRoutes: Routes =[
     ProgressBarModule,
     KeyFilterModule,
     CheckboxModule,
-    DragDropModule
+    DragDropModule,
+    CardModule,
+    MentionModule,
+    ListboxModule,
+    InplaceModule
     //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent]

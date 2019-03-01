@@ -181,4 +181,15 @@ export class TeamService {
 				return Observable.throw(e);
 			});
 	}
+
+	getKanbanBoardForTeam(args, teamId) {
+		return this.http.get(`http://localhost:3000/teams/${teamId}/kanbans`, {
+			withCredentials: true, params: {}
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

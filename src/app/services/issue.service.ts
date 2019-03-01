@@ -93,4 +93,25 @@ export class IssueService {
 			return Observable.throw(e);
 		});
 }
+
+	_fixCommentProps(comments) {
+		comments.forEach(element => {
+			const dateTimeObject = this.dateHelper.getDateTimeFormat(new Date(element.date));
+			element.date = this.dateHelper.getDateTimeFormat(new Date(element.date));
+			element.user_name = element.login ? element.name === '' || element.surname === '' ? element.login : `${element.name} ${element.surname}` : ' ';
+			this._fixCommentProps(element.comments);
+		});
+		comments.reverse();
+	}
+	getComments(issueId): Observable<any[]> {
+		return this.http.get(`http://localhost:3000/issues/${issueId}/comments`, {
+			withCredentials: true
+		}).
+			map((response: any) => {
+				this._fixCommentProps(response);
+				return response;
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

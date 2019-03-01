@@ -1,0 +1,70 @@
+
+#replyMessageArea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 100px;
+    overflow: auto;
+    padding: 2px;
+    resize: vertical;
+    width: calc(100% - 15px);
+    margin: 15px;
+    border-radius: 3px;
+}
+
+.floatLeft {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 35px;
+}
+
+.commentUserName {
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+    color: #444;
+}
+
+.commentDate {
+    display: block;
+    overflow: inherit;
+    text-overflow: inherit;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #727272;
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+}
+.messageInfo {
+    position: relative;
+    margin-left: 8px;
+    line-height: 1;
+}
+.messageConatiner {
+    position: relative;
+    margin-top: 10px;
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+    color: #444;
+}
+.message {
+    overflow: hidden;
+    height: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding-bottom: 1px;
+    max-height: 140em;
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+    color: #444;
+}
+
+.reply {
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+    text-decoration: underline;
+    color: #3668b1;
+    font-size: 11px;
+}
+
+.commentCard {
+    /* border-bottom: 1px solid black; */
+    margin-bottom: 5px; 
+}

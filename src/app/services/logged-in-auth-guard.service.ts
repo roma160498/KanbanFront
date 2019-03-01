@@ -37,6 +37,7 @@ export class LoggedInAuthGuardService implements CanActivate{
 						this.router.navigate(['/login']);
 					} else {
 						this.isLoggedIn = true;
+						localStorage.setItem('login', res.user.login);
 						localStorage.setItem('userName', res.user.name);
 						localStorage.setItem('userSurname', res.user.surname);
 						localStorage.setItem('id', res.user.id);

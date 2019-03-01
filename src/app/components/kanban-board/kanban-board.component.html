@@ -1,60 +1,87 @@
-<div style="height: -webkit-fill-available; overflow: scroll; margin-bottom: 50px">
-    <p-dropdown filter="true" [style]="{'width':'400px'}" [options]="usersList && usersList.options" [(ngModel)]="userFilterId" placeholder="Filter by user" [showClear]="true"></p-dropdown>
-    <p-dropdown filter="true" [style]="{'width':'400px'}" [options]="iterationsList && iterationsList.options" [(ngModel)]="iterationFilterId" placeholder="Filter by iteration" [showClear]="true"></p-dropdown>
-    <p-panel *ngFor="let board of userBoards" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
-        <div class="p-grid" style="width: -webkit-fill-available; display: -webkit-inline-box; overflow-x: auto;">
-            <div class="p-col" *ngFor="let col of board.states" style="min-width:280px; max-width:280px" pDroppable="{{board.name}}" (onDrop)="drop($event, col)">
-                <p-panel header="{{col.name}}">
-                    <div *ngFor="let issue of col.issues" >
-                    <div pDraggable="{{board.name}}" (onDragStart)="dragStart($event, issue)" (onDragEnd)="dragEnd($event)" class="issueCard" [ngStyle]="{'border-left': '8px ' + getCardColor(issue) + ' solid'}"
-                    *ngIf="needToDisplayIssueCard(issue)">
-                        <div class="issueName">
-                            {{sequenceHelper.getSequenceFor('I-', 6, issue.id) + ' "' + issue.name + '"'}}
-                        </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}</div>
-
-                            <div *ngIf="issue.storyPoints" class="ui-g-12 ui-md-6 ui-lg-5 storyPoints" title = "Story points">
-                                    {{issue.storyPoints}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </p-panel>
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="null"
+    [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Kanban'" [iconName]="'board'"></app-items-toolbar>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #sidenav fixedInViewport="true" fixedTopGap="50" opened="false" mode="side" position="end" style="border-left: 2px solid grey;">
+        <div style="width: 350px; ">
+            <div style="border-bottom: 2px solid grey; margin-bottom: 10px; padding-left: 5px; padding-bottom: 5px">
+                <span style="font-family:'Open Sans', 'Helvetica Neue', sans-serif; font-size: 25px; margin-left: 20px; margin-top: 5px; position: absolute;">{{sequenceHelper.getSequenceFor('I-', 6, clickedIssue.id)}}</span>
+                <button pButton type="button" icon="pi pi-times" title="Close" (click)="closePanel()" style="float: right; margin-right: .5em; margin-bottom: .5em; margin-top: .5em;"></button>
+                <p-listbox filter="filter" [options]="filteredMentionList" (onChange)="mentionSelected($event)" [(ngModel)]="selectedCity"
+                    optionLabel="name" id="ml" [listStyle]="{'max-height':'140px'}" [ngStyle]="{'position': 'absolute', 'left': xcoords + 'px', 'top': ycoords +'px', 'display': showMentionList ? 'unset' : 'none', 'z-index': '1'}"></p-listbox>
+                <div contenteditable="true" id="messageArea"></div>
+                <button pButton type="button" icon="pi pi-pencil" label="Post" style="margin-left: 5px" (click)="postMessage()"></button>
+            </div>
+            <div style="padding-left: 5px;">
+                <app-comment [comments]="comments" [currentUserId]="currentUserId" [currentUserName]="currentUserName" [currentIssue]="clickedIssue"
+                    [level]="0"></app-comment>
             </div>
         </div>
-    </p-panel>
-    <h3>Drag and Drop to Table</h3>
-    <div class="ui-g">
-        <div class="ui-g-12 ui-md-6 ui-g-nopad drag-column">
-            <ul style="margin:0;padding:0">
-                <li *ngFor="let car of availableCars" class="ui-helper-clearfix" pDraggable="cars" (onDragStart)="dragStart($event,car)"
-                    (onDragEnd)="dragEnd($event)">
-                    <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
-                    <div style="margin:8px 0 0 8px;float:left">{{car.name}}</div>
-                </li>
-            </ul>
+    </mat-sidenav>
+    <mat-sidenav-content height="100%" from="top">
+        <div style=" overflow: scroll; margin-bottom: 50px; height: calc(100vh - 73px);">
+            <p-tabView>
+                <p-tabPanel header="Your teams">
+                    <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="usersList && usersList.options" [(ngModel)]="userFilterId"
+                        placeholder="Filter by user" [showClear]="true"></p-dropdown>
+                    <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="iterationsList && iterationsList.options"
+                        [(ngModel)]="iterationFilterId" placeholder="Filter by iteration" [showClear]="true"></p-dropdown>
+                    <p-panel *ngFor="let board of userBoards" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                        <div class="p-grid" style="width: -webkit-fill-available; display: -webkit-inline-box; overflow-x: auto;">
+                            <div class="p-col" *ngFor="let col of board.states" style="min-width:280px; max-width:280px" pDroppable="{{board.name}}"
+                                (onDrop)="drop($event, col)">
+                                <p-panel header="{{col.name}}">
+                                    <div *ngFor="let issue of col.issues">
+                                        <div pDraggable="{{board.name}}" (onDragStart)="dragStart($event, issue)" (click)="issueCardClick(issue)" (onDragEnd)="dragEnd($event)"
+                                            class="issueCard" [ngStyle]="{'border-left': '8px ' + getCardColor(issue) + ' solid', 'background': (clickedIssue.id === issue.id) ? 'powderblue' : 'rgb(247, 240, 240)'}"
+                                            *ngIf="needToDisplayIssueCard(issue)">
+                                            <div class="issueName">
+                                                {{sequenceHelper.getSequenceFor('I-', 6, issue.id) + ' "' + issue.name + '"'}}
+                                            </div>
+                                            <div class="ui-grid-row">
+                                                <div class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}</div>
+
+                                                <div *ngIf="issue.storyPoints" class="ui-g-12 ui-md-6 ui-lg-5 storyPoints" title="Story points">
+                                                    {{issue.storyPoints}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-panel>
+                            </div>
+                        </div>
+                    </p-panel>
+                </p-tabPanel>
+                <p-tabPanel header="Special team">
+                    <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="teamsList && teamsList.options" [(ngModel)]="teamId"
+                        placeholder="Open team board" [showClear]="true" (onChange)="teamSelectHandler($event)"></p-dropdown>
+                    <p-panel *ngFor="let board of specialTeamBoard" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                        <div class="p-grid" style="width: -webkit-fill-available; display: -webkit-inline-box; overflow-x: auto;">
+                            <div class="p-col" *ngFor="let col of board.states" style="min-width:280px; max-width:280px" pDroppable="{{board.name}}"
+                                (onDrop)="drop($event, col)">
+                                <p-panel header="{{col.name}}">
+                                    <div *ngFor="let issue of col.issues">
+                                        <div (click)="issueCardClick(issue)" class="issueCard" [ngStyle]="{'border-left': '8px ' + getCardColor(issue) + ' solid', 'background': (clickedIssue.id === issue.id) ? 'powderblue' : 'rgb(247, 240, 240)'}">
+                                            <div class="issueName">
+                                                {{sequenceHelper.getSequenceFor('I-', 6, issue.id) + ' "' + issue.name + '"'}}
+                                            </div>
+                                            <div class="ui-grid-row">
+                                                <div class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}</div>
+
+                                                <div *ngIf="issue.storyPoints" class="ui-g-12 ui-md-6 ui-lg-5 storyPoints" title="Story points">
+                                                    {{issue.storyPoints}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-panel>
+                            </div>
+                        </div>
+                    </p-panel>
+                </p-tabPanel>
+            </p-tabView>
+
+
         </div>
-        <h1>{{draggedCar}}</h1>
-        <div class="ui-g-12 ui-md-6 drop-column" pDroppable="cars" (onDrop)="drop($event)" [ngClass]="{'ui-highlight-car':draggedCar}">
-            <p-table [value]="selectedCars">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Vin</th>
-                        <th>Year</th>
-                        <th>Brand</th>
-                        <th>Color</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-car>
-                    <tr>
-                        <td>{{car.name}}</td>
-                        <td>{{car.name}}</td>
-                        <td>{{car.name}}</td>
-                        <td>{{car.name}}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </div>
-</div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
