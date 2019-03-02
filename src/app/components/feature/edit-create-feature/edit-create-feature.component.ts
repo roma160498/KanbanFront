@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, Input, ViewContainerRef } from '@angular/core';
 import { RelationshipTableComponent } from '../../global/relationship-table/relationship-table.component';
 import { Feature } from '../../../models/feature';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -9,6 +9,8 @@ import { ProductService } from '../../../services/product.service';
 import { IncrementService } from '../../../services/increment.service';
 import { SequenceHelperService } from '../../../services/sequence-helper.service';
 import { elementAt } from 'rxjs/operator/elementAt';
+import { ComponentLoaderService } from '../../../services/component-loader.service';
+import { EditCreateIssueComponent } from '../../issue/edit-create-issue/edit-create-issue.component';
 @Component({
 	selector: 'app-edit-create-feature',
 	templateUrl: './edit-create-feature.component.html',
@@ -37,12 +39,16 @@ export class EditCreateFeatureComponent implements OnInit {
 	increment_id: any;
 	statusList: any = {};
 	status_id: any = null;
+	issueFormComponent: any;
+	isIssueFormVisible: boolean = false;
 
 	@Output() updatedFeatureOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
+	@ViewChild('newIssueForm', { read: ViewContainerRef }) entry: ViewContainerRef;
 	constructor(private featureService: FeatureService, private messageService: MessageService,
 		private teamService: TeamService, private productService: ProductService,
-		private incrementService: IncrementService, private sequenceHelper: SequenceHelperService) { }
+		private incrementService: IncrementService, private sequenceHelper: SequenceHelperService,
+		private componentLoaderService: ComponentLoaderService) { }
 	ngOnInit() {
 
 		this.allRelatedCols = this.issueCols = [
@@ -184,5 +190,21 @@ export class EditCreateFeatureComponent implements OnInit {
 
 	splitterMove(event) {
 		console.log(event)
+	}
+
+	createNewIssue() {
+		this.isIssueFormVisible = true;
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		this.issueFormComponent = this.componentLoaderService.addComponent(EditCreateIssueComponent);
+		// this.issueFormComponent.instance.increment_id = this.selectedIncrement.id;
+debugger;
+		this.issueFormComponent.instance.feature_id = this.selectedFeature.id;
+		this.issueFormComponent.instance.featureSelectHandler({});
+		this.issueFormComponent.instance.isPopupMode = true;
+		this.issueFormComponent.instance.completeness = 0;
+		this.issueFormComponent.instance.popupComponent = this.issueFormComponent;
+		this.issueFormComponent.instance.isSavedResultSuccesOutInPopupMode.subscribe((() => {
+			this.isIssueFormVisible = false;
+		}).bind(this));
 	}
 }

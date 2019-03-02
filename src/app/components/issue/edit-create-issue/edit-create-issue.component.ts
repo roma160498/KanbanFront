@@ -10,6 +10,7 @@ import { UserService } from '../../../services/user.service';
 import { FeatureService } from '../../../services/feature.service';
 import { SequenceHelperService } from '../../../services/sequence-helper.service';
 import { IncrementService } from '../../../services/increment.service';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-edit-create-issue',
@@ -53,7 +54,7 @@ export class EditCreateIssueComponent implements OnInit {
 	completePercent: number = 0;
 	isPopupMode: Boolean = false;
 	popupComponent: any;
-	//@Output() isSavedResultSuccesOutInPopupMode: Subject<boolean> = new Subject();
+	@Output() isSavedResultSuccesOutInPopupMode: Subject<boolean> = new Subject();
 	completenessList: any = {
 		options: [{
 			label: "0%",
@@ -162,7 +163,7 @@ export class EditCreateIssueComponent implements OnInit {
 							this._clearForm();
 							if (this.isPopupMode) {
 								this.popupComponent.destroy();
-								//this.isSavedResultSuccesOutInPopupMode.next(true);
+								this.isSavedResultSuccesOutInPopupMode.next(true);
 							}
 						} else {
 							this.isSavedResultSuccesOut.emit(false);
@@ -225,7 +226,7 @@ export class EditCreateIssueComponent implements OnInit {
 	}
 	discard() {
 		if (this.isPopupMode) {
-			//	this.isSavedResultSuccesOutInPopupMode.next(false);
+			this.isSavedResultSuccesOutInPopupMode.next(false);
 			this.popupComponent.destroy();
 		} else {
 			this._clearForm();
@@ -236,10 +237,12 @@ export class EditCreateIssueComponent implements OnInit {
 
 	featureSelectHandler(event) {
 		let availableIncrementId;
-		for (let i = 0; i < this.featureList.list.length; i++) {
-			if (this.featureList.list[i].id === event.value) {
-				availableIncrementId = this.featureList.list[i].increment_id;
-				break;
+		if (this.featureList.list) {
+			for (let i = 0; i < this.featureList.list.length; i++) {
+				if (this.featureList.list[i].id === event.value) {
+					availableIncrementId = this.featureList.list[i].increment_id;
+					break;
+				}
 			}
 		}
 		this.incrementService.getIterationsOfIncrement({}, availableIncrementId).subscribe(items => {
