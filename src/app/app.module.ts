@@ -70,10 +70,12 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {CheckboxModule} from 'primeng/checkbox';
 import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
 //import {MessageService} from 'primeng/components/common/messageservice';
 import {DragDropModule} from 'primeng/dragdrop';
 import {ListboxModule} from 'primeng/listbox';
 import {InplaceModule} from 'primeng/inplace';
+import {BlockUIModule} from 'primeng/blockui';
 
 import { MentionModule } from 'angular-mentions/mention';
 
@@ -234,7 +236,9 @@ const appRoutes: Routes =[
     CardModule,
     MentionModule,
     ListboxModule,
-    InplaceModule
+    InplaceModule,
+    DialogModule,
+    BlockUIModule
     //NgxDnDModule
    // MessageService
     

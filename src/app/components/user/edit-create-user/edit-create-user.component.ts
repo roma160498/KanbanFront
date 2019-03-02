@@ -53,6 +53,7 @@ export class EditCreateUserComponent implements OnInit {
 				user.password = this.password;
 				user.email = this.email;
 				user.is_admin = this.is_admin ? 1 : 0;
+				user.is_initialPassword = 1;
 				this.userService.insertUser(user).subscribe((result) => {
 					if (result) {
 						user.id = result.insertId;
@@ -121,6 +122,14 @@ export class EditCreateUserComponent implements OnInit {
 	discard() {
 		this._clearForm();
 		this.isSavedResultSuccesOut.emit(true);
+	}
+
+	allowToChangePassword() {
+		const user = new User();
+		user.is_initialPassword = 1;
+		this.userService.updateUser(user, this.selectedUser.id).subscribe((result) => {
+			this.messageService.add({ severity: 'success', summary: 'Sucess', detail: `Password change available.` });
+		});
 	}
 
 }

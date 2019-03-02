@@ -6,4 +6,5 @@ export class User {
     surname: string;
     email: string;
     is_admin: number;
+    is_initialPassword: number;
 }

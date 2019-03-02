@@ -37,6 +37,11 @@
 				<p-checkbox [(ngModel)]="is_admin" binary="true" label="Is Admin"></p-checkbox>
 			</div>
 		</div>
+		<div class="ui-grid-row" *ngIf="currentUserIsAdmin">
+			<div class="ui-g-12 ui-md-7 ui-lg-3 ui-md-offset-1">
+				<button type="button" (click)="allowToChangePassword()" pButton icon="pi pi-cog" label="Allow to change password"></button>
+			</div>
+		</div>
 	</div>
 	<p-footer>
 		<button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>

@@ -1,13 +1,22 @@
+
 <div class="body">
   <div class="login-page">
     <div class="form">
-      <p class="title">Kanban Tool</p>
+      <img src="../../../assets/png/logo.png" alt="image" style="width: 265px;"/>
       <!-- //<form class="login-form" action="http://localhost:3000/login" method="post"> -->
         <input type="text" placeholder="username" name="username"  [(ngModel)]="username" (keydown)="keyboardHandler($event)"/>
         <input type="password" placeholder="password" name="password"  [(ngModel)]="password" (keydown)="keyboardHandler($event)"/>
         <button mat-flat-button (click)="login()">Login</button>
       <!-- </form> -->
     </div>
-  </div>
+    <p-dialog header="Change password" [(visible)]="display" (onHide)="onHideChangePasswordDialog($event)">
+      <div class="form" style="margin-bottom:0px">
+        <input type="password" placeholder="Old password" name="oldPassword"  [(ngModel)]="oldPassword" (keydown)="keyboardHandler($event)"/>
+        <input type="password" pPassword placeholder="New password" name="newPassword"  [(ngModel)]="newPassword" (keydown)="keyboardHandler($event)"/>
+        <input type="password" placeholder="Confirm password" name="confirmPassword"  [(ngModel)]="confirmPassword" (keydown)="keyboardHandler($event)"/>  
+        <button mat-flat-button (click)="changePassword()">Change</button>
+      </div>
+  </p-dialog>
 </div>
 <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+<p-blockUI [blocked]="blockedDocument"></p-blockUI>
