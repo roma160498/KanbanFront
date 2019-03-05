@@ -21,7 +21,7 @@
     <mat-sidenav-content height="100%" from="top">
         <div style=" overflow: scroll; margin-bottom: 50px; height: calc(100vh - 73px);">
             <p-tabView>
-                <p-tabPanel header="Your teams">
+                <p-tabPanel header="Your teams" [selected]="!isSpecialTeamTabOpened">
                     <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="usersList && usersList.options" [(ngModel)]="userFilterId"
                         placeholder="Filter by user" [showClear]="true"></p-dropdown>
                     <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="iterationsList && iterationsList.options"
@@ -52,7 +52,7 @@
                         </div>
                     </p-panel>
                 </p-tabPanel>
-                <p-tabPanel header="Special team">
+                <p-tabPanel header="Special team" [selected]="isSpecialTeamTabOpened">
                     <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="teamsList && teamsList.options" [(ngModel)]="teamId"
                         placeholder="Open team board" [showClear]="true" (onChange)="teamSelectHandler($event)"></p-dropdown>
                     <p-panel *ngFor="let board of specialTeamBoard" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">

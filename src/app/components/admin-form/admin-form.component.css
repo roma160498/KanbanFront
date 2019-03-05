@@ -1,3 +1,10 @@
+
+
+:host ::ng-deep .ui-overlaypanel {
+    left: -500px !important;
+    width: 750px;
+}
+
 .example-container {
     display: flex;
     flex-direction: column;
@@ -36,4 +43,93 @@
 
 .mat-sidenav-content {
     overflow: hidden;
+}
+
+.mybadge {
+    font: 10px Arial, sans-serif;
+    width: 18px;
+    height: 18px;
+    -webkit-box-sizing: initial;
+    box-sizing: initial;
+    background: ghostwhite;
+    color: #666;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 2em;
+    -webkit-box-sizing: content-box;
+    position: absolute;
+    left: -10px;
+    top: -7px;
+}
+.messageInfo {
+    position: relative;
+    margin-left: 8px;
+    line-height: 1;
+    height: 50px;
+}
+
+
+.floatLeft {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.commentUserName {
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+    color: #444;
+}
+
+.commentDate {
+    display: block;
+    overflow: inherit;
+    text-overflow: inherit;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #727272;
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+}
+.arrow { 
+    display: inline-block; 
+    width: 16px; 
+    margin-left: 7px; 
+    } 
+.arrow::before { 
+    content: ''; 
+    display: inline-block; 
+    width: 0.4rem; 
+    height: 0.4rem; 
+    border-left: 1px solid #333333; 
+    border-bottom: 1px solid #333333; 
+    transform: rotate(-135deg); 
+    position: relative; 
+    top: -2px; 
+} 
+
+.date, .userMessageInfo {
+    display: block;
+    overflow: inherit;
+    text-overflow: inherit;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #727272;
+    font: 12px/1.4 Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.userMessageRow > td {
+    border-bottom: 1px solid darkgray;
+    border-top: 1px solid darkgray;
+}
+
+.userMessageRow:hover { 
+    background: rgb(208, 225, 248);
+    cursor: pointer
+}
+
+.commentTextDiv {
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+    text-overflow: ellipsis; /* Многоточие */
+    width: 580px;
 }

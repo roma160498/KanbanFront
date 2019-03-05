@@ -6,7 +6,7 @@ import { SequenceHelperService } from '../../services/sequence-helper.service';
 import { IssueService } from '../../services/issue.service';
 import { Issue } from '../../models/issue';
 import { IterationService } from '../../services/iteration.service';
-import { MentionConfig } from 'angular-mentions/mention/mention-config';
+//import { MentionConfig } from 'angular-mentions/mention/mention-config';
 import { CommentService } from '../../services/comment.service';
 import { Comment } from '../../models/comment';
 import { DateHelperService } from '../../services/date-helper.service';
@@ -41,6 +41,8 @@ export class KanbanBoardComponent implements OnInit {
 	mentionUsers: any = [];
 	selectedMentionUsers: any[] = [];
 	comments: any[] = [];
+	issueToOpenAtFirstInfo: any = null;
+	isSpecialTeamTabOpened: boolean = false;
 
 	draggedIssue: any;
 	constructor(private userService: UserService, private sequenceHelper: SequenceHelperService,
@@ -68,32 +70,12 @@ private dateHelper: DateHelperService, private teamService: TeamService) {
 			this.xcoords = span.offsetLeft;
 			this.ycoords = span.offsetTop+16;
 			range.deleteContents();
-			debugger;	
-			// if (this.mentionListIsActivated) {
-			// 	if (event.inputType === 'deleteContentBackward') {
-			// 		if (this.valueToFilter.length === 0) {//last simbol leave
-			// 			this.showMentionList = false;
-			// 			this.mentionListIsActivated = false;
-			// 			this.valueToFilter = '';
-			// 		} else {
-			// 			this.valueToFilter = this.valueToFilter.substring(0, this.valueToFilter.length-1)
-			// 		}
-			// 	} else {
-			// 		this.valueToFilter += event.data;
-			// 	}
-			// }
-			// if (this.mentionListIsActivated) {
-			// 	//this.filterMentionList(this.valueToFilter.toLowerCase());
-			// }
 			if (event.data === '@') {
 				this.showMentionList = true;
 				this.mentionListIsActivated = true;
 			} else {
 				this.showMentionList = false;
 			}
-			// if (event.data) {
-			// 	this.previousKey = event.data;
-			// }
 		}.bind(this));
 debugger;
 		this.currentUserId = localStorage.getItem('id');
@@ -106,7 +88,55 @@ debugger;
 
 	_initialSetup() {
 		this.userService.getKanbanForUser({}, this.currentUserId).subscribe(result => {
-			this.userBoards = result;
+			this.userBoards = result;debugger;
+			this.teamService.getTeam({}).subscribe(items => {
+				debugger;
+				this.teamsList.options = items.map(el => {
+					return {
+						label: el.name,
+						value: el.id
+					}
+				});
+				if (this.issueToOpenAtFirstInfo) {
+					const team = result.find(el => el.id === this.issueToOpenAtFirstInfo.teamId);
+					if (team) {
+						for (let stateIndex = 0; stateIndex < team.states.length; stateIndex++) {
+							const state = team.states[stateIndex];
+							if (state.issues) {
+								for (let issueIndex = 0; issueIndex < state.issues.length; issueIndex++) {
+									const iss = state.issues[issueIndex];
+									if (iss.id === this.issueToOpenAtFirstInfo.issueId) {
+										this.clickedIssue = iss;
+										this.issueCardClick(iss);
+									}	
+								}
+							}
+						}
+					} else {
+						debugger;
+						const teamFromList = this.teamsList.options.filter(el => el.value === this.issueToOpenAtFirstInfo.teamId);
+						if (teamFromList) {
+							this.teamService.getKanbanBoardForTeam({}, teamFromList[0].value).subscribe(board => {
+								this.specialTeamBoard = board;
+								for (let stateIndex = 0; stateIndex < board[0].states.length; stateIndex++) {
+									const state = board[0].states[stateIndex];
+									if (state.issues) {
+										for (let issueIndex = 0; issueIndex < state.issues.length; issueIndex++) {
+											const iss = state.issues[issueIndex];
+											if (iss.id === this.issueToOpenAtFirstInfo.issueId) {
+												this.clickedIssue = iss;
+												this.issueCardClick(iss);
+												this.isSpecialTeamTabOpened = true;
+											}	
+										}
+									}
+								}
+							})
+						}
+					}
+				}
+			});
+			
 		});
 		this.userService.getUser({}).subscribe(items => {
 			this.usersList.list = items;
@@ -140,21 +170,12 @@ debugger;
 				value: -1
 			});
 		});
-		this.teamService.getTeam({}).subscribe(items => {
-			debugger;
-			this.teamsList.options = items.map(el => {
-				return {
-					label: el.name,
-					value: el.id
-				}
-			});
-		});
 	}
-	private DEFAULT_CONFIG: MentionConfig = {
-		triggerChar: '@',
-		labelKey: 'name',
-		mentionSelect: (item: any) => this.mentionUsers.push('@' + item.id + item.name)
-	  }
+	// private DEFAULT_CONFIG: MentionConfig = {
+	// 	triggerChar: '@',
+	// 	labelKey: 'name',
+	// 	mentionSelect: (item: any) => this.mentionUsers.push('@' + item.id + item.name)
+	//   }
 	dragStart(event, issue: any) {
 		this.draggedIssue = issue;
 	}
@@ -292,6 +313,7 @@ debugger;
 		comment.user_id = this.currentUserId;
 		comment.parentComment_id = null;
 		comment.user_name = this.currentUserName;
+		comment.mentions = this.selectedMentionUsers;
 		debugger;
 		comment.date = this.dateHelper.getDateTimeFormat(new Date());
 		this.commentService.insertComment(comment).subscribe(res=> {

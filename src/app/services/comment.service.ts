@@ -20,4 +20,26 @@ export class CommentService {
 				return Observable.throw(e);
 			});
 	}
+
+	getMessagesWithUser(userId): Observable<any[]> {
+		return this.http.get('http://localhost:3000/mentions/' + userId, {
+			withCredentials: true
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
+
+	removeMentionsNofication(userId): Observable<any[]> {
+		return this.http.delete('http://localhost:3000/mentions/' + userId, {
+			withCredentials: true
+		}).
+			map((response: Response) => {
+				return response
+			}).catch(e => {
+				return Observable.throw(e);
+			});
+	}
 }

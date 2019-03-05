@@ -5,8 +5,46 @@
     </button>
     <h1 class="example-app-name">Kanban Tool</h1>
     <div class="toolbar-buttons-group">
-      <button mat-flat-button class="toolbar-button">{{userName}} {{userSurname}}</button>
+
+      <button mat-flat-button class="toolbar-button" (click)="op.toggle($event);notificationsClick()" matBadge="8" matBadgePosition="before" matBadgeColor="accent">
+        <div *ngIf="notificationsAmount !== 0" matTooltip="Last messages" class="mybadge">{{notificationsAmount}}</div>
+        <div>{{userName}} {{userSurname}}</div>
+      </button>
       <button mat-flat-button class="toolbar-button" (click)="logout()">Logout</button>
+      <p-overlayPanel #op [ngStyle]="{'width': '800px'}">
+        <div>
+          <div id="inbox-wapper" style="width: 730px; max-height: 350px; overflow-y: auto;">
+            <h2>New messages with you</h2>
+            <table style="border-collapse: collapse; margin-top:20px; border-collapse: collapse">
+              <tbody>
+                <tr *ngFor="let not of notifications" class="userMessageRow" (click)="op.hide($event);loadBoard(not.issue_id, not.teamId);">
+                  <td class="author-avatar" style="width: 100px; text-align: center">
+                    <span>{{sequenceHelperService.getSequenceFor('I-', 6, not.issue_id)}}</span>
+                  </td>
+                  <td>
+                    <div style="margin-left: 10px">
+                    <div class="commentTextDiv" style="line-height:16px; margin-top: 10px">
+                      <span class="commentText">{{not.text}}</span>
+                    </div>
+                    <div class="userMessageInfo" style="line-height:16px; padding-top: 15px">
+                      <span class="team">{{not.teamName}}</span>
+                      <span class="arrow"></span>
+                      <span class="author">{{not.name + ' ' + not.surname}}</span>
+                    </div>
+                    <div>
+                      <span class="date" style="line-height:16px;padding-bottom: 10px">2012.02.03 24:15:37</span>
+                    </div>
+                  </div>
+                  </td>
+                  <td class="reviewers">
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p-overlayPanel>
     </div>
   </mat-toolbar>
   <mat-sidenav-container class="example-sidenav-container">

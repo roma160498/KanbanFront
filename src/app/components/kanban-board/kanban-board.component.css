@@ -36,6 +36,9 @@
     position: absolute;
 }
 
+:host ::ng-deep .ui-panel {
+    padding: 5px !important;
+}
 #messageArea {
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;

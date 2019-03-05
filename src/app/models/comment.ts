@@ -7,4 +7,5 @@ export class Comment {
     user_name: string;
     date: string;
     comments: any[];
+    mentions: any[];
 }
