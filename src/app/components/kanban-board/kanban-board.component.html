@@ -13,7 +13,7 @@
                 <button pButton type="button" icon="pi pi-pencil" label="Post" style="margin-left: 5px" (click)="postMessage()"></button>
             </div>
             <div style="padding-left: 5px;">
-                <app-comment [comments]="comments" [currentUserId]="currentUserId" [currentUserName]="currentUserName" [currentIssue]="clickedIssue"
+                <app-comment [comments]="comments" [currentUserId]="currentUserId" [filteredMentionList]="filteredMentionList" [currentUserName]="currentUserName" [currentIssue]="clickedIssue"
                     [level]="0"></app-comment>
             </div>
         </div>

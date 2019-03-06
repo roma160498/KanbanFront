@@ -1,27 +1,30 @@
-
-  <div *ngFor="let comment of comments" class="commentCard">
-  <div [ngStyle]="{'padding-left': (level*15) + 'px'}">
-      <div class="messageInfo">
-          <div class="icon" style="position: absolute; top: 5px">
-              <mat-icon svgIcon="{{isReply ? 'reply' : 'message'}}" class="sidenav-icons" style="fill: rgb(150, 3, 3);"></mat-icon>
-          </div>
-          <div class="floatLeft">
-              <span class="commentUserName">{{comment.user_name}}</span>
-              <span class="commentDate">{{comment.date}}</span>
-          </div>
-      </div>
-      <div class="messageConatiner">
-          <span class="message">{{comment.text}}</span>
-      </div>
-      <p-inplace>
-          <span class="reply" pInplaceDisplay>
-              Reply
-          </span>
-          <span pInplaceContent>
-              <div contenteditable="true" id="replyMessageArea" [textContent]="comment.replyText" (input)="comment.replyText=$event.target.textContent"></div>
-              <button pButton type="button" icon="pi pi-pencil" label="Reply" style="margin-left: 15px" (click)="postReplyMessage(comment)"></button>
-          </span>
-      </p-inplace>
-  </div>
-  <app-comment [comments]="comment.comments" [currentUserId]="currentUserId" [currentUserName]="currentUserName" [currentIssue]="currentIssue" [isReply]="true" [level]="level + 2"></app-comment>
+<div *ngFor="let comment of comments" class="commentCard">
+    <div [ngStyle]="{'padding-left': (level*15) + 'px'}">
+        <div class="messageInfo">
+            <div class="icon" style="position: absolute; top: 5px">
+                <mat-icon svgIcon="{{isReply ? 'reply' : 'message'}}" class="sidenav-icons" style="fill: rgb(150, 3, 3);"></mat-icon>
+            </div>
+            <div class="floatLeft">
+                <span class="commentUserName">{{comment.user_name}}</span>
+                <span class="commentDate">{{comment.date}}</span>
+            </div>
+        </div>
+        <div class="messageConatiner">
+            <span class="message">{{comment.text}}</span>
+        </div>
+        <p-inplace>
+            <span class="reply" pInplaceDisplay>
+                Reply
+            </span>
+            <span pInplaceContent>
+                <p-listbox filter="filter" [options]="filteredMentionList" (onChange)="mentionSelected($event, replyArea)" [(ngModel)]="selectedCity"
+                    optionLabel="name" id="ml" [listStyle]="{'max-height':'140px'}" [ngStyle]="{'position': 'absolute', 'left': xcoords + 'px', 'top': ycoords +'px', 'display': showMentionList ? 'unset' : 'none', 'z-index': '1'}"></p-listbox>
+                <div #replyArea contenteditable="true" id="replyMessageArea" (click)="clickAreaFunction()" (input)="inputAreaFunction($event, replyArea)"
+                    [textContent]="comment.replyText" (input)="comment.replyText=$event.target.textContent"></div>
+                <button pButton type="button" icon="pi pi-pencil" label="Reply" style="margin-left: 15px" (click)="postReplyMessage(comment, replyArea)"></button>
+            </span>
+        </p-inplace>
+    </div>
+    <app-comment [comments]="comment.comments" [currentUserId]="currentUserId" [currentUserName]="currentUserName" [currentIssue]="currentIssue"
+        [isReply]="true" [level]="level + 2" [filteredMentionList]="filteredMentionList"></app-comment>
 </div>
