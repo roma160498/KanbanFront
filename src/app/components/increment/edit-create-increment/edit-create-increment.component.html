@@ -8,7 +8,7 @@
             Number:
             <input pInputText type="text" placeholder="" [(ngModel)]="number" disabled="true" />
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div class="ui-g-12 ui-md-6 ui-lg-4 ui-md-offset-1">
             Programm Increment Name:
             <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
@@ -24,11 +24,11 @@
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
             <p>Product:</p>
             <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-2">
+          <div class="ui-g-12 ui-md-6 ui-lg-2 ui-md-offset-1">
             <p>Status:</p>
             <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
@@ -36,7 +36,7 @@
         <div class="ui-grid-row">
           <div class=" ui-md-offset-1">
             Business Objectives:
-            <textarea [rows]="6" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="business_objectives"></textarea>
+            <textarea [rows]="6" [cols]="58" pInputTextarea autoResize="autoResize" [(ngModel)]="business_objectives"></textarea>
           </div>
         </div>
         <div class="ui-grid-row" >

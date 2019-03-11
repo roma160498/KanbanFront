@@ -17,7 +17,6 @@
             <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="classification_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
           </div>
-          
         </div>
         <div class="ui-grid-row">
             <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
@@ -26,18 +25,18 @@
               </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-3 ui-md-offset-1">
             <p>Feature:</p>
             <p-dropdown class="requiredField" [options]="featureList && featureList.options" [(ngModel)]="feature_id" placeholder="Select" [showClear]="true"
               (onChange)="featureSelectHandler($event)"></p-dropdown>
           </div>
-          <div>
+          <div class="ui-g-12 ui-md-8 ui-lg-3">
             <p>Iteration:</p>
             <p-dropdown [options]="iterationList && iterationList.options" [(ngModel)]="iteration_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
-        <div class="ui-lg-offset-1">
+        <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
           <p>Team:</p>
           <p-dropdown [options]="teamList && teamList.options" [(ngModel)]="team_id" placeholder="Select" [showClear]="true" 
           (onChange)="teamSelectHandler($event)"></p-dropdown>
@@ -46,10 +45,6 @@
           <p>Assignee:</p>
           <p-dropdown [options]="userList && userList.options" [(ngModel)]="user_id" placeholder="Select" [showClear]="true"></p-dropdown>
         </div>
-        <div class="ui-lg-offset-1">
-            <p>State:</p>
-            <p-dropdown [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
-          </div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-g-12 ui-md-6 ui-lg-1 ui-md-offset-1">
@@ -61,13 +56,17 @@
           <p-dropdown [options]="completenessList && completenessList.options" [(ngModel)]="completeness" placeholder="Select"
             [showClear]="true"></p-dropdown>
         </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-1">
+            <p>State:</p>
+            <p-dropdown [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
       </div>
       <div class="ui-grid-row">
         <div class=" ui-md-offset-1">
           Description:
-          <textarea [rows]="6" [cols]="42" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
+          <textarea [rows]="6" [cols]="38" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
         </div>
-        <div class=" ui-md-offset-1">
+        <div class="">
           Acception criteria:
           <textarea [rows]="6" [cols]="32" pInputTextarea autoResize="autoResize" [(ngModel)]="accCriteria"></textarea>
         </div>

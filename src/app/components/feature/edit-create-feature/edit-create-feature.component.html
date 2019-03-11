@@ -18,13 +18,13 @@
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-6 ui-md-offset-1">
             Description:
-            <textarea [rows]="6" [cols]="42" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
+            <textarea [rows]="6" [cols]="45" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
           </div>
-          <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-8 ui-lg-4">
             Acception criteria:
-            <textarea [rows]="6" [cols]="30" pInputTextarea autoResize="autoResize" [(ngModel)]="acc_criteria"></textarea>
+            <textarea [rows]="6" [cols]="20" pInputTextarea autoResize="autoResize" [(ngModel)]="acc_criteria"></textarea>
           </div>
         </div>
         <div class="ui-grid-row">
@@ -42,33 +42,26 @@
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
             <p>Classification:</p>
             <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
           </div>
-        </div>
-        <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-4">
             <p>Program Increment:</p>
             <p-dropdown [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
             <p>Team:</p>
             <p-dropdown [options]="teamList && teamList.options" [(ngModel)]="team_id" placeholder="Select" [showClear]="true"></p-dropdown>
-          </div>
-        </div>
-        <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          </div><div class="ui-g-12 ui-md-8 ui-lg-2">
             <p>Product:</p>
             <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
           </div>
-        </div>
-        <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
             <p>Status:</p>
             <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select"
               [showClear]="true"></p-dropdown>

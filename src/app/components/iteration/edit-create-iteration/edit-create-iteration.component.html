@@ -8,7 +8,7 @@
             Iteration Number:
             <input pInputText type="text" placeholder="" [(ngModel)]="number" disabled="true" />
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div class="ui-g-12 ui-md-6 ui-lg-4 ui-md-offset-1">
             Iteration Name:
             <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-3 ui-md-offset-1">
             <p>Program Increment:</p>
             <p-dropdown class="requiredField" [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true" (onChange)="incrementSelectHandler($event)"></p-dropdown>
           </div>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="ui-grid-row">
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-3 ui-md-offset-1">
             <p>Completeness: {{completeness}}/{{story_points}} story points</p>
             <p-progressBar [value]="completePercent"></p-progressBar>
           </div>
