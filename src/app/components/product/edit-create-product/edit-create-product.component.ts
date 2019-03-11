@@ -41,15 +41,12 @@ export class EditCreateProductComponent implements OnInit {
 		];
 		this.featureCols = [
 			{ field: 'name', header: 'Name' },
-			{ field: 'description', header: 'Description' },
-			{ field: 'acc_criteria', header: 'Acception criteria' },
+			{ field: 'increment_number', header: 'Program Increment' },
 			{ field: 'creator_name', header: 'Creator' },
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },
 			{ field: 'status_name', header: 'Status' },
-			{ field: 'created_on', header: 'Created' },
-			{ field: 'modified_on', header: 'Modified' },
-			{ field: 'closed_on', header: 'Closed' }
+			{ field: 'isClosed', header: 'Created' }
 		];
 		this.incrementCols = [
 			{ field: 'number', header: 'Number' },

@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Product } from '../models/product';
 import { DateHelperService } from './date-helper.service';
+import { Feature } from '../models/feature';
+import { SequenceHelperService } from './sequence-helper.service';
 
 @Injectable()
 export class ProductService {
-	constructor(private http: HttpClient, private dateHelper: DateHelperService) { }
+	constructor(private http: HttpClient, private dateHelper: DateHelperService, private sequenceHelper: SequenceHelperService) { }
 	getProduct(args): Observable<Product[]> {
 		return this.http.get('http://localhost:3000/products', {
 			withCredentials: true, params: {
@@ -93,11 +95,16 @@ export class ProductService {
 				'properties': args.properties
 			}
 		}).
-			map((response: Response) => {
-				return response
-			}).catch(e => {
-				return Observable.throw(e);
+		map((response: Feature[]) => {
+			response.forEach(element => {
+				element.increment_number = this.sequenceHelper.getSequenceFor('PI-', 6, element.increment_id);
+				element.isClosed = !!element.closed_on;
+				
 			});
+			return response
+		}).catch(e => {
+			return Observable.throw(e);
+		});
 	}
 	getIncrementsOfProductCount(args, productId): Observable<Product[]> {
 		return this.http.get('http://localhost:3000/products/' + productId + '/increments', {

@@ -40,6 +40,7 @@ export class TableIssuesComponent implements OnInit {
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
+			{ field: 'isClosed', header: 'Closed' }
 		];
 		this.getIssues(null);
 	}

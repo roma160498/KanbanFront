@@ -7,6 +7,7 @@ export class Feature {
     modified_on: string;
     created_on: string;
     closed_on: string;
+    isClosed: boolean;
     creater_id: string;
     creator_name: string;
     type_id: string;

@@ -13,4 +13,8 @@ export class DateHelperService {
 	getDateTimeFormat(dateIn) {
 		return dateIn.toLocaleString();
 	}
+
+	getTimeFormat(dateIn) {
+		return this.getDateTimeFormat(dateIn).slice(12);
+	}
 }

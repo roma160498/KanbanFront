@@ -28,4 +28,5 @@ export class Issue {
     modified_on: string;
     created_on: string;
     closed_on: string;
+    isClosed: boolean;
 }

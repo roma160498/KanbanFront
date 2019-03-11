@@ -50,7 +50,11 @@ export class IssuePageComponent implements OnInit {
 			this.editComponent.completeness = issue.completeness;
 			this.editComponent.description = issue.description;
 			this.editComponent.accCriteria = issue.accCriteria;
+			this.editComponent.closed_on = issue.closed_on;
+			this.editComponent.created_on = issue.created_on;
+			this.editComponent.modified_on = issue.modified_on;
 			this.editComponent.selectedIssue = issue;
+			this.editComponent.updateIssueActionButton();
 			this.editComponent.teamSelectHandler({value: issue.team_id}, issue.status_id);
 			this.editMode = true;
 		} else {

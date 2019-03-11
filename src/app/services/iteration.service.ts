@@ -93,6 +93,7 @@ export class IterationService {
 				element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
 				element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
 				element.feature_number = this.sequenceHelper.getSequenceFor('F-', 6, element.feature_id);
+				element.isClosed = !!element.closed_on;
 			});
 			return response
 		}).catch(e => {

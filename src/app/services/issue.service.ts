@@ -24,6 +24,10 @@ export class IssueService {
 					element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
 					element.feature_number = this.sequenceHelper.getSequenceFor('F-', 6, element.feature_id);
 					element.iteration_number = this.sequenceHelper.getSequenceFor('IT-', 6, element.iteration_id);
+					element.isClosed = !!element.closed_on;
+					element.closed_on = element.closed_on ? this.dateHelper.getDateFormat(new Date(element.closed_on)) + ' ' + this.dateHelper.getTimeFormat(new Date(element.closed_on)) : null;
+					element.created_on = element.created_on ? this.dateHelper.getDateFormat(new Date(element.created_on)) + ' ' + this.dateHelper.getTimeFormat(new Date(element.created_on)): null;
+					element.modified_on = element.modified_on ? this.dateHelper.getDateFormat(new Date(element.modified_on)) + ' ' + this.dateHelper.getTimeFormat(new Date(element.modified_on)): null;
 				});
 				return response
 			}).catch(e => {

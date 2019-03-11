@@ -99,6 +99,7 @@ export class EditCreateTeamComponent implements OnInit {
 			{ field: 'status_name', header: 'Status' },
 			{ field: 'user_fullname', header: 'Assignee' },
 			{ field: 'story_points', header: 'Story Points' },
+			{ field: 'isClosed', header: 'Closed' }
 		];
 	}
 	toolbarActionHandler(action) {

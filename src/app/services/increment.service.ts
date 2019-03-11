@@ -142,6 +142,7 @@ export class IncrementService {
 				response.forEach(element => {
 					element.number = this.sequenceHelper.getSequenceFor('F-', 6, element.id);
 					element.increment_number = this.sequenceHelper.getSequenceFor('PI-', 6, element.increment_id);
+					element.isClosed = !!element.closed_on;
 				});
 				return response
 			}).catch(e => {

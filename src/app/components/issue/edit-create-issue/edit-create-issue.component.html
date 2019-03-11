@@ -17,6 +17,13 @@
             <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="classification_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
           </div>
+          
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
+                <br>
+                <button pButton type="button" [disabled]="!selectedIssue" [icon]="issueActionIcon" [label]="issueActionLabel" (click)="closeIssue()"></button>
+              </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-md-offset-1">
@@ -65,6 +72,20 @@
           <textarea [rows]="6" [cols]="32" pInputTextarea autoResize="autoResize" [(ngModel)]="accCriteria"></textarea>
         </div>
       </div>
+      <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
+            Created on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="created_on" />
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            Modified on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="modified_on" />
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            Closed on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="closed_on" />
+          </div>
+        </div>
   </div>
   <p-footer>
     <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>

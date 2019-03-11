@@ -71,13 +71,14 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import {CheckboxModule} from 'primeng/checkbox';
 import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 //import {MessageService} from 'primeng/components/common/messageservice';
 import {DragDropModule} from 'primeng/dragdrop';
 import {ListboxModule} from 'primeng/listbox';
 import {InplaceModule} from 'primeng/inplace';
 import {BlockUIModule} from 'primeng/blockui';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
-import { MentionModule } from 'angular-mentions/mention';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -234,11 +235,12 @@ const appRoutes: Routes =[
     CheckboxModule,
     DragDropModule,
     CardModule,
-    MentionModule,
     ListboxModule,
     InplaceModule,
     DialogModule,
-    BlockUIModule
+    BlockUIModule,
+    ToggleButtonModule,
+    RadioButtonModule
     //NgxDnDModule
    // MessageService
     

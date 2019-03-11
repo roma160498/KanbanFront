@@ -70,9 +70,7 @@ export class EditCreateIncrementComponent implements OnInit {
 			{ field: 'type_name', header: 'Classification' },
 			{ field: 'status_name', header: 'Status' },
 			{ field: 'product_name', header: 'Product' },
-			{ field: 'created_on', header: 'Created' },
-			{ field: 'modified_on', header: 'Modified' },
-			{ field: 'closed_on', header: 'Closed' }
+			{ field: 'isClosed', header: 'Closed' }
     ];
     this.productService.getProduct({}).subscribe(items => {
       this.productList.options = items.map(el => {

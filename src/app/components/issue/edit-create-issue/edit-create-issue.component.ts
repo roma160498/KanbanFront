@@ -31,8 +31,14 @@ export class EditCreateIssueComponent implements OnInit {
 	description: string = '';
 	selectedIssues: Issue[];
 	editMode: string;
+	isClosed: boolean = false;
+	closed_on: string = '';
+	created_on: string = '';
+	modified_on: string = '';
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 	@Input() relationshipPermissions: any;
+	issueActionIcon: string = 'pi pi-lock';
+	issueActionLabel: string = 'Close issue';
 
 	teamList: any = {};
 	team_id: any = null;
@@ -134,6 +140,10 @@ export class EditCreateIssueComponent implements OnInit {
 		debugger;
 		const issue = new Issue();
 		if (action === 'save') {
+			if (this.isClosed) {
+				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Issue is closed. You can't edit closed issues.` });
+				return;
+			}
 			if (this._isInputDataInvalid()) {
 				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Some of required fields are empty.` });
 				return;
@@ -173,7 +183,7 @@ export class EditCreateIssueComponent implements OnInit {
 			} else if (this.editMode === 'edit') {
 
 				for (let key in this.selectedIssue) {
-					if (this[key] !== this.selectedIssue[key] && key != 'id') {
+					if (this[key] !== this.selectedIssue[key] && key != 'id' && key != 'isClosed') {
 						issue[key] = this[key]
 					}
 				}
@@ -266,5 +276,43 @@ export class EditCreateIssueComponent implements OnInit {
 			});
 			this.status_id = idToSelect ? idToSelect : items[0] && items[0].id;
 		});
+	}
+
+	closeIssue() {
+		debugger;
+		const issue = new Issue()
+		if (!this.isClosed) {
+			const time = new Date();;
+			issue.closed_on = this.dateHelper.getDateFormat(time) + ' ' + this.dateHelper.getTimeFormat(time);
+		} else {
+			issue.closed_on = null;
+		}
+		issue.story_points = this.selectedIssue.story_points;
+		issue.iteration_id = this.selectedIssue.iteration_id;
+		this.selectedIssue.isClosed = this.isClosed;
+		this.issueService.updateIssue(issue, this.selectedIssue.id).subscribe((result) => {
+			if (result) {
+				debugger;
+				this.closed_on = this.selectedIssue.closed_on = issue.closed_on;
+				this.updateIssueActionButton();
+				if (this.isClosed) {
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue closed successfully.` });
+				} else {
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: `Issue reopened successfully.` });
+				}
+			}
+		});
+	}
+
+	updateIssueActionButton() {
+		if (this.selectedIssue.closed_on) {
+			this.isClosed = true;
+			this.issueActionIcon = 'pi pi-unlock';
+			this.issueActionLabel = 'Reopen issue';
+		} else {
+			this.isClosed = false;
+			this.issueActionIcon = 'pi pi-lock';
+			this.issueActionLabel = 'Close issue';
+		}
 	}
 }

@@ -11,10 +11,12 @@ import { CommentService } from '../../services/comment.service';
 import { Comment } from '../../models/comment';
 import { DateHelperService } from '../../services/date-helper.service';
 import { TeamService } from '../../services/team.service';
+import { MessageService } from 'primeng/components/common/messageservice';
 @Component({
 	selector: 'app-kanban-board',
 	templateUrl: './kanban-board.component.html',
-	styleUrls: ['./kanban-board.component.css']
+	styleUrls: ['./kanban-board.component.css'],
+	providers: [MessageService]
 })
 export class KanbanBoardComponent implements OnInit {
 	@ViewChild('sidenav') sidenav: any;
@@ -43,11 +45,12 @@ export class KanbanBoardComponent implements OnInit {
 	comments: any[] = [];
 	issueToOpenAtFirstInfo: any = null;
 	isSpecialTeamTabOpened: boolean = false;
+	displayMode: string = 'all';
 
 	draggedIssue: any;
 	constructor(private userService: UserService, private sequenceHelper: SequenceHelperService,
 	private issueService: IssueService, private iteartionService: IterationService, private commentService: CommentService,
-private dateHelper: DateHelperService, private teamService: TeamService) {
+private dateHelper: DateHelperService, private teamService: TeamService, private messageService: MessageService) {
 
 	}
 	xcoords: any = 0;
@@ -88,6 +91,7 @@ debugger;
 
 	_initialSetup() {
 		this.userService.getKanbanForUser({}, this.currentUserId).subscribe(result => {
+			debugger;
 			this.userBoards = result;debugger;
 			this.teamService.getTeam({}).subscribe(items => {
 				debugger;
@@ -177,7 +181,9 @@ debugger;
 	// 	mentionSelect: (item: any) => this.mentionUsers.push('@' + item.id + item.name)
 	//   }
 	dragStart(event, issue: any) {
-		this.draggedIssue = issue;
+		if (!issue.isClosed) {
+			this.draggedIssue = issue;
+		}
 	}
 
 	dragEnd(event) {
@@ -201,7 +207,8 @@ debugger;
 				
 				this.draggedIssue = null;
 			});
-
+		} else {
+			this.messageService.add({ severity: 'info', summary: 'Attention', detail: `Issue state could not be changed because issue is closed.` });	
 		}
 	}
 
@@ -239,7 +246,19 @@ debugger;
 	needToDisplayIssueCard(issue) {
 		const afterUserFiltering = this.userFilterId ? issue.userId === this.userFilterId || !issue.userId && this.userFilterId === -1 : true;
 		const afterIterationFiltering = this.iterationFilterId ? issue.iteration === this.iterationFilterId  || !issue.iteration && this.iterationFilterId === -1 : true;
-		return afterUserFiltering && afterIterationFiltering;
+		let showWithMode;
+		switch (this.displayMode) {
+			case 'all':
+				showWithMode = true; 
+				break;
+			case 'only': 
+				showWithMode = issue.isClosed;
+				break;
+			case 'without': 
+				showWithMode = !issue.isClosed;
+				break;
+		}
+		return afterUserFiltering && afterIterationFiltering && showWithMode;
 	}
 	issueCardClick(issue) {
 		this.clickedIssue = issue;
@@ -354,5 +373,9 @@ debugger;
 		debugger;
 			this.specialTeamBoard = items;
 		})
+	}
+
+	showHideClosedIssues(event) {
+		const isChecked = event.checked;
 	}
 }

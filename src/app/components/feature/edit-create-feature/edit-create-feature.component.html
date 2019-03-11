@@ -8,25 +8,44 @@
             Feature Number:
             <input pInputText type="text" placeholder="" [(ngModel)]="number" disabled="true" />
           </div>
-          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ">
             Name:
             <input class="requiredField" pInputText type="text" placeholder="" [(ngModel)]="name" />
           </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <br>
+            <button pButton type="button" [disabled]="!selectedFeature" [icon]="featureActionIcon" [label]="featureActionLabel" (click)="closeFeature()"></button>
+          </div>
         </div>
         <div class="ui-grid-row">
-          <div class=" ui-md-offset-1">
+          <div class="ui-g-12 ui-md-offset-1">
             Description:
             <textarea [rows]="6" [cols]="42" pInputTextarea autoResize="autoResize" [(ngModel)]="description"></textarea>
           </div>
-          <div class=" ui-md-offset-1">
+          <div class="ui-g-12">
             Acception criteria:
             <textarea [rows]="6" [cols]="30" pInputTextarea autoResize="autoResize" [(ngModel)]="acc_criteria"></textarea>
           </div>
         </div>
         <div class="ui-grid-row">
+          <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
+            Created on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="created_on" />
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            Modified on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="modified_on" />
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            Closed on:
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="closed_on" />
+          </div>
+        </div>
+        <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Classification:</p>
-            <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select" [showClear]="true"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="classificationList && classificationList.options" [(ngModel)]="type_id" placeholder="Select"
+              [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
@@ -44,18 +63,21 @@
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
             <p>Product:</p>
-            <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select" [showClear]="true"></p-dropdown>
+            <p-dropdown class="requiredField" [options]="productList && productList.options" [(ngModel)]="product_id" placeholder="Select"
+              [showClear]="true"></p-dropdown>
           </div>
         </div>
         <div class="ui-grid-row">
-        <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
-          <p>Status:</p>
-          <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          <div class="ui-g-12 ui-md-8 ui-lg-4 ui-md-offset-1">
+            <p>Status:</p>
+            <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select"
+              [showClear]="true"></p-dropdown>
+          </div>
         </div>
-      </div>
-      <div class="ui-grid-row" >
+        <div class="ui-grid-row">
           <div class=" ui-md-offset-1">
-              <button [disabled]="!selectedFeature || !relationshipPermissions.issues.create" pButton type="button" icon="pi pi-plus" label="Crate Issue" (click)="createNewIssue()"></button>
+            <button [disabled]="!selectedFeature || !relationshipPermissions.issues.create" pButton type="button" icon="pi pi-plus" label="Crate Issue"
+              (click)="createNewIssue()"></button>
           </div>
         </div>
       </div>
@@ -63,14 +85,17 @@
         <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discard()"></button>
       </p-footer>
       <p-sidebar [(visible)]="isIssueFormVisible" [fullScreen]="true" [modal]="false" [dismissible]="false" (onHide)="onHideIssueForm()">
-          <div #newIssueForm></div>
+        <div #newIssueForm></div>
       </p-sidebar>
     </p-panel>
   </div>
   <div style="height: 50%; min-height: 50px;">
     <p-tabView>
       <p-tabPanel header="Issue Scope">
-        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="featureService" [relatedService]="issueService" [type]="'IssuesOfFeature'" [nativeCols]="issueCols" [cols]="allRelatedCols" [updatedItem]="selectedFeature" [relatedItem]="'Issue'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}" [canGet]="relationshipPermissions.issues.get"></app-relationship-table>
+        <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="featureService"
+          [relatedService]="issueService" [type]="'IssuesOfFeature'" [nativeCols]="issueCols" [cols]="allRelatedCols" [updatedItem]="selectedFeature"
+          [relatedItem]="'Issue'" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}"
+          [canGet]="relationshipPermissions.issues.get"></app-relationship-table>
       </p-tabPanel>
     </p-tabView>
   </div>

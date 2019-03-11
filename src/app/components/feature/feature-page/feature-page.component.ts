@@ -53,7 +53,11 @@ export class FeaturePageComponent implements OnInit {
 			this.editComponent.number = feature.number;
 			this.editComponent.increment_id = feature.increment_id;
 			this.editComponent.status_id = feature.status_id;
+			this.editComponent.closed_on = feature.closed_on;
+			this.editComponent.created_on = feature.created_on;
+			this.editComponent.modified_on = feature.modified_on;
 			this.editComponent.selectedFeature = feature;
+			this.editComponent.updateFeatureActionButton();
 			this.editMode = true;
 		} else {
 			this.editMode = false;

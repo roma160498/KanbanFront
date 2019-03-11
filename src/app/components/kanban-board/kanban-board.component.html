@@ -1,3 +1,4 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 <app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="null"
     [disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Kanban'" [iconName]="'board'"></app-items-toolbar>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -13,8 +14,8 @@
                 <button pButton type="button" icon="pi pi-pencil" label="Post" style="margin-left: 5px" (click)="postMessage()"></button>
             </div>
             <div style="padding-left: 5px;">
-                <app-comment [comments]="comments" [currentUserId]="currentUserId" [filteredMentionList]="filteredMentionList" [currentUserName]="currentUserName" [currentIssue]="clickedIssue"
-                    [level]="0"></app-comment>
+                <app-comment [comments]="comments" [currentUserId]="currentUserId" [filteredMentionList]="filteredMentionList" [currentUserName]="currentUserName"
+                    [currentIssue]="clickedIssue" [level]="0"></app-comment>
             </div>
         </div>
     </mat-sidenav>
@@ -26,6 +27,19 @@
                         placeholder="Filter by user" [showClear]="true"></p-dropdown>
                     <p-dropdown filter="true" [style]="{'width':'400px', 'margin': '10px'}" [options]="iterationsList && iterationsList.options"
                         [(ngModel)]="iterationFilterId" placeholder="Filter by iteration" [showClear]="true"></p-dropdown>
+                    <div class="ui-grid-row">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2">
+                                <p-radioButton name="disaplayMode" value="all" label="Show all issues" [(ngModel)]="displayMode" inputId="opt1"></p-radioButton>
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                <p-radioButton name="disaplayMode" value="only" label="Show only closed issues" [(ngModel)]="displayMode"
+                                    inputId="opt2"></p-radioButton>
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                <p-radioButton name="disaplayMode" value="without" label="Show without closed issues" [(ngModel)]="displayMode"
+                                    inputId="opt3"></p-radioButton>
+                        </div>
+                    </div>
                     <p-panel *ngFor="let board of userBoards" header="{{board.name}}" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
                         <div class="p-grid" style="width: -webkit-fill-available; display: -webkit-inline-box; overflow-x: auto;">
                             <div class="p-col" *ngFor="let col of board.states" style="min-width:280px; max-width:280px" pDroppable="{{board.name}}"
