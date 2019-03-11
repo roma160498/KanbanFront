@@ -133,3 +133,7 @@
     text-overflow: ellipsis; /* Многоточие */
     width: 580px;
 }
+
+* {
+    font-family: 'Rubik', sans-serif !important;
+}
