@@ -56,6 +56,11 @@ export class FeaturePageComponent implements OnInit {
 			this.editComponent.closed_on = feature.closed_on;
 			this.editComponent.created_on = feature.created_on;
 			this.editComponent.modified_on = feature.modified_on;
+			this.editComponent.ub_value = feature.ub_value;
+			this.editComponent.time_crit = feature.time_crit;
+			this.editComponent.risk_red = feature.risk_red;
+			this.editComponent.job_size = feature.job_size;
+			this.editComponent.wsjf = feature.wsjf;
 			this.editComponent.selectedFeature = feature;
 			this.editComponent.updateFeatureActionButton();
 			this.editMode = true;

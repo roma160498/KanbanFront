@@ -37,17 +37,25 @@ export class TableFeatureComponent implements OnInit {
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },
 			{ field: 'status_name', header: 'Status' },
+			{ field: 'wsjf', header: 'WSJF' },
 			{ field: 'product_name', header: 'Product' },
 			{ field: 'isClosed', header: 'Closed' }
 		];
-		this.getFeatures();
+		this.getFeatures(null);
 	}
 
-	getFeatures() {
+	getFeatures(idToSelect) {
 		if (this.canGet) {
 			this.featureService.getFeature({}).subscribe(features => {
+				debugger;
 				this.amountOfFeatures = features.length;
 				this.features = features;
+				if (idToSelect) {
+					const featureToSelect = features.find(el => el.id === idToSelect);
+					this.selectedFeatures.push(featureToSelect);
+					this.selectedFeature = featureToSelect;
+					this.onSelectUnselectRow({});					
+				}
 			});
 		}
 	}
@@ -68,7 +76,7 @@ export class TableFeatureComponent implements OnInit {
 				break;
 			}
 			case 'refresh': {
-				this._refreshGrid(table);
+				this._refreshGrid(table, null);
 				break;
 			}
 			case 'add': {
@@ -97,6 +105,7 @@ export class TableFeatureComponent implements OnInit {
 				this.resetTable();
 				const name = feature.currentValue.feature.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature ${name} created successfully.` });
+				this._refreshGrid(this.table, feature.currentValue.featureID);
 			}
 			if (feature.currentValue && !feature.currentValue.isNew) {
 				debugger;
@@ -109,6 +118,7 @@ export class TableFeatureComponent implements OnInit {
 				this.resetTable();
 				const name = feature.currentValue.updatedProps.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature ${name} updated successfully.` });
+				this._refreshGrid(this.table, feature.currentValue.featureID);
 			}
 		}
 	}
@@ -117,8 +127,8 @@ export class TableFeatureComponent implements OnInit {
 		this.selectedFeaturesOut.emit(this.selectedFeatures);
 	}
 
-	_refreshGrid(table) {
-		this.getFeatures();
+	_refreshGrid(table, idToSelect) {
+		this.getFeatures(idToSelect);
 		this.clearFilterInputs();
 	}
 

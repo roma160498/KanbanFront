@@ -46,6 +46,7 @@ export class EditCreateProductComponent implements OnInit {
 			{ field: 'team_name', header: 'Team' },
 			{ field: 'type_name', header: 'Classification' },
 			{ field: 'status_name', header: 'Status' },
+			{ field: 'wsjf', header: 'WSJF' },
 			{ field: 'isClosed', header: 'Created' }
 		];
 		this.incrementCols = [

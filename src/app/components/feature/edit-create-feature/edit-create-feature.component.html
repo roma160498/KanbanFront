@@ -40,6 +40,14 @@
             Closed on:
             <input disabled pInputText type="text" placeholder="" [(ngModel)]="closed_on" />
           </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <p>User-Business Value:</p>
+            <p-spinner size="30" [min]="0" [max]="100" [(ngModel)]="ub_value"></p-spinner>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <p>Time Criticality:</p>
+            <p-spinner size="30" [min]="0" [max]="100" [(ngModel)]="time_crit"></p-spinner>
+          </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-g-12 ui-md-8 ui-lg-2 ui-md-offset-1">
@@ -50,6 +58,14 @@
           <div class="ui-g-12 ui-md-8 ui-lg-4">
             <p>Program Increment:</p>
             <p-dropdown [options]="incrementList && incrementList.options" [(ngModel)]="increment_id" placeholder="Select" [showClear]="true"></p-dropdown>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <p>Risk Reduction:</p>
+            <p-spinner size="30" [min]="0" [max]="100" [(ngModel)]="risk_red"></p-spinner>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <p>Job Size:</p>
+            <p-spinner size="30" [min]="0" [max]="100" [(ngModel)]="job_size"></p-spinner>
           </div>
         </div>
         <div class="ui-grid-row">
@@ -65,6 +81,10 @@
             <p>Status:</p>
             <p-dropdown class="requiredField" [options]="statusList && statusList.options" [(ngModel)]="status_id" placeholder="Select"
               [showClear]="true"></p-dropdown>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-lg-2">
+            <p>WSJF:</p>
+            <input disabled pInputText type="text" placeholder="" [(ngModel)]="wsjf" />
           </div>
         </div>
         <div class="ui-grid-row">

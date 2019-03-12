@@ -11,7 +11,7 @@
         <div>{{userName}} {{userSurname}}</div>
       </button>
       <button mat-flat-button class="toolbar-button" (click)="logout()">Logout</button>
-      <p-overlayPanel #op [ngStyle]="{'width': '800px'}">
+      <p-overlayPanel id="changePasswordPanel"#op [ngStyle]="{'width': '800px'}">
         <div>
           <div id="inbox-wapper" style="width: 730px; max-height: 350px; overflow-y: auto;">
             <h2>New messages with you</h2>

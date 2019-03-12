@@ -72,6 +72,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import {SpinnerModule} from 'primeng/spinner';
 //import {MessageService} from 'primeng/components/common/messageservice';
 import {DragDropModule} from 'primeng/dragdrop';
 import {ListboxModule} from 'primeng/listbox';
@@ -240,7 +241,8 @@ const appRoutes: Routes =[
     DialogModule,
     BlockUIModule,
     ToggleButtonModule,
-    RadioButtonModule
+    RadioButtonModule,
+    SpinnerModule
     //NgxDnDModule
    // MessageService
     

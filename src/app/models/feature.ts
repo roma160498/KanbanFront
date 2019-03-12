@@ -21,4 +21,9 @@ export class Feature {
     increment_id: number;
     increment_name: string;
     increment_number: string;
+    ub_value: number;
+    time_crit: number;
+    risk_red: number;
+    job_size: number;
+    wsjf: number;
 }

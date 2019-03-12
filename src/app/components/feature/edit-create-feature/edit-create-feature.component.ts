@@ -36,7 +36,7 @@ export class EditCreateFeatureComponent implements OnInit {
 	classificationList: any = {};
 	type_id: any;
 	teamList: any = {};
-	team_id: any;
+	team_id: any = null;
 	productList: any = {};
 	product_id: any;
 	incrementList: any = {};
@@ -48,6 +48,11 @@ export class EditCreateFeatureComponent implements OnInit {
 	featureActionIcon: string = 'pi pi-lock';
 	featureActionLabel: string = 'Close feature';
 	isClosed: boolean = false;
+	ub_value: number = null;
+	time_crit: number = null;
+	risk_red: number = null;
+	job_size: number = null;
+	wsjf: number = null;
 
 	@Output() updatedFeatureOut: EventEmitter<any> = new EventEmitter();
 	@Output() isSavedResultSuccesOut: EventEmitter<boolean> = new EventEmitter();
@@ -134,6 +139,10 @@ export class EditCreateFeatureComponent implements OnInit {
 				feature.creater_id = localStorage.getItem('id');
 				feature.status_id = '1';// MOCK 
 				feature.increment_id = this.increment_id;
+				feature.job_size = this.job_size;
+				feature.risk_red = this.risk_red;
+				feature.time_crit = this.time_crit;
+				feature.ub_value = this.ub_value;
 				this.featureService.insertFeature(feature).subscribe((result) => {
 					if (result) {
 						this.updatedFeatureOut.emit({
@@ -193,6 +202,11 @@ export class EditCreateFeatureComponent implements OnInit {
 		this.increment_id = '';
 		this.selectedFeature = null;
 		this.status_id = 1;
+		this.ub_value = null;
+		this.time_crit = null;
+		this.risk_red = null;
+		this.job_size = null;
+		this.wsjf = null;
 	}
 
 	discard() {
