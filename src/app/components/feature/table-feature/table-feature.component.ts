@@ -47,7 +47,6 @@ export class TableFeatureComponent implements OnInit {
 	getFeatures(idToSelect) {
 		if (this.canGet) {
 			this.featureService.getFeature({}).subscribe(features => {
-				debugger;
 				this.amountOfFeatures = features.length;
 				this.features = features;
 				if (idToSelect) {
@@ -108,7 +107,6 @@ export class TableFeatureComponent implements OnInit {
 				this._refreshGrid(this.table, feature.currentValue.featureID);
 			}
 			if (feature.currentValue && !feature.currentValue.isNew) {
-				debugger;
 				const updatedFeature = this.features.find((value, index) => feature.currentValue.featureID == value.id);
 				for (let key of Object.keys(feature.currentValue.updatedProps)) {
 					if (feature.currentValue.updatedProps[key] !== undefined) {

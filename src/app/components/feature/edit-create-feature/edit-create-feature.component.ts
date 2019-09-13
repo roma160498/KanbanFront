@@ -119,7 +119,6 @@ export class EditCreateFeatureComponent implements OnInit {
 	}
 	toolbarActionHandler(action) {
 		const feature = new Feature();
-		debugger;
 		if (action === 'save') {
 			if (this.isClosed) {
 				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Feature is closed. You can't edit closed features.` });
@@ -157,7 +156,6 @@ export class EditCreateFeatureComponent implements OnInit {
 					}
 				})
 			} else if (this.editMode === 'edit') {
-				debugger;
 				for (let key in this.selectedFeature) {
 					if (this[key] !== this.selectedFeature[key] && key != 'id' && key != 'isClosed') {
 						feature[key] = this[key]
@@ -224,7 +222,6 @@ export class EditCreateFeatureComponent implements OnInit {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.issueFormComponent = this.componentLoaderService.addComponent(EditCreateIssueComponent);
 		// this.issueFormComponent.instance.increment_id = this.selectedIncrement.id;
-debugger;
 		this.issueFormComponent.instance.feature_id = this.selectedFeature.id;
 		this.issueFormComponent.instance.featureSelectHandler({});
 		this.issueFormComponent.instance.isPopupMode = true;
@@ -246,7 +243,6 @@ debugger;
 		this.selectedFeature.isClosed = this.isClosed;
 		this.featureService.updateFeature(feature, this.selectedFeature.id).subscribe((result) => {
 			if (result) {
-				debugger;
 				this.closed_on = this.selectedFeature.closed_on = feature.closed_on;
 				this.updateFeatureActionButton();
 				if (this.isClosed) {

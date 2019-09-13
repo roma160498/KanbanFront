@@ -162,7 +162,6 @@ export class EditCreateTeamComponent implements OnInit {
 		}
 		if (action === 'edit') {
 			this.teamService.getKanbanOfTeam({}, this.selectedTeam.id).subscribe((result) => {
-				debugger;
 				this.kanbanColumns = result;
 			});
 		}
@@ -198,7 +197,6 @@ export class EditCreateTeamComponent implements OnInit {
     }
 
     removeKanbanColumn(i) {
-		debugger;
 		const col = this.kanbanColumns[i];
 		this.kanbanColumns.forEach((el, index) => {
 			if (index >= i) {

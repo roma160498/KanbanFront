@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Comment } from '../models/comment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CommentService {
@@ -9,7 +10,7 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 	insertComment(comment: Comment) {
 		const body = { comment: comment };
-		return this.http.post('http://localhost:3000/comments/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/comments/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -22,7 +23,7 @@ export class CommentService {
 	}
 
 	getMessagesWithUser(userId): Observable<any[]> {
-		return this.http.get('http://localhost:3000/mentions/' + userId, {
+		return this.http.get(environment.baseServerURL + '/mentions/' + userId, {
 			withCredentials: true
 		}).
 			map((response: Response) => {
@@ -33,7 +34,7 @@ export class CommentService {
 	}
 
 	removeMentionsNofication(userId): Observable<any[]> {
-		return this.http.delete('http://localhost:3000/mentions/' + userId, {
+		return this.http.delete(environment.baseServerURL + '/mentions/' + userId, {
 			withCredentials: true
 		}).
 			map((response: Response) => {

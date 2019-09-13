@@ -80,7 +80,6 @@ private dateHelper: DateHelperService, private teamService: TeamService, private
 				this.showMentionList = false;
 			}
 		}.bind(this));
-debugger;
 		this.currentUserId = localStorage.getItem('id');
 		const login = localStorage.getItem('login');
 		const name = localStorage.getItem('userName');
@@ -91,10 +90,8 @@ debugger;
 
 	_initialSetup() {
 		this.userService.getKanbanForUser({}, this.currentUserId).subscribe(result => {
-			debugger;
-			this.userBoards = result;debugger;
+			this.userBoards = result;
 			this.teamService.getTeam({}).subscribe(items => {
-				debugger;
 				this.teamsList.options = items.map(el => {
 					return {
 						label: el.name,
@@ -117,7 +114,6 @@ debugger;
 							}
 						}
 					} else {
-						debugger;
 						const teamFromList = this.teamsList.options.filter(el => el.value === this.issueToOpenAtFirstInfo.teamId);
 						if (teamFromList) {
 							this.teamService.getKanbanBoardForTeam({}, teamFromList[0].value).subscribe(board => {
@@ -191,8 +187,6 @@ debugger;
 	}
 
 	drop(event, col) {
-		console.log(col)
-		debugger;
 		 if (this.draggedIssue) {
 			col.issues.push(this.draggedIssue);
 			const team = this.userBoards.filter(el => el.id === this.draggedIssue.teamId);
@@ -201,7 +195,6 @@ debugger;
 			this.draggedIssue.stateId = col.id;
 			state[0].issues.splice(index, 1);
 			const updatedIssue = new Issue();
-			debugger;
 			updatedIssue.status_id = col.id;
 			this.issueService.updateIssue(updatedIssue, this.draggedIssue.id).subscribe((result) => {
 				
@@ -270,7 +263,6 @@ debugger;
 		this.valueToFilter = '';
 		this.filteredMentionList = this.userForMentions.slice(0);
 		this.issueService.getComments(this.clickedIssue.id).subscribe(items=> {
-			debugger;
 			this.comments = items;
 		})
 	}
@@ -296,7 +288,6 @@ debugger;
     };
 	mentionSelected(ev) {
 		const selection = this.saveSelection();
-		debugger;
 		const lastIndex = document.getElementById('messageArea').innerText.lastIndexOf('@');
 		const offset = window.getSelection().anchorOffset;
 		document.getElementById('messageArea').innerText = document.getElementById('messageArea').innerText.slice(0, lastIndex + 1);
@@ -309,7 +300,6 @@ debugger;
 		this.restoreSelection(selection);
 	}
 	filterMentionList(key) {
-		debugger;
 		const regex = new RegExp(`^${key}`, 'i');
 		this.filteredMentionList = this.userForMentions.filter((el) =>  regex.test(el.name));
 	}
@@ -333,10 +323,9 @@ debugger;
 		comment.parentComment_id = null;
 		comment.user_name = this.currentUserName;
 		comment.mentions = this.selectedMentionUsers;
-		debugger;
 		comment.date = this.dateHelper.getDateTimeFormat(new Date());
+		debugger;
 		this.commentService.insertComment(comment).subscribe(res=> {
-			debugger;
 			comment.id = res.insertId;
 			if (!comment.comments) {
 				comment.comments = [];
@@ -367,10 +356,8 @@ debugger;
 		}
 	}
 	teamSelectHandler(event) {
-		debugger;
 		this.teamService.getKanbanBoardForTeam({}, event.value).subscribe(items => {
 
-		debugger;
 			this.specialTeamBoard = items;
 		})
 	}

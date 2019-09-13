@@ -90,6 +90,7 @@ export class TableTeamsComponent implements OnInit {
 				this.resetTable();
 				const name = team.currentValue.team.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Team ${name} created successfully.` });
+				this._refreshGrid(this.table);
 			}
 			if (team.currentValue && !team.currentValue.isNew) {
 				const updatedTeam = this.teams.find((value, index) => team.currentValue.teamID == value.id);

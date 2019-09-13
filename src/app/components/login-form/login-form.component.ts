@@ -61,7 +61,6 @@ export class LoginFormComponent implements OnInit {
     }
     this.authenticateService.login(this.username, this.password).subscribe(res => {
 
-      debugger;
       if (res.status === 200) {
         localStorage.setItem('login', res.user.login);
         localStorage.setItem('userName', res.user.name);

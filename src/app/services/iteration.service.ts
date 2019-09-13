@@ -5,6 +5,7 @@ import { Iteration } from '../models/iteration';
 import { DateHelperService } from './date-helper.service';
 import { SequenceHelperService } from './sequence-helper.service';
 import { Issue } from '../models/issue';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class IterationService {
@@ -12,7 +13,7 @@ export class IterationService {
   constructor(private http: HttpClient, private dateHelper: DateHelperService,
   private sequenceHelper: SequenceHelperService) { }
   getIteration(args): Observable<Iteration[]> {
-		return this.http.get('http://localhost:3000/iterations', {
+		return this.http.get(environment.baseServerURL + '/iterations', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -32,7 +33,7 @@ export class IterationService {
 			});
 	}
 	getIterationCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/iterations', {
+		return this.http.get(environment.baseServerURL + '/iterations', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -48,7 +49,7 @@ export class IterationService {
 	}
 	insertIteration(iteration: Iteration) {
 		const body = { iteration: iteration };
-		return this.http.post('http://localhost:3000/iterations/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/iterations/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -60,7 +61,7 @@ export class IterationService {
 			});
 	}
 	deleteIteration(args) {
-		return this.http.delete('http://localhost:3000/iterations/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/iterations/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -69,7 +70,7 @@ export class IterationService {
 	}
 	updateIteration(iteration: Iteration, id) {
 		const body = { iteration: iteration };
-		return this.http.put('http://localhost:3000/iterations/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/iterations/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -81,7 +82,7 @@ export class IterationService {
 			});
 	}
 	getIssuesOfIteration(args, featureId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/iterations/' + featureId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/iterations/' + featureId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -101,7 +102,7 @@ export class IterationService {
 		});
 	}
 	getIssuesOfIterationCount(args, featureId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/iterations/' + featureId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/iterations/' + featureId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -116,7 +117,7 @@ export class IterationService {
 			});
 	}
 	getIterationStates(): Observable<any[]> {
-		return this.http.get('http://localhost:3000/iterationstates/', {
+		return this.http.get(environment.baseServerURL + '/iterationstates/', {
 			withCredentials: true
 		}).
 			map((response: Response) => {

@@ -6,6 +6,7 @@ import { DateHelperService } from './date-helper.service';
 import { SequenceHelperService } from './sequence-helper.service';
 import { Iteration } from '../models/iteration';
 import { Feature } from '../models/feature';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class IncrementService {
@@ -13,7 +14,7 @@ export class IncrementService {
 	constructor(private http: HttpClient, private dateHelper: DateHelperService,
 		private sequenceHelper: SequenceHelperService) { }
 	getIncrement(args): Observable<Increment[]> {
-		return this.http.get('http://localhost:3000/increments', {
+		return this.http.get(environment.baseServerURL + '/increments', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -32,7 +33,7 @@ export class IncrementService {
 			});
 	}
 	getIncrementCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/increments', {
+		return this.http.get(environment.baseServerURL + '/increments', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -48,7 +49,7 @@ export class IncrementService {
 	}
 	insertIncrement(increment: Increment) {
 		const body = { increment: increment };
-		return this.http.post('http://localhost:3000/increments/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/increments/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -60,7 +61,7 @@ export class IncrementService {
 			});
 	}
 	deleteIncrement(args) {
-		return this.http.delete('http://localhost:3000/increments/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/increments/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -69,7 +70,7 @@ export class IncrementService {
 	}
 	updateIncrement(increment: Increment, id) {
 		const body = { increment: increment };
-		return this.http.put('http://localhost:3000/increments/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/increments/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -81,7 +82,7 @@ export class IncrementService {
 			});
 	}
 	getIterationsOfIncrementCount(args, incrementId): Observable<Iteration[]> {
-		return this.http.get('http://localhost:3000/increments/' + incrementId + '/iterations', {
+		return this.http.get(environment.baseServerURL + '/increments/' + incrementId + '/iterations', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -96,7 +97,7 @@ export class IncrementService {
 			});
 	}
 	getIterationsOfIncrement(args, incrementId): Observable<Iteration[]> {
-		return this.http.get('http://localhost:3000/increments/' + incrementId + '/iterations', {
+		return this.http.get(environment.baseServerURL + '/increments/' + incrementId + '/iterations', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -116,7 +117,7 @@ export class IncrementService {
 			});
 	}
 	getFeaturesOfIncrementCount(args, featureId): Observable<Feature[]> {
-		return this.http.get('http://localhost:3000/increments/' + featureId + '/features', {
+		return this.http.get(environment.baseServerURL + '/increments/' + featureId + '/features', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -131,7 +132,7 @@ export class IncrementService {
 			});
 	}
 	getFeaturesOfIncrement(args, featureId): Observable<Feature[]> {
-		return this.http.get('http://localhost:3000/increments/' + featureId + '/features', {
+		return this.http.get(environment.baseServerURL + '/increments/' + featureId + '/features', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -150,7 +151,7 @@ export class IncrementService {
 			});
 	}
 	getIncrementStates() : Observable<any[]>{
-		return this.http.get('http://localhost:3000/incrementstates/', {
+		return this.http.get(environment.baseServerURL + '/incrementstates/', {
 			withCredentials: true
 		}).
 			map((response: any[]) => {

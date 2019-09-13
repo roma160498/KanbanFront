@@ -50,7 +50,6 @@ export class TableIssuesComponent implements OnInit {
 			this.issueService.getIssue({}).subscribe(issues => {
 				this.amountOfIssues = issues.length;
 				this.issues = issues;
-				debugger;
 				if (idToSelect) {
 					const issueToSelect = issues.find(el => el.id === idToSelect);
 					this.selectedIssues.push(issueToSelect);

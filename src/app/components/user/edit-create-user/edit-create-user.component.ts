@@ -79,7 +79,6 @@ export class EditCreateUserComponent implements OnInit {
 				}
 				this.userService.updateUser(user, this.selectedUser.id).subscribe((result)=>{
 					if (result) {
-						debugger;
 						this.updatedUserOut.emit({
 							isNew: false,
 							userID: this.selectedUser.id,

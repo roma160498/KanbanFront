@@ -22,6 +22,7 @@ import { IssuePageComponent } from '../issue/issue-page/issue-page.component';
 import { PermissionPageComponent } from '../permission/permission-page/permission-page.component';
 import { CommentService } from '../../services/comment.service';
 import { SequenceHelperService } from '../../services/sequence-helper.service';
+import { DateHelperService } from '../../services/date-helper.service';
 @Component({
 	selector: 'app-admin-form',
 	templateUrl: './admin-form.component.html',
@@ -35,7 +36,7 @@ export class AdminFormComponent implements OnInit {
 	color: string;
 	constructor(private authenticateService: AuthenticateService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
 		private componentLoaderService: ComponentLoaderService, private route: ActivatedRoute, private commentService: CommentService,
-	private sequenceHelperService: SequenceHelperService) {
+	private sequenceHelperService: SequenceHelperService, private dateService: DateHelperService) {
 		iconRegistry.addSvgIcon('sidenav', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/sidenav.svg'));
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
 		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
@@ -66,13 +67,13 @@ export class AdminFormComponent implements OnInit {
 	notificationsAmount: number;
 	notifications: any[];
 	ngOnInit() {
-		debugger;
 		this.userName = localStorage.getItem('userName');
 		this.userSurname = localStorage.getItem('userSurname');
 		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
 		this.commentService.getMessagesWithUser(localStorage.getItem('id')).subscribe(items => {
 			this.notificationsAmount = items.length;
 			this.notifications = items;
+			debugger;
 		})
 	}
 

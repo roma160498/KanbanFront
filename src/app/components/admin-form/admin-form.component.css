@@ -1,6 +1,6 @@
 
 
-:host ::ng-deep .ui-overlaypanel[id='changePasswordPanel'] {
+:host ::ng-deep #changePasswordPanel .ui-overlaypanel {
     left: -500px !important;
     width: 750px;
 }

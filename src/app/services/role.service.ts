@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Role } from '../models/role';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class RoleService {
@@ -9,7 +10,7 @@ export class RoleService {
   constructor(private http: HttpClient) { }
 
   getRole(args): Observable<Role[]> {
-		return this.http.get('http://localhost:3000/roles', {
+		return this.http.get(environment.baseServerURL + '/roles', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -24,7 +25,7 @@ export class RoleService {
 	}
 	getRoleByName(name): Observable<Role[]> {
 		console.log('name is ' + name)
-		return this.http.get('http://localhost:3000/roles', {
+		return this.http.get(environment.baseServerURL + '/roles', {
 			withCredentials: true, params: {
 				'name': name
 			}

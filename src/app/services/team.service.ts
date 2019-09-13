@@ -5,6 +5,7 @@ import { Team } from '../models/team';
 import { RoleService } from './role.service';
 import { Issue } from '../models/issue';
 import { SequenceHelperService } from './sequence-helper.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class TeamService {
@@ -12,7 +13,7 @@ export class TeamService {
 	constructor(private http: HttpClient, private roleService: RoleService,
 		private sequenceHelper: SequenceHelperService) { }
 	getTeam(args): Observable<Team[]> {
-		return this.http.get('http://localhost:3000/teams', {
+		return this.http.get(environment.baseServerURL + '/teams', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -26,7 +27,7 @@ export class TeamService {
 			});
 	}
 	getUsersOfTeam(args, teamId): Observable<Team[]> {
-		return this.http.get('http://localhost:3000/teams/' + teamId + '/users', {
+		return this.http.get(environment.baseServerURL + '/teams/' + teamId + '/users', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -40,7 +41,7 @@ export class TeamService {
 			});
 	}
 	getUsersOfTeamCount(args, teamId): Observable<Team[]> {
-		return this.http.get('http://localhost:3000/teams/' + teamId + '/users', {
+		return this.http.get(environment.baseServerURL + '/teams/' + teamId + '/users', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -55,7 +56,7 @@ export class TeamService {
 			});
 	}
 	deleteUsersOfTeam(teamId, userId) {
-		return this.http.delete(`http://localhost:3000/teams/${teamId}/users/${userId}`, { withCredentials: true }).
+		return this.http.delete(`${environment.baseServerURL}/teams/${teamId}/users/${userId}`, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -64,7 +65,7 @@ export class TeamService {
 	}
 	updateUsersOfTeam(teamId, userId, item) {
 			const body = { item: item };
-			return this.http.put('http://localhost:3000/teams/' + teamId + '/users/' + userId, body, { withCredentials: true }).
+			return this.http.put(environment.baseServerURL + '/teams/' + teamId + '/users/' + userId, body, { withCredentials: true }).
 				map((response: Response) => {
 					if (response.status == 201) {
 						return response;
@@ -77,7 +78,7 @@ export class TeamService {
 
 	}
 	getTeamCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/teams', {
+		return this.http.get(environment.baseServerURL + '/teams', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -92,7 +93,7 @@ export class TeamService {
 			});
 	}
 	deleteTeam(args) {
-		return this.http.delete('http://localhost:3000/teams/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/teams/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -102,7 +103,7 @@ export class TeamService {
 	insertUsersOfTeam(teamId, users) {
 		const body = { users: users };
 		console.log(body);
-		return this.http.post(`http://localhost:3000/teams/${teamId}/users`, body, { withCredentials: true }).
+		return this.http.post(`${environment.baseServerURL}/teams/${teamId}/users`, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -115,7 +116,7 @@ export class TeamService {
 	}
 	insertTeam(team: Team) {
 		const body = { team: team };
-		return this.http.post('http://localhost:3000/teams/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/teams/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -129,7 +130,7 @@ export class TeamService {
 	updateTeam(team: Team, id) {
 		const body = { team: team };
 		console.log(team);
-		return this.http.put('http://localhost:3000/teams/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/teams/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				return response;
 			}).catch(e => {
@@ -137,7 +138,7 @@ export class TeamService {
 			});
 	}
 	getIssuesOfTeam(args, teamId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/teams/' + teamId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/teams/' + teamId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -158,7 +159,7 @@ export class TeamService {
 			});
 	}
 	getIssuesOfTeamCount(args, teamId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/teams/' + teamId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/teams/' + teamId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -173,7 +174,7 @@ export class TeamService {
 			});
 	}
 	getKanbanOfTeam(args, teamId): Observable<any[]> {
-		return this.http.get('http://localhost:3000/teams/' + teamId + '/issuestates', {
+		return this.http.get(environment.baseServerURL + '/teams/' + teamId + '/issuestates', {
 			withCredentials: true, params: {}
 		}).
 			map((response: Response) => {
@@ -184,7 +185,7 @@ export class TeamService {
 	}
 
 	getKanbanBoardForTeam(args, teamId) {
-		return this.http.get(`http://localhost:3000/teams/${teamId}/kanbans`, {
+		return this.http.get(`${environment.baseServerURL}/teams/${teamId}/kanbans`, {
 			withCredentials: true, params: {}
 		}).
 			map((response: Response) => {

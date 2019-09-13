@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
+import { environment } from '../../environments/environment';
+
 import { User } from '../models/user';
 @Injectable()
 export class AuthenticateService{
@@ -14,7 +16,7 @@ export class AuthenticateService{
 
 
 	checkSession() : Observable<any> {
-		return this.http.get('http://localhost:3000/sessions', {withCredentials: true}).
+		return this.http.get(environment.baseServerURL + '/sessions', {withCredentials: true}).
 			map((response: Response) =>{
 				return response
 			}).catch(e => {
@@ -23,7 +25,7 @@ export class AuthenticateService{
 	}
 
 	logout() {
-		this.http.get('http://localhost:3000/logout', {withCredentials: true}).
+		this.http.get(environment.baseServerURL + '/logout', {withCredentials: true}).
 		map((response: Response) =>{
 			return response
 		}).catch(e => {
@@ -43,7 +45,7 @@ export class AuthenticateService{
 			'username': username,
 			'password': password
 		  }
-		return this.http.post('http://localhost:3000/login', body, {withCredentials: true}).
+		return this.http.post(environment.baseServerURL + '/login', body, {withCredentials: true}).
 		map((response: Response) =>{
 			return response
 		}).catch(e => {

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -10,7 +11,7 @@ export class UserService {
 
 	getUser(args): Observable<User[]> {
 		console.log(124455)
-		return this.http.get('http://localhost:3000/user', {
+		return this.http.get(environment.baseServerURL + '/user', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -24,7 +25,7 @@ export class UserService {
 			});
 	}
 	getUserCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/user', {
+		return this.http.get(environment.baseServerURL + '/user', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -40,7 +41,7 @@ export class UserService {
 	}
 
 	deleteUser(args) {
-		return this.http.delete('http://localhost:3000/user/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/user/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -50,7 +51,7 @@ export class UserService {
 
 	insertUser(user: User) {
 		const body = { user: user };
-		return this.http.post('http://localhost:3000/user/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/user/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -65,7 +66,7 @@ export class UserService {
 	updateUser(user: User, id) {
 		const body = { user: user };
 		console.log(user)
-		return this.http.put('http://localhost:3000/user/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/user/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -78,7 +79,7 @@ export class UserService {
 	}
 
 	getUserPermission(args, id) {
-		return this.http.get(`http://localhost:3000/user/${id}/permissions`, {
+		return this.http.get(`${environment.baseServerURL}/user/${id}/permissions`, {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -94,7 +95,7 @@ export class UserService {
 
 	updateUserPermission(permissions, userId) {
 		const body = { permissions: JSON.stringify(permissions) };
-		return this.http.put(`http://localhost:3000/user/${userId}/permissions`, body, { withCredentials: true }).
+		return this.http.put(`${environment.baseServerURL}/user/${userId}/permissions`, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -107,7 +108,7 @@ export class UserService {
 	}
 
 	getKanbanForUser(args, userId) {
-		return this.http.get(`http://localhost:3000/user/${userId}/kanbans`, {
+		return this.http.get(`${environment.baseServerURL}/user/${userId}/kanbans`, {
 			withCredentials: true, params: {}
 		}).
 			map((response: Response) => {

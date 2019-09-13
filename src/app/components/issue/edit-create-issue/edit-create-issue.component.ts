@@ -109,7 +109,6 @@ export class EditCreateIssueComponent implements OnInit {
 			  }
 			})
 		});
-		debugger;
 		this.userService.getUser({}).subscribe(items => {
 			this.userList.options = items.map(el => {
 			  return {
@@ -137,7 +136,6 @@ export class EditCreateIssueComponent implements OnInit {
 		});
 	}
 	toolbarActionHandler(action) {
-		debugger;
 		const issue = new Issue();
 		if (action === 'save') {
 			if (this.isClosed) {
@@ -279,7 +277,6 @@ export class EditCreateIssueComponent implements OnInit {
 	}
 
 	closeIssue() {
-		debugger;
 		const issue = new Issue()
 		if (!this.isClosed) {
 			const time = new Date();;
@@ -292,7 +289,6 @@ export class EditCreateIssueComponent implements OnInit {
 		this.selectedIssue.isClosed = this.isClosed;
 		this.issueService.updateIssue(issue, this.selectedIssue.id).subscribe((result) => {
 			if (result) {
-				debugger;
 				this.closed_on = this.selectedIssue.closed_on = issue.closed_on;
 				this.updateIssueActionButton();
 				if (this.isClosed) {

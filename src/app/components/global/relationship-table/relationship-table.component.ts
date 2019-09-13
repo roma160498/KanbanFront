@@ -28,7 +28,7 @@ export class RelationshipTableComponent implements OnInit {
 
 	amountOfItems: number;
 	specialCols = [];
-	items: any[];
+	items: any[] = [];
 	itemsForSearchGrid: any[];
 	loading: boolean;
 	scrollHeight: string;
@@ -111,7 +111,6 @@ export class RelationshipTableComponent implements OnInit {
 				let updatedItems = [];
 				for (let item of this.items) {
 					if (item.isNew) {
-						debugger;
 						// проверяем заполнены ли специальны поля
 						for (let i = 0; i < this.specialCols.length; i++) {
 							if (!item[this.specialCols[i].field]) {
@@ -130,12 +129,14 @@ export class RelationshipTableComponent implements OnInit {
 				if (newItems.length) {
 					this.mainService[`insert${this.type}`](this.updatedItem.id, newItems).subscribe(() => {
 						this.messageService.add({ severity: 'success', summary: 'Sucess', detail: `Items were added successfully.` });
+						this.searchIsVisible = true;
 					});
 				}
 				if (updatedItems.length) {
 					for (let i = 0; i < updatedItems.length; i++) {
 						this.mainService[`update${this.type}`](this.updatedItem.id, updatedItems[i].id, updatedItems[i]).subscribe(() => {
 							this.messageService.add({ severity: 'success', summary: 'Sucess', detail: `Item was updated successfully.` });
+							this.searchIsVisible = true;
 						});
 					}
 

@@ -201,7 +201,6 @@ export class PermissionPageComponent implements OnInit {
 				delete: this.sectionsPermissions[i].delete
 			}
 		}
-		debugger;
 		return result;
 	}
 

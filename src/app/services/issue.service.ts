@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DateHelperService } from './date-helper.service';
 import { SequenceHelperService } from './sequence-helper.service';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class IssueService {
@@ -11,7 +12,7 @@ export class IssueService {
 	constructor(private http: HttpClient, private dateHelper: DateHelperService,
 		private sequenceHelper: SequenceHelperService) { }
 	getIssue(args): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/issues', {
+		return this.http.get(environment.baseServerURL + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -35,7 +36,7 @@ export class IssueService {
 			});
 	}
 	getIssueCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/issues', {
+		return this.http.get(environment.baseServerURL + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -51,7 +52,7 @@ export class IssueService {
 	}
 	insertIssue(issue: Issue) {
 		const body = { issue: issue };
-		return this.http.post('http://localhost:3000/issues/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/issues/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -63,7 +64,7 @@ export class IssueService {
 			});
 	}
 	deleteIssue(args) {
-		return this.http.delete('http://localhost:3000/issues/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/issues/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -72,7 +73,7 @@ export class IssueService {
 	}
 	updateIssue(issue: Issue, id) {
 		const body = { issue: issue };
-		return this.http.put('http://localhost:3000/issues/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/issues/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -84,7 +85,7 @@ export class IssueService {
 			});
   }
   getIssueClassification(args): Observable<any[]> {
-	return this.http.get('http://localhost:3000/issueclassifications', {
+	return this.http.get(environment.baseServerURL + '/issueclassifications', {
 		withCredentials: true, params: {
 			'amount': args.amount,
 			'offset': args.offset,
@@ -108,7 +109,7 @@ export class IssueService {
 		comments.reverse();
 	}
 	getComments(issueId): Observable<any[]> {
-		return this.http.get(`http://localhost:3000/issues/${issueId}/comments`, {
+		return this.http.get(`${environment.baseServerURL}/issues/${issueId}/comments`, {
 			withCredentials: true
 		}).
 			map((response: any) => {

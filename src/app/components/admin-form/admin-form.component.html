@@ -32,7 +32,7 @@
                       <span class="author">{{not.name + ' ' + not.surname}}</span>
                     </div>
                     <div>
-                      <span class="date" style="line-height:16px;padding-bottom: 10px">2012.02.03 24:15:37</span>
+                      <span class="date" style="line-height:16px;padding-bottom: 10px">{{dateService.getDateTimeFormat(not.date).slice(0, 10)}}</span>
                     </div>
                   </div>
                   </td>

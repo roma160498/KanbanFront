@@ -77,7 +77,6 @@ export class EditCreateIterationComponent implements OnInit {
 		];
 	}
 	toolbarActionHandler(action) {
-		debugger;
 		const iteration = new Iteration();
 		if (action === 'save') {
 			if (this._isInputDataInvalid()) {

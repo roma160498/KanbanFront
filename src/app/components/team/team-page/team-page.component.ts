@@ -71,7 +71,6 @@ export class TeamPageComponent implements OnInit {
 	}
 
 	_updateToolbarButtonsDisabledStates() {
-		debugger;
 		this.toolbarButtonsDisabledOptions = {
 			isDeleteDisabled: !this.userPermissions.teams.get || !this.userPermissions.teams.delete || !(this.selectedTeams && this.selectedTeams.length > 0) || !this.isTableDisplayed,
 			isEditDisabled: !(this.selectedTeams && this.selectedTeams.length == 1) || !this.isTableDisplayed,

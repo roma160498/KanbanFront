@@ -5,6 +5,7 @@ import { Feature } from '../models/feature';
 import { SequenceHelperService } from './sequence-helper.service';
 import { Issue } from '../models/issue';
 import { DateHelperService } from './date-helper.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FeatureService {
@@ -12,7 +13,7 @@ export class FeatureService {
   constructor(private http: HttpClient, private sequenceHelper: SequenceHelperService,
 	private dateHelper: DateHelperService) { }
   getFeatureCount(args): Observable<any> {
-		return this.http.get('http://localhost:3000/features', {
+		return this.http.get(environment.baseServerURL + '/features', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -27,7 +28,7 @@ export class FeatureService {
 			});
   }
   getFeature(args): Observable<Feature[]> {
-		return this.http.get('http://localhost:3000/features', {
+		return this.http.get(environment.baseServerURL + '/features', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -50,7 +51,7 @@ export class FeatureService {
 	}
 	insertFeature(feature: Feature) {
 		const body = { feature: feature };
-		return this.http.post('http://localhost:3000/features/', body, { withCredentials: true }).
+		return this.http.post(environment.baseServerURL + '/features/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
 					return response;
@@ -63,7 +64,7 @@ export class FeatureService {
 	}
 	updateFeature(feature: Feature, id) {
 		const body = { feature: feature };
-		return this.http.put('http://localhost:3000/features/' + id, body, { withCredentials: true }).
+		return this.http.put(environment.baseServerURL + '/features/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
 					return response;
@@ -75,7 +76,7 @@ export class FeatureService {
 			});
 	}
 	deleteFeature(args) {
-		return this.http.delete('http://localhost:3000/features/' + args.id, { withCredentials: true }).
+		return this.http.delete(environment.baseServerURL + '/features/' + args.id, { withCredentials: true }).
 			map((response: Response) => {
 				return response
 			}).catch(e => {
@@ -83,7 +84,7 @@ export class FeatureService {
 			});
 	}
 	getFeatureClassification(args): Observable<Feature[]> {
-		return this.http.get('http://localhost:3000/featureclassifications', {
+		return this.http.get(environment.baseServerURL + '/featureclassifications', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -97,7 +98,7 @@ export class FeatureService {
 			});
 	}
 	getIssuesOfFeature(args, featureId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/features/' + featureId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/features/' + featureId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -106,7 +107,6 @@ export class FeatureService {
 		}).
 		map((response: Issue[]) => {
 			response.forEach(element => {
-				debugger;
 				element.user_fullname = (element.user_name || '') + ' ' + (element.user_surname || '');
 				element.number = this.sequenceHelper.getSequenceFor('I-', 6, element.id);
 				element.iteration_number = this.sequenceHelper.getSequenceFor('IT-', 6, element.iteration_id);
@@ -118,7 +118,7 @@ export class FeatureService {
 		});
 	}
 	getIssuesOfFeatureCount(args, featureId): Observable<Issue[]> {
-		return this.http.get('http://localhost:3000/features/' + featureId + '/issues', {
+		return this.http.get(environment.baseServerURL + '/features/' + featureId + '/issues', {
 			withCredentials: true, params: {
 				'amount': args.amount,
 				'offset': args.offset,
@@ -133,7 +133,7 @@ export class FeatureService {
 			});
 	}
 	getFeatureStates(): Observable<any[]> {
-		return this.http.get('http://localhost:3000/featurestates/', {
+		return this.http.get(environment.baseServerURL + '/featurestates/', {
 			withCredentials: true
 		}).
 			map((response: Response) => {

@@ -45,15 +45,6 @@ export class EditCreateIncrementComponent implements OnInit {
     private productService: ProductService, private dateHelper: DateHelperService,
     private componentLoaderService: ComponentLoaderService, private featureService: FeatureService) { }
   ngOnInit() {
-    debugger;
-    // this.allRelatedCols = [
-		// 	{ field: 'number', header: 'Iteration number' },
-		// 	{ field: 'name', header: 'Iteration name' },
-		// 	{ field: 'start_date', header: 'Started On' },
-		// 	{ field: 'end_date', header: 'Ended On' },
-		// 	{ field: 'story_points', header: 'Story points' },
-		// 	{ field: 'status_name', header: 'Status' }
-    // ];
     this.iterationCols = [
 			{ field: 'number', header: 'Iteration number' },
 			{ field: 'name', header: 'Iteration name' },
@@ -100,7 +91,6 @@ export class EditCreateIncrementComponent implements OnInit {
         return;
       }
       if (this.editMode === 'add') {
-        debugger;
         increment.name = this.name;
         increment.business_objectives = this.business_objectives;
         increment.start_date = this.dateHelper.getDateFormat(this.start_date);
@@ -121,7 +111,6 @@ export class EditCreateIncrementComponent implements OnInit {
           }
         })
       } else if (this.editMode === 'edit') {
-        debugger;
         for (let key in this.selectedIncrement) {
           if (this[key] !== this.selectedIncrement[key] && key != 'id') {
             increment[key] = this[key]

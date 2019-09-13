@@ -94,6 +94,7 @@ export class TableIncrementComponent implements OnInit {
 				this.increments.push(increment.currentValue.increment);
 				this.amountOfIncrements++;
 				this.resetTable();
+				this._refreshGrid(this.table);
 				const name = increment.currentValue.increment.name;
 				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Increment "${name}" created successfully.` });
 			}
