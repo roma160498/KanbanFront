@@ -6,12 +6,13 @@
     <h1 class="example-app-name">Kanban Tool</h1>
     <div class="toolbar-buttons-group">
 
-      <button mat-flat-button class="toolbar-button" (click)="op.toggle($event);notificationsClick()" matBadge="8" matBadgePosition="before" matBadgeColor="accent">
+      <button mat-flat-button class="toolbar-button" (click)="op.toggle($event);notificationsClick()" matBadge="8" matBadgePosition="before"
+        matBadgeColor="accent">
         <div *ngIf="notificationsAmount !== 0" matTooltip="Last messages" class="mybadge">{{notificationsAmount}}</div>
         <div>{{userName}} {{userSurname}}</div>
       </button>
       <button mat-flat-button class="toolbar-button" (click)="logout()">Logout</button>
-      <p-overlayPanel id="changePasswordPanel"#op [ngStyle]="{'width': '800px'}">
+      <p-overlayPanel id="changePasswordPanel" #op [ngStyle]="{'width': '800px'}">
         <div>
           <div id="inbox-wapper" style="width: 730px; max-height: 350px; overflow-y: auto;">
             <h2>New messages with you</h2>
@@ -23,18 +24,18 @@
                   </td>
                   <td>
                     <div style="margin-left: 10px">
-                    <div class="commentTextDiv" style="line-height:16px; margin-top: 10px">
-                      <span class="commentText">{{not.text}}</span>
+                      <div class="commentTextDiv" style="line-height:16px; margin-top: 10px">
+                        <span class="commentText">{{not.text}}</span>
+                      </div>
+                      <div class="userMessageInfo" style="line-height:16px; padding-top: 15px">
+                        <span class="team">{{not.teamName}}</span>
+                        <span class="arrow"></span>
+                        <span class="author">{{not.name + ' ' + not.surname}}</span>
+                      </div>
+                      <div>
+                        <span class="date" style="line-height:16px;padding-bottom: 10px">{{dateService.getDateTimeFormat(not.date).slice(0, 10)}}</span>
+                      </div>
                     </div>
-                    <div class="userMessageInfo" style="line-height:16px; padding-top: 15px">
-                      <span class="team">{{not.teamName}}</span>
-                      <span class="arrow"></span>
-                      <span class="author">{{not.name + ' ' + not.surname}}</span>
-                    </div>
-                    <div>
-                      <span class="date" style="line-height:16px;padding-bottom: 10px">{{dateService.getDateTimeFormat(not.date).slice(0, 10)}}</span>
-                    </div>
-                  </div>
                   </td>
                   <td class="reviewers">
 
@@ -68,6 +69,17 @@
           <mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
         <a mat-list-item routerLink="." *ngIf="currentUserIsAdmin" (click)="loadPermissions()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Permissions</a>
+        <a mat-list-item routerLink="." (click)="loadTestItem()">
+          <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Product</a>
+        <a mat-list-item routerLink="." (click)="loadTestItem2()">
+          <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test User</a>
+        <a mat-list-item routerLink="." (click)="loadTestItem3()">
+          <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Increment</a>
+        <a mat-list-item routerLink="." (click)="loadTestItem4()">
+          <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Iteration</a>
+        <a mat-list-item routerLink="." (click)="loadTestItem5()">
+          <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Feature</a>
+       
       </mat-nav-list>
     </mat-sidenav>
 

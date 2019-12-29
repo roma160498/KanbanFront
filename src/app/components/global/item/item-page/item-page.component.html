@@ -1,0 +1,26 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedItems"
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="getConfigurationElement('pluralLabel')" [iconName]="getConfigurationElement('typeName')"></app-items-toolbar>
+
+<app-item-table #itemTable 
+[style.display]="isTableDisplayed ? 'inline' : 'none'"
+(selectedItemsOut)="selectedItemsOut($event)"
+[updatedItem]="updatedItem"
+[settings]="getConfigurationElement('mainTableSettings')"
+[typeName]="getConfigurationElement('typeName')"
+[singularLabel]="getConfigurationElement('singularLabel')"
+[itemService]="itemService"
+[serviceIsLoaded]="serviceIsLoaded"
+[canGet]="userPermissions[getConfigurationElement('pluralName')].get"></app-item-table>
+
+<app-item-form #itemForm
+[style.display]="!isTableDisplayed ? 'inline' : 'none'"
+[settings]="getConfigurationElement('mainTableSettings')"
+[singularLabel]="getConfigurationElement('singularLabel')"
+[typeName]="getConfigurationElement('typeName')"
+(isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"
+[itemService]="itemService"
+(updatedItemOut)="updatedItemOut($event)"
+[selectedItem]="selectedItems && selectedItems[0]"
+[relatedServices]="relatedServices"
+[serviceIsLoaded]="serviceIsLoaded"
+[rowsOnItemForm]="getConfigurationElement('rowsOnItemForm')"></app-item-form>

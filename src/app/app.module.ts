@@ -127,6 +127,10 @@ import { PermissionPageComponent } from './components/permission/permission-page
 import { PermissionService } from './services/permission.service';
 import { CommentService } from './services/comment.service';
 import { CommentComponent } from './components/global/comment/comment.component';
+import { ItemPageComponent } from './components/global/item/item-page/item-page.component';
+import { ItemTableComponent } from './components/global/item/item-table/item-table.component';
+import { ItemFormComponent } from './components/global/item/item-form/item-form.component';
+import { InputComponent } from './components/global/controls/input/input.component';
 
 
 // определение маршрутов
@@ -166,7 +170,11 @@ const appRoutes: Routes =[
     TableIssuesComponent,
     EditCreateIssueComponent,
     PermissionPageComponent,
-    CommentComponent
+    CommentComponent,
+    ItemPageComponent,
+    ItemTableComponent,
+    ItemFormComponent,
+    InputComponent        
   ],
   imports: [
     BrowserModule,
@@ -251,6 +259,6 @@ const appRoutes: Routes =[
   providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent, EditCreateIssueComponent]
+  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent, EditCreateIssueComponent, ItemPageComponent]
 })
 export class AppModule { }

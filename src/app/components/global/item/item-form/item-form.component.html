@@ -1,0 +1,47 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<vaadin-split-layout orientation="vertical" style="height: 100%" IronResizableBehavior="true">
+  <div style="height: 50%; min-height: 100px;">
+    <p-panel header="{{singularLabel}}">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row" *ngFor="let rowIndex of rowsOnItemForm">
+          <ng-container *ngFor="let control of controls">
+            <ng-container *ngIf="getRowIndex(control) == rowIndex">
+            <ng-container [ngSwitch]="control.type">
+              <ng-container *ngIf="(currentUserIsAdmin && control.forAdmin && !control.notForForm || !control.forAdmin && !control.notForForm)">
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                  {{control.initHandler && control.initHandler(selectedItem, control)}}
+                  <ng-container *ngIf="control.type !== 'button'">
+                    {{control.label}}:
+                  </ng-container>
+                  <input *ngSwitchCase="'input'" pInputText type="text" [(ngModel)]="ngModel[control.field]" [ngClass]="{requiredField: control.isRequired}"
+                    [disabled]="control.readOnly" />
+                  <textarea *ngSwitchCase="'textArea'" [rows]="6" pInputTextarea autoResize="autoResize" [(ngModel)]="ngModel[control.field]"
+                    [ngClass]="{requiredField: control.isRequired}"></textarea>
+                  <input *ngSwitchCase="'password'" type="password" promptLabel="" pPassword [feedback]="false" [(ngModel)]="ngModel[control.field]"
+                    [ngClass]="{requiredField: control.isRequired}" />
+                  <p-checkbox *ngSwitchCase="'checkbox'" binary="true" [(ngModel)]="ngModel[control.field]"></p-checkbox>
+                  <button *ngSwitchCase="'button'" type="button" (click)="control.clickHandler(itemService, selectedItem, {messageService: messageService, dateHelper: dateHelper, control: control })"
+                    pButton  [icon]="control.icon" [label]="control.label"></button>
+                  <p-calendar *ngSwitchCase="'calendar'" [(ngModel)]="ngModel[control.field]" [monthNavigator]="true" [yearNavigator]="true"
+                    [showIcon]="true" yearRange="2000:2030" [ngClass]="{requiredField: control.isRequired}"></p-calendar>
+
+                  <p-dropdown *ngSwitchCase="'item'" title="zazaz" [options]="sourceFieldItems[control.serviceName] && sourceFieldItems[control.serviceName].options"
+                    [(ngModel)]="ngModel[control.idField]" placeholder="Select" [showClear]="true" [ngClass]="{requiredField: control.isRequired}" 
+                    (onChange)="control.selectHandler($event, itemService, selectedItem)"></p-dropdown>
+                  <p-dropdown *ngSwitchCase="'dropdown'" title="zazaz" [options]="dropdownValues[control.field] && dropdownValues[control.field].options"
+                    [(ngModel)]="ngModel[control.idField]" placeholder="Select" [showClear]="true" [ngClass]="{requiredField: control.isRequired}"></p-dropdown>
+                  <p-progressBar *ngSwitchCase="'progressBar'" [value]="ngModel[control.field]"></p-progressBar>
+                  <p-spinner *ngSwitchCase="'spinner'" size="30" [min]="0" [max]="100" [(ngModel)]="ngModel[control.field]"></p-spinner>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <p-footer>
+        <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discardButtonHandler()"></button>
+      </p-footer>
+    </p-panel>
+  </div>
+</vaadin-split-layout>
