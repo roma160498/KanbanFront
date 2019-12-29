@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChange, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { InputComponent } from '../../controls/input/input.component';
 import { DateHelperService } from '../../../../services/date-helper.service';
+import { RelationshipTableComponent } from '../../relationship-table/relationship-table.component';
 
 @Component({
 	selector: 'app-item-form',
@@ -24,8 +25,12 @@ export class ItemFormComponent implements OnInit {
 	isPopupMode: Boolean = false;
 	@Input() selectedItem: any;
 	currentUserIsAdmin: boolean;
+	relationshipTabs: any = [];
+	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 
 	@Input() rowsOnItemForm: any;
+	@Input() relationshipsSettings: any;
+	@Input() permissions: any;
 	
 	@Input() relatedServices: any;
 	sourceFieldItems: any = {};
@@ -89,6 +94,8 @@ export class ItemFormComponent implements OnInit {
 
 	_buildForm() {
 		this.controls = this.settings.cols;
+		debugger;
+		this.relationshipTabs = this.relationshipsSettings.tabs;
 	}
 
 	discardButtonHandler() {

@@ -141,7 +141,40 @@ export class AdminFormComponent implements OnInit {
 					{ field: 'description', label: 'Description', type: 'textArea', position: '2.1' }
 				]
 			},
-			rowsOnItemForm: [1, 2]
+			relatedServices: ['feature'],
+			rowsOnItemForm: [1, 2],
+			relationshipsConfig: {
+				tabs: [{
+					relatedService: 'feature',
+					type: 'FeaturesOfProduct',
+					relatedItem: 'Feature',
+					permissionKey: 'features',
+					header: 'Feature Scope',
+					relatedCols: [
+						{ field: 'name', header: 'Name' },
+						{ field: 'increment_number', header: 'Program Increment' },
+						{ field: 'creator_name', header: 'Creator' },
+						{ field: 'team_name', header: 'Team' },
+						{ field: 'type_name', header: 'Classification' },
+						{ field: 'status_name', header: 'Status' },
+						{ field: 'wsjf', header: 'WSJF' },
+						{ field: 'isClosed', header: 'Created' }
+					]
+				}, {
+					relatedService: 'feature',
+					type: 'IncrementsOfProduct',
+					relatedItem: 'Increment',
+					permissionKey: 'program increments',
+					header: 'Program Increments',
+					relatedCols: [
+						{ field: 'number', header: 'Number' },
+						{ field: 'name', header: 'Name' },
+						{ field: 'start_date', header: 'Started On' },
+						{ field: 'end_date', header: 'Ended On' },
+						{ field: 'status_name', header: 'Status' }
+					]
+				}]
+			}
 		});
 	}
 
@@ -155,7 +188,7 @@ export class AdminFormComponent implements OnInit {
 			pluralLabel: 'Users',
 			mainTableSettings: {
 				cols: [
-					{ field: 'name', label: 'Name', type: 'input', position: '1.1'},
+					{ field: 'name', label: 'Name', type: 'input', position: '1.1' },
 					{ field: 'surname', label: 'Surname', type: 'input', position: '1.2' },
 					{ field: 'login', label: 'Login', type: 'input', isRequired: true, position: '2.1' },
 					{ field: 'email', label: 'Email', type: 'input', isRequired: true, position: '2.2' },
@@ -177,7 +210,7 @@ export class AdminFormComponent implements OnInit {
 					}
 				]
 			},
-			rowsOnItemForm: [1, 2,3,4,5]
+			rowsOnItemForm: [1, 2, 3, 4, 5]
 		});
 	}
 
@@ -203,7 +236,41 @@ export class AdminFormComponent implements OnInit {
 				]
 			},
 			relatedServices: ['product'],
-			rowsOnItemForm: [1, 2, 3, 4, 5]
+			rowsOnItemForm: [1, 2, 3, 4, 5],
+			relationshipsConfig: {
+				tabs: [{
+					relatedService: 'iteration',
+					type: 'IterationsOfIncrement',
+					relatedItem: 'Iterations',
+					permissionKey: 'features',
+					header: 'iterations',
+					relatedCols: [
+						{ field: 'number', header: 'Iteration number' },
+						{ field: 'name', header: 'Iteration name' },
+						{ field: 'start_date', header: 'Started On' },
+						{ field: 'end_date', header: 'Ended On' },
+						{ field: 'story_points', header: 'Story points' },
+						{ field: 'status_name', header: 'Status' }
+					]
+				}, {
+					relatedService: 'feature',
+					type: 'FeaturesOfIncrement',
+					relatedItem: 'Features',
+					permissionKey: 'features',
+					header: 'Feature scope',
+					relatedCols: [
+						{ field: 'number', header: 'Feature Number' },
+						{ field: 'name', header: 'Name' },
+						{ field: 'creator_name', header: 'Creator' },
+						{ field: 'team_name', header: 'Team' },
+						{ field: 'type_name', header: 'Classification' },
+						{ field: 'status_name', header: 'Status' },
+						{ field: 'wsjf', header: 'WSJF' },
+						{ field: 'product_name', header: 'Product' },
+						{ field: 'isClosed', header: 'Closed' }
+					]
+				}]
+			}
 		});
 	}
 
@@ -219,11 +286,15 @@ export class AdminFormComponent implements OnInit {
 				cols: [
 					{ field: 'number', label: 'Iteration number', type: 'input', readOnly: true, position: '1.1' },
 					{ field: 'name', label: 'Iteration name', type: 'input', isRequired: true, position: '1.2' },
-					{ field: 'increment_name', label: 'PI', type: 'item', isRequired: true, idField: 'increment_id', serviceName: 'increment', position: '3.1' },
+					{
+						field: 'increment_name', label: 'PI', type: 'item', isRequired: true, idField: 'increment_id', serviceName: 'increment', position: '3.1', getTitle: function (selectedItem) {
+							return selectedItem['increment_number'] + '"' + selectedItem['increment_name'] + '"'
+						}
+					},
 					{ field: 'increment_id', notForForm: true, notForTable: true, isRequired: true },
 					{ field: 'increment_number', notForForm: true, label: 'PI number' },
 					{ field: 'start_date', label: 'Started On', type: 'calendar', isRequired: true, position: '2.1' },
-					{ field: 'end_date', label: 'Ended On', type: 'calendar', isRequired: true, position: '2.2'},
+					{ field: 'end_date', label: 'Ended On', type: 'calendar', isRequired: true, position: '2.2' },
 					{ field: 'story_points', notForForm: true, label: 'Story points', defaultValue: 0 },
 					{ field: 'status_name', label: 'Status', type: 'dropdown', isRequired: true, idField: 'status_id', getMethod: 'getIterationStates', position: '3.2' },
 					{ field: 'status_id', notForForm: true, isRequired: true, notForTable: true },
@@ -236,7 +307,27 @@ export class AdminFormComponent implements OnInit {
 				]
 			},
 			relatedServices: ['increment'],
-			rowsOnItemForm: [1, 2, 3, 4]
+			rowsOnItemForm: [1, 2, 3, 4],
+			relationshipsConfig: {
+				tabs: [{
+					relatedService: 'issue',
+					type: 'IssuesOfIteration',
+					relatedItem: 'Iterations',
+					permissionKey: 'iterations',
+					header: 'Issue scope',
+					relatedCols: [
+						{ field: 'number', header: 'Issue number' },
+						{ field: 'name', header: 'Issue name' },
+						{ field: 'feature_number', header: 'Feature number' },
+						{ field: 'classification_name', header: 'Classification' },
+						{ field: 'status_name', header: 'Status' },
+						{ field: 'team_name', header: 'Team' },
+						{ field: 'user_fullname', header: 'Assignee' },
+						{ field: 'story_points', header: 'Story Points' },
+						{ field: 'isClosed', header: 'Closed' }
+					]
+				}]
+			}
 		});
 	}
 
@@ -253,28 +344,28 @@ export class AdminFormComponent implements OnInit {
 					{ field: 'number', label: 'Feature number', type: 'input', readOnly: true, position: '1.1' },
 					{ field: 'name', label: 'Name', type: 'input', isRequired: true, position: '1.2' },
 					{ field: 'creator_name', label: 'Creator', type: 'input', notForForm: true, },
-					{ field: 'creater_id', label: '', notForForm: true, notForTable: true, defaultValue: localStorage.getItem('id')},
+					{ field: 'creater_id', label: '', notForForm: true, notForTable: true, defaultValue: localStorage.getItem('id') },
 					{ field: 'description', label: 'Description', type: 'textArea', notForTable: true, defaultValue: '', position: '2.1' },
 					{ field: 'acc_criteria', label: 'Acception criteria', type: 'textArea', notForTable: true, defaultValue: '', position: '2.2' },
 					{ field: 'created_on', label: 'Created On', type: 'input', readOnly: true, notForTable: true, position: '3.1' },
 					{ field: 'modified_on', label: 'Modified On', type: 'input', readOnly: true, notForTable: true, position: '3.2' },
 					{ field: 'closed_on', label: 'Closed On', type: 'input', readOnly: true, notForTable: true, position: '3.3' },
 					{ field: 'team_name', label: 'Team', type: 'item', idField: 'team_id', serviceName: 'team', position: '5.1' },
-					{ field: 'team_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'team_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'type_name', label: 'Classification', type: 'dropdown', isRequired: true, idField: 'type_id', getMethod: 'getFeatureClassification', position: '4.1' },
-					{ field: 'type_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'type_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'increment_id', notForForm: true, notForTable: true },
-					{ field: 'increment_number', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', position:'4.2' },
+					{ field: 'increment_number', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', position: '4.2' },
 					{ field: 'product_name', label: 'Product', type: 'item', idField: 'product_id', isRequired: true, serviceName: 'product', position: '5.2' },
-					{ field: 'product_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'product_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'status_name', label: 'Status', type: 'dropdown', isRequired: true, idField: 'status_id', getMethod: 'getFeatureStates', position: '5.3' },
-					{ field: 'status_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'status_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'ub_value', label: 'User-Business Value', type: 'spinner', notForTable: true, position: '3.4' },
 					{ field: 'time_crit', label: 'Time Criticality', type: 'spinner', notForTable: true, position: '3.5' },
 					{ field: 'risk_red', label: 'Risk Reduction', type: 'spinner', notForTable: true, position: '4.3' },
 					{ field: 'job_size', label: 'Job Size', type: 'spinner', notForTable: true, position: '4.4' },
 					{ field: 'wsjf', label: 'WSJF', type: 'input', readOnly: true, position: '5.4' },
-					{ field: 'isClosed', label: 'Closed', notForForm: true},
+					{ field: 'isClosed', label: 'Closed', notForForm: true },
 					{
 						field: 'isClosed', label: 'Close feature', notForTable: true, type: 'button', icon: 'pi pi-lock', clickHandler: function (service, contextItem, args) {
 							debugger;
@@ -307,20 +398,40 @@ export class AdminFormComponent implements OnInit {
 							} else {
 								args.messageService.add({ severity: 'error', summary: 'Error', detail: `Option is unavailable, item is new.` });
 							}
-						}, initHandler: function(contextItem, control) {
+						}, initHandler: function (contextItem, control) {
 							if (contextItem.closed_on) {
 								control.label = 'Reopen feature';
-							//	this.featureActionIcon = 'pi pi-unlock';
+								//	this.featureActionIcon = 'pi pi-unlock';
 							} else {
 								control.label = 'Close feature';
-							//	this.featureActionIcon = 'pi pi-lock';
+								//	this.featureActionIcon = 'pi pi-lock';
 							}
 						}, defaultValue: 0, position: '1.3'
 					}
 				]
 			},
-			relatedServices: ['increment', 'team', 'product'],
-			rowsOnItemForm: [1, 2, 3, 4, 5, 6]
+			relatedServices: ['increment', 'team', 'product', 'issue'],
+			rowsOnItemForm: [1, 2, 3, 4, 5, 6],
+			relationshipsConfig: {
+				tabs: [{
+					relatedService: 'issue',
+					type: 'IssuesOfFeature',
+					relatedItem: 'Issue',
+					permissionKey: 'issues',
+					header: 'Issue Scope',
+					relatedCols: [
+						{ field: 'number', header: 'Issue number' },
+						{ field: 'name', header: 'Issue name' },
+						{ field: 'iteration_number', header: 'Iteration number' },
+						{ field: 'classification_name', header: 'Classification' },
+						{ field: 'status_name', header: 'Status' },
+						{ field: 'team_name', header: 'Team' },
+						{ field: 'user_fullname', header: 'Assignee' },
+						{ field: 'story_points', header: 'Story Points' },
+						{ field: 'isClosed', header: 'Closed' }
+					]
+				}]
+			}
 		});
 	}
 
@@ -336,17 +447,18 @@ export class AdminFormComponent implements OnInit {
 				cols: [
 					{ field: 'number', label: 'Issue Number', type: 'input', readOnly: true, position: '1.1' },
 					{ field: 'name', label: 'Issue Name', type: 'input', isRequired: true, position: '1.2' },
-					{ field: 'feature_number', label: 'Feature', type: 'item', idField: 'feature_id', serviceName: 'feature', position: '3.1'},
-					{ field: 'feature_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'feature_number', label: 'Feature', type: 'item', idField: 'feature_id', serviceName: 'feature', position: '3.1' },
+					{ field: 'feature_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'iteration_id', notForForm: true, notForTable: true },
-					{ field: 'iteration_number', type: 'item', label: 'Iteration', idField: 'iteration_id', serviceName: 'iteration', position:'3.2' },
+					{ field: 'iteration_number', type: 'item', label: 'Iteration', idField: 'iteration_id', serviceName: 'iteration', position: '3.2' },
 					{ field: 'classification_name', label: 'Classification', type: 'dropdown', isRequired: true, idField: 'classification_id', getMethod: 'getIssueClassification', position: '1.3' },
-					{ field: 'classification_id', label: '', notForTable: true, notForForm: true},
+					{ field: 'classification_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'status_name', label: 'Status', type: 'dropdown', isRequired: true, idField: 'status_id', getMethod: 'getIssueStates', position: '5.3' },
-					{ field: 'status_id', label: '', notForTable: true, notForForm: true},
-					{ field: 'team_name', label: 'Team', type: 'item', idField: 'team_id', serviceName: 'team', position: '4.1', selectHandler: function(event, itemService, contextItem) {
-						itemService.getKanbanOfTeam({}, event.value).subscribe(items => {
-							contextItem.statusList.options = items.map(el => {
+					{ field: 'status_id', label: '', notForTable: true, notForForm: true },
+					{
+						field: 'team_name', label: 'Team', type: 'item', idField: 'team_id', serviceName: 'team', position: '4.1', selectHandler: function (event, itemService, contextItem) {
+							itemService.getKanbanOfTeam({}, event.value).subscribe(items => {
+								contextItem.statusList.options = items.map(el => {
 									return {
 										label: el.name,
 										value: el.id
@@ -355,18 +467,18 @@ export class AdminFormComponent implements OnInit {
 								//contextItem.status_id = idToSelect ? idToSelect : items[0] && items[0].id;
 							});
 						}
-					} ,
-					{ field: 'team_id', label: '', notForTable: true, notForForm: true},
-					{ field: 'user_fullname', label: 'Assignee', type: 'input', position: '4.2'},
-					{ field: 'story_points', label: 'Story points', type: 'input', position: '5.1'},
-					{ field: 'completeness', label: 'Completeness', type: 'dropdown', idField: 'completeness', position: '5.2'},
-					{ field: 'isClosed', label: 'Closed', notForForm: true},
+					},
+					{ field: 'team_id', label: '', notForTable: true, notForForm: true },
+					{ field: 'user_fullname', label: 'Assignee', type: 'input', position: '4.2' },
+					{ field: 'story_points', label: 'Story points', type: 'input', position: '5.1' },
+					{ field: 'completeness', label: 'Completeness', type: 'dropdown', idField: 'completeness', position: '5.2' },
+					{ field: 'isClosed', label: 'Closed', notForForm: true },
 					{ field: 'description', label: 'Description', type: 'textArea', notForTable: true, defaultValue: '', position: '6.1' },
 					{ field: 'accCriteria', label: 'Acception criteria', type: 'textArea', notForTable: true, defaultValue: '', position: '6.2' },
 					{ field: 'created_on', label: 'Created On', type: 'input', readOnly: true, notForTable: true, position: '7.1' },
 					{ field: 'modified_on', label: 'Modified On', type: 'input', readOnly: true, notForTable: true, position: '7.2' },
 					{ field: 'closed_on', label: 'Closed On', type: 'input', readOnly: true, notForTable: true, position: '7.3' },
-					
+
 
 					// { field: 'creator_name', label: 'Creator', type: 'input', notForTable: true, notForForm: true, },
 					// { field: 'creater_id', label: '', notForForm: true, notForTable: true, defaultValue: localStorage.getItem('id')},
@@ -386,7 +498,7 @@ export class AdminFormComponent implements OnInit {
 					// { field: 'risk_red', label: 'Risk Reduction', type: 'spinner', notForTable: true, position: '4.3' },
 					// { field: 'job_size', label: 'Job Size', type: 'spinner', notForTable: true, position: '4.4' },
 					// { field: 'wsjf', label: 'WSJF', type: 'input', readOnly: true, notForTable: true,position: '5.4' },
-					
+
 					// {
 					// 	field: 'isClosed', label: 'Close feature', notForTable: true, type: 'button', icon: 'pi pi-lock', clickHandler: function (service, contextItem, args) {
 					// 		debugger;
