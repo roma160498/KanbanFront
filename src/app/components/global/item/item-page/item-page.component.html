@@ -4,6 +4,7 @@
 <app-item-table #itemTable 
 [style.display]="isTableDisplayed ? 'inline' : 'none'"
 (selectedItemsOut)="selectedItemsOut($event)"
+(doubleClickEventOut)="toolbarActionHandler($event)"
 [updatedItem]="updatedItem"
 [settings]="getConfigurationElement('mainTableSettings')"
 [typeName]="getConfigurationElement('typeName')"

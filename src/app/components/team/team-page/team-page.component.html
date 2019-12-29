@@ -5,4 +5,4 @@
 (updatedTeamOut)="updatedTeamOut($event)" [selectedTeams]="selectedTeams" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-team>
 
 <app-table-teams #teamTable  (selectedTeamsOut)="selectedTeamsOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedTeam]="updatedTeam" [canGet]="userPermissions.teams.get"></app-table-teams>
+[updatedTeam]="updatedTeam" (doubleClickEventOut)="toolbarActionHandler($event)" [canGet]="userPermissions.teams.get"></app-table-teams>

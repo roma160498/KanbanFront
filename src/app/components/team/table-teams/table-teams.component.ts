@@ -14,6 +14,7 @@ export class TableTeamsComponent implements OnInit {
 
 	@ViewChild('table') table: TableModule;
 	@Output() selectedTeamsOut: EventEmitter<Team[]> = new EventEmitter();
+	@Output() doubleClickEventOut: EventEmitter<string> = new EventEmitter();
 	@Input() updatedTeam: any;
 	@Input() canGet: boolean;
 
@@ -145,5 +146,9 @@ export class TableTeamsComponent implements OnInit {
 			(<HTMLInputElement>filters[i]).value = '';
 			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
 		}
+	}
+
+	doubleCklickHandler() {
+		this.doubleClickEventOut.emit('edit');
 	}
 }

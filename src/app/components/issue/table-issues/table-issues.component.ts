@@ -14,6 +14,7 @@ export class TableIssuesComponent implements OnInit {
 
 	@ViewChild('table') table: TableModule;
 	@Output() selectedIssuesOut: EventEmitter<Issue[]> = new EventEmitter();
+	@Output() doubleClickEventOut: EventEmitter<string> = new EventEmitter();
 	@Input() updatedIssue: any;
 	@Input() canGet: boolean;
 
@@ -163,5 +164,9 @@ export class TableIssuesComponent implements OnInit {
 			(<HTMLInputElement>filters[i]).value = '';
 			this.table['__proto__'].filter.call(this.table, '', this.cols[i].field);
 		}
+	}
+
+	doubleCklickHandler() {
+		this.doubleClickEventOut.emit('edit');
 	}
 }

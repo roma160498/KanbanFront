@@ -22,7 +22,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" style="height:30px">
+        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" style="height:30px" (dblclick)="doubleCklickHandler()">
             <td *ngFor="let col of columns" class="ui-resizable-column">
                 {{item[col.field]}}
             </td>

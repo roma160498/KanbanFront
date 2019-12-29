@@ -25,6 +25,7 @@ export class ItemTableComponent implements OnInit {
 	
 	
 	@Output() selectedItemsOut: EventEmitter<any[]> = new EventEmitter();
+	@Output() doubleClickEventOut: EventEmitter<string> = new EventEmitter();
 	@Input() canGet: boolean;
 
 	amountOfItems: number;
@@ -163,5 +164,9 @@ export class ItemTableComponent implements OnInit {
 		this.resetTable();
 		this.rowsAmount = amount === -1 ? this.amountOfItems : amount;
 		this.selectedItems = [];
+	}
+
+	doubleCklickHandler() {
+		this.doubleClickEventOut.emit('edit');
 	}
 }
