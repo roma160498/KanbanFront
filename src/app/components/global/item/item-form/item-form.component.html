@@ -51,7 +51,8 @@
           <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="itemService" [relatedService]="relatedServices[tabInfo.relatedService]"
             [type]="tabInfo.type" [nativeCols]="tabInfo.relatedCols" [cols]="tabInfo.relatedCols" [updatedItem]="selectedItem" [relatedItem]="tabInfo.relatedItem"
             [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': permissions[tabInfo.permissionKey].get}"
-            [canGet]="permissions[tabInfo.permissionKey].get"></app-relationship-table>
+            [canGet]="permissions[tabInfo.permissionKey].get"
+            (selectedRelatedItemToOpen)="selectedRelatedItemToOpenHandler($event)"></app-relationship-table>
         </p-tabPanel>
       </div>
     </p-tabView>

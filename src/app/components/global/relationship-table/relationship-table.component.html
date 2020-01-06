@@ -45,7 +45,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" [ngClass]="item.isNew || item.isUpdated ? 'new-item' : null">
+        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" [ngClass]="item.isNew || item.isUpdated ? 'new-item' : null" (dblclick)="doubleCklickHandler()">
             <td *ngFor="let col of columns" class="ui-resizable-column">
                 {{item[col.field]}}
             </td>
@@ -83,7 +83,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex">
+            <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" (dblclick)="doubleCklickHandler()">
                 <td *ngFor="let col of columns" class="ui-resizable-column">
                     {{item[col.field]}}
                 </td>

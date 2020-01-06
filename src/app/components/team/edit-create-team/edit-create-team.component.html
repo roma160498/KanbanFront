@@ -43,12 +43,16 @@
             <p-tabPanel header="Users">
                 <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="userService"
                     [type]="'UsersOfTeam'" [nativeCols]="userCols" [cols]="userAllRelatedCols" [updatedItem]="selectedTeam" [relatedItem]="'User'"
-                    [canGet]="relationshipPermissions.users.get" [toolbarButtonsInitialState]="{'delete': relationshipPermissions.teams.update, 'save': relationshipPermissions.teams.update, 'add': relationshipPermissions.users.get && relationshipPermissions.teams.update, 'refresh': relationshipPermissions.users.get}"></app-relationship-table>
+                    [canGet]="relationshipPermissions.users.get" 
+                    (selectedRelatedItemToOpen)="selectedRelatedItemToOpenHandler($event)"
+                    [toolbarButtonsInitialState]="{'delete': relationshipPermissions.teams.update, 'save': relationshipPermissions.teams.update, 'add': relationshipPermissions.users.get && relationshipPermissions.teams.update, 'refresh': relationshipPermissions.users.get}"></app-relationship-table>
             </p-tabPanel>
             <p-tabPanel header="Issue Scope">
                 <app-relationship-table #relationTable *ngIf="editMode === 'edit' || editMode === 'edit'" [mainService]="teamService" [relatedService]="issueService"
                     [type]="'IssuesOfTeam'" [nativeCols]="issueCols" [cols]="issueAllRelatedCols" [updatedItem]="selectedTeam"
-                    [relatedItem]="'Issue'" [canGet]="relationshipPermissions.issues.get" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}"></app-relationship-table>
+                    [relatedItem]="'Issue'" 
+                    (selectedRelatedItemToOpen)="selectedRelatedItemToOpenHandler($event)"
+                    [canGet]="relationshipPermissions.issues.get" [toolbarButtonsInitialState]="{'delete': false, 'save': false, 'add': false, 'refresh': relationshipPermissions.issues.get}"></app-relationship-table>
             </p-tabPanel>
         </p-tabView>
     </div>

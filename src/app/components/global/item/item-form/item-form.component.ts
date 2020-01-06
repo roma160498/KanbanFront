@@ -22,6 +22,7 @@ export class ItemFormComponent implements OnInit {
 	@Input() typeName: string;
 	editMode: string;
 	@Output() updatedItemOut: EventEmitter<any> = new EventEmitter();
+	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
 	isPopupMode: Boolean = false;
 	@Input() selectedItem: any;
 	currentUserIsAdmin: boolean;
@@ -234,6 +235,11 @@ export class ItemFormComponent implements OnInit {
 
 	getRowIndex(control) {
 		return control.position && control.position.split('.')[0];
+	}
+
+	selectedRelatedItemToOpenHandler(event) {
+		debugger;
+		this.selectedRelatedItemToOpen.emit(event);
 	}
 
 }

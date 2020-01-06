@@ -89,9 +89,10 @@ export class AdminFormComponent implements OnInit {
 		}
 	}
 
-	loadTeams() {
+	loadTeamItems() {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
-		this.componentLoaderService.addComponent(TeamPageComponent);
+		const createdComponent = this.componentLoaderService.addComponent(TeamPageComponent);
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
 	}
 
 	loadUsers() {
@@ -116,9 +117,12 @@ export class AdminFormComponent implements OnInit {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		this.componentLoaderService.addComponent(IterationPageComponent);
 	}
-	loadIssues() {
+	loadIssueItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
-		this.componentLoaderService.addComponent(IssuePageComponent);
+		const createdComponent = this.componentLoaderService.addComponent(IssuePageComponent);
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
 	loadPermissions() {
@@ -126,7 +130,14 @@ export class AdminFormComponent implements OnInit {
 		this.componentLoaderService.addComponent(PermissionPageComponent);
 	}
 
-	loadTestItem() {
+	selectedRelatedItemToOpenHandler(event) {
+		debugger;
+		const itemType = event.type;
+		const itemId = event.item.id;
+		this[`load${itemType}Items`](itemId);
+	}
+
+	loadProductItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		const createdComponent = this.componentLoaderService.addComponent(ItemPageComponent);
 		createdComponent.instance.setConfiguration({
@@ -176,9 +187,13 @@ export class AdminFormComponent implements OnInit {
 				}]
 			}
 		});
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
-	loadTestItem2() {
+	loadUserItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		const createdComponent = this.componentLoaderService.addComponent(ItemPageComponent);
 		createdComponent.instance.setConfiguration({
@@ -212,9 +227,13 @@ export class AdminFormComponent implements OnInit {
 			},
 			rowsOnItemForm: [1, 2, 3, 4, 5]
 		});
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
-	loadTestItem3() {
+	loadIncrementItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		const createdComponent = this.componentLoaderService.addComponent(ItemPageComponent);
 		createdComponent.instance.setConfiguration({
@@ -241,7 +260,7 @@ export class AdminFormComponent implements OnInit {
 				tabs: [{
 					relatedService: 'iteration',
 					type: 'IterationsOfIncrement',
-					relatedItem: 'Iterations',
+					relatedItem: 'Iteration',
 					permissionKey: 'features',
 					header: 'iterations',
 					relatedCols: [
@@ -255,7 +274,7 @@ export class AdminFormComponent implements OnInit {
 				}, {
 					relatedService: 'feature',
 					type: 'FeaturesOfIncrement',
-					relatedItem: 'Features',
+					relatedItem: 'Feature',
 					permissionKey: 'features',
 					header: 'Feature scope',
 					relatedCols: [
@@ -272,9 +291,13 @@ export class AdminFormComponent implements OnInit {
 				}]
 			}
 		});
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
-	loadTestItem4() {
+	loadIterationItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		const createdComponent = this.componentLoaderService.addComponent(ItemPageComponent);
 		createdComponent.instance.setConfiguration({
@@ -312,7 +335,7 @@ export class AdminFormComponent implements OnInit {
 				tabs: [{
 					relatedService: 'issue',
 					type: 'IssuesOfIteration',
-					relatedItem: 'Iterations',
+					relatedItem: 'Iteration',
 					permissionKey: 'iterations',
 					header: 'Issue scope',
 					relatedCols: [
@@ -329,9 +352,13 @@ export class AdminFormComponent implements OnInit {
 				}]
 			}
 		});
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
-	loadTestItem5() {
+	loadFeatureItems(itemId) {
 		this.componentLoaderService.setRootViewContainerRef(this.entry);
 		const createdComponent = this.componentLoaderService.addComponent(ItemPageComponent);
 		createdComponent.instance.setConfiguration({
@@ -433,6 +460,10 @@ export class AdminFormComponent implements OnInit {
 				}]
 			}
 		});
+		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
+		if (itemId) {
+			createdComponent.instance.itemIdToOpen = itemId;
+		}
 	}
 
 	loadTestItem6() {

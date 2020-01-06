@@ -39,6 +39,7 @@ export class EditCreateTeamComponent implements OnInit {
 	editMode: string;
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 	@Input() relationshipPermissions: any;
+	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
 
 	userCols: any;
 	issueCols: any;
@@ -218,5 +219,10 @@ export class EditCreateTeamComponent implements OnInit {
 		if (this.kanbanColumns[i].state !== 'new') {
 			this.kanbanColumns[i].state = 'edit';
 		}
+	}
+
+	selectedRelatedItemToOpenHandler(event) {
+		debugger;
+		this.selectedRelatedItemToOpen.emit(event);
 	}
 }

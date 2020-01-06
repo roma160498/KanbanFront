@@ -51,7 +51,7 @@
   <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav #sidenav fixedInViewport="true" fixedTopGap="50" opened="true" mode="side">
       <mat-nav-list>
-        <a mat-list-item routerLink="." (click)="loadTeams()">
+        <a mat-list-item routerLink="." (click)="loadTeamItems()">
           <mat-icon svgIcon="group" class="sidenav-icons"></mat-icon>Teams</a>
         <a mat-list-item routerLink="." (click)="loadUsers()">
           <mat-icon svgIcon="person" class="sidenav-icons"></mat-icon>Users</a>
@@ -59,7 +59,7 @@
           <mat-icon svgIcon="products" class="sidenav-icons"></mat-icon>Products</a>
         <a mat-list-item routerLink="." (click)="loadFeatures()">
           <mat-icon svgIcon="feature" class="sidenav-icons"></mat-icon>Features</a>
-        <a mat-list-item routerLink="." (click)="loadIssues()">
+        <a mat-list-item routerLink="." (click)="loadIssueItems()">
           <mat-icon svgIcon="issue" class="sidenav-icons"></mat-icon>Issues</a>
         <a mat-list-item routerLink="." (click)="loadIncrements()">
           <mat-icon svgIcon="increment" class="sidenav-icons"></mat-icon>Program Increments</a>
@@ -69,15 +69,15 @@
           <mat-icon svgIcon="board" class="sidenav-icons"></mat-icon>Board</a>
         <a mat-list-item routerLink="." *ngIf="currentUserIsAdmin" (click)="loadPermissions()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Permissions</a>
-        <a mat-list-item routerLink="." (click)="loadTestItem()">
+        <a mat-list-item routerLink="." (click)="loadProductItems()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Product</a>
-        <a mat-list-item routerLink="." (click)="loadTestItem2()">
+        <a mat-list-item routerLink="." (click)="loadUserItems()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test User</a>
-        <a mat-list-item routerLink="." (click)="loadTestItem3()">
+        <a mat-list-item routerLink="." (click)="loadIncrementItems()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Increment</a>
-        <a mat-list-item routerLink="." (click)="loadTestItem4()">
+        <a mat-list-item routerLink="." (click)="loadIterationItems()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Iteration</a>
-        <a mat-list-item routerLink="." (click)="loadTestItem5()">
+        <a mat-list-item routerLink="." (click)="loadFeatureItems()">
           <mat-icon svgIcon="permission" class="sidenav-icons"></mat-icon>Test Feature</a>
        
       </mat-nav-list>

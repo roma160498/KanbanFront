@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Injector, ReflectiveInjector } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Injector, ReflectiveInjector, Output, EventEmitter } from '@angular/core';
 import { ItemTableComponent } from '../item-table/item-table.component';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { DateHelperService } from '../../../../services/date-helper.service';
@@ -12,6 +12,9 @@ export class ItemPageComponent implements OnInit {
 
 	@ViewChild('itemTable') tableComponent: ItemTableComponent;
 	@ViewChild('itemForm') formComponent: ItemFormComponent;
+
+	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
+	@Input() itemIdToOpen: any;
 
 	_config: any;
 	_properties: any[] = [];
@@ -62,6 +65,9 @@ export class ItemPageComponent implements OnInit {
 				this.relatedServices[name] = tempRelInj.get(type); 
 			}
 			this.serviceIsLoaded = true;
+			if (this.itemIdToOpen) {
+				
+			}
 		})()
 	}
 
@@ -136,5 +142,10 @@ export class ItemPageComponent implements OnInit {
 			isAddDisabled: !this.userPermissions[pluralName].get || !this.userPermissions[pluralName].create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
+	}
+
+	selectedRelatedItemToOpenHandler(event) {
+		debugger;
+		this.selectedRelatedItemToOpen.emit(event);
 	}
 }

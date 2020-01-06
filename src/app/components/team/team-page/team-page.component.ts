@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { TableTeamsComponent } from '../../team/table-teams/table-teams.component';
 import { Team } from '../../../models/team';
 import { EditCreateTeamComponent } from '../edit-create-team/edit-create-team.component';
@@ -11,6 +11,7 @@ import { EditCreateTeamComponent } from '../edit-create-team/edit-create-team.co
 export class TeamPageComponent implements OnInit {
 	@ViewChild('teamTable') tableComponent: TableTeamsComponent;
 	@ViewChild('editComponent') editComponent: EditCreateTeamComponent;
+	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
 	isTableDisplayed: boolean = true;
 	selectedTeams: Team[];
 	updatedTeam: Team;
@@ -80,5 +81,10 @@ export class TeamPageComponent implements OnInit {
 			isAddDisabled: !this.userPermissions.teams.get || !this.userPermissions.teams.create || !this.isTableDisplayed,
 			isFilterDisabled: !this.isTableDisplayed
 		}
+	}
+
+	selectedRelatedItemToOpenHandler(event) {
+		debugger;
+		this.selectedRelatedItemToOpen.emit(event);
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { TableIssuesComponent } from '../table-issues/table-issues.component';
 import { EditCreateIssueComponent } from '../edit-create-issue/edit-create-issue.component';
 import { Issue } from '../../../models/issue';
@@ -11,6 +11,7 @@ import { Issue } from '../../../models/issue';
 export class IssuePageComponent implements OnInit {
 	@ViewChild('issueTable') tableComponent: TableIssuesComponent;
 	@ViewChild('editComponent') editComponent: EditCreateIssueComponent;
+	@Input() itemIdToOpen: any;
 	isTableDisplayed: boolean = true;
 	selectedIssues: Issue[];
 	updatedIssue: Issue;

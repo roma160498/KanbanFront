@@ -17,6 +17,7 @@ export class TableIssuesComponent implements OnInit {
 	@Output() doubleClickEventOut: EventEmitter<string> = new EventEmitter();
 	@Input() updatedIssue: any;
 	@Input() canGet: boolean;
+	@Input() itemIdToOpen: any;
 
 	amountOfIssues: number;
 	cols: any[];
@@ -56,6 +57,12 @@ export class TableIssuesComponent implements OnInit {
 					this.selectedIssues.push(issueToSelect);
 					this.selectedIssue = issueToSelect;
 					this.onSelectUnselectRow({});					
+				}
+				if (this.itemIdToOpen) {
+					const itemToOpen = issues.find(el => el.id === this.itemIdToOpen);
+					this.selectedIssues =[itemToOpen];
+					this.onSelectUnselectRow({});
+					this.doubleCklickHandler();
 				}
 			});
 		}

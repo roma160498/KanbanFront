@@ -27,6 +27,7 @@ export class ItemTableComponent implements OnInit {
 	@Output() selectedItemsOut: EventEmitter<any[]> = new EventEmitter();
 	@Output() doubleClickEventOut: EventEmitter<string> = new EventEmitter();
 	@Input() canGet: boolean;
+	@Input() itemIdToOpen: any;
 
 	amountOfItems: number;
 	cols: any[];
@@ -54,6 +55,13 @@ export class ItemTableComponent implements OnInit {
 			this.itemService[`get${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`]({}).subscribe(items => {
 				this.amountOfItems = items.length;
 				this.items = items;
+debugger;
+				if (this.itemIdToOpen) {
+					const itemToOpen = items.find(el => el.id === this.itemIdToOpen);
+					this.selectedItems =[itemToOpen];
+					this.onSelectUnselectRow({});
+					this.doubleCklickHandler();
+				}
 			});
 		}
 	}

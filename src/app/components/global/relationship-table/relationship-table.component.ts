@@ -26,6 +26,9 @@ export class RelationshipTableComponent implements OnInit {
 	@Input() toolbarButtonsInitialState: any;
 	@Input() canGet: boolean;
 
+	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
+	
+
 	amountOfItems: number;
 	specialCols = [];
 	items: any[] = [];
@@ -274,5 +277,15 @@ export class RelationshipTableComponent implements OnInit {
 				this.selectedPopup = null;
 			}
 		}
+	}
+
+	doubleCklickHandler() {
+		console.log('Rela')
+		debugger;
+		const curentSelectedItem = this.selectedItems[0];
+		this.selectedRelatedItemToOpen.emit({
+			type: this.relatedItem,
+			item: curentSelectedItem
+		});
 	}
 }

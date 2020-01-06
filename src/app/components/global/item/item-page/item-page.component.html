@@ -11,7 +11,8 @@
 [singularLabel]="getConfigurationElement('singularLabel')"
 [itemService]="itemService"
 [serviceIsLoaded]="serviceIsLoaded"
-[canGet]="userPermissions[getConfigurationElement('pluralName')].get"></app-item-table>
+[canGet]="userPermissions[getConfigurationElement('pluralName')].get"
+[itemIdToOpen]="itemIdToOpen"></app-item-table>
 
 <app-item-form #itemForm
 [style.display]="!isTableDisplayed ? 'inline' : 'none'"
@@ -26,4 +27,5 @@
 [serviceIsLoaded]="serviceIsLoaded"
 [rowsOnItemForm]="getConfigurationElement('rowsOnItemForm')"
 [relationshipsSettings]="getConfigurationElement('relationshipsConfig')"
-[permissions]="userPermissions"></app-item-form>
+[permissions]="userPermissions"
+(selectedRelatedItemToOpen)="selectedRelatedItemToOpenHandler($event)"></app-item-form>

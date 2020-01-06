@@ -5,4 +5,6 @@
 (updatedIssueOut)="updatedIssueOut($event)" [selectedIssues]="selectedIssues" [relationshipPermissions]="userPermissions" (isSavedResultSuccesOut)="isSavedResultSuccesOut($event)"></app-edit-create-issue>
 
 <app-table-issues #issueTable  (selectedIssuesOut)="selectedIssuesOut($event)" [style.display]="isTableDisplayed ? 'inline' : 'none'"
-[updatedIssue]="updatedIssue" (doubleClickEventOut)="toolbarActionHandler($event)" [canGet]="userPermissions.issues.get"></app-table-issues>
+[updatedIssue]="updatedIssue"
+[itemIdToOpen]="itemIdToOpen"
+ (doubleClickEventOut)="toolbarActionHandler($event)" [canGet]="userPermissions.issues.get"></app-table-issues>
