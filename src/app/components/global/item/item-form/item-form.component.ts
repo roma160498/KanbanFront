@@ -25,7 +25,7 @@ export class ItemFormComponent implements OnInit {
 	@Output() selectedRelatedItemToOpen: EventEmitter<any> = new EventEmitter();
 	isPopupMode: Boolean = false;
 	@Input() selectedItem: any;
-	currentUserIsAdmin: boolean;
+	currentUserIsAdmin: any;
 	relationshipTabs: any = [];
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 
@@ -46,8 +46,8 @@ export class ItemFormComponent implements OnInit {
 	constructor(private messageService: MessageService, private dateHelper: DateHelperService) { }
 
 	ngOnInit() {
-		this._buildForm();
 		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
+		this._buildForm();
 	}
 
 	_initDropDowns() {
