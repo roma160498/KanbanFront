@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { InputComponent } from '../../controls/input/input.component';
 import { DateHelperService } from '../../../../services/date-helper.service';
 import { RelationshipTableComponent } from '../../relationship-table/relationship-table.component';
+import { ImageLoaderService } from '../../../../services/image-loader.service';
 
 @Component({
 	selector: 'app-item-form',
@@ -32,7 +33,7 @@ export class ItemFormComponent implements OnInit {
 	@Input() rowsOnItemForm: any;
 	@Input() relationshipsSettings: any;
 	@Input() permissions: any;
-	
+
 	@Input() relatedServices: any;
 	sourceFieldItems: any = {};
 	dropdownValues: any = {};
@@ -43,7 +44,8 @@ export class ItemFormComponent implements OnInit {
 
 	formDescriptor: FormGroup = new FormGroup({});
 
-	constructor(private messageService: MessageService, private dateHelper: DateHelperService) { }
+	constructor(private messageService: MessageService, private dateHelper: DateHelperService,
+		private imageLoaderService: ImageLoaderService) { }
 
 	ngOnInit() {
 		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
@@ -96,7 +98,7 @@ export class ItemFormComponent implements OnInit {
 	_buildForm() {
 		this.controls = this.settings.cols;
 		debugger;
-		this.relationshipTabs = this.relationshipsSettings.tabs;
+		this.relationshipTabs = this.relationshipsSettings.tabs || [];
 	}
 
 	discardButtonHandler() {
@@ -146,7 +148,7 @@ export class ItemFormComponent implements OnInit {
 				return;
 			}
 			debugger;
-			const confirmationError = this._checkConfirmation(); 
+			const confirmationError = this._checkConfirmation();
 			if (confirmationError) {
 				this.messageService.add({ severity: 'error', summary: 'Error', detail: `Please. check confirmation for ${confirmationError}` });
 				return;
@@ -159,17 +161,17 @@ export class ItemFormComponent implements OnInit {
 					}
 					if (col.type === 'checkbox') {
 						item[col.field] = this.ngModel[col['field']] ? 1 : 0;
-						continue;	
+						continue;
 					}
 					if (col.type === 'calendar') {
 						item[col.field] = this.dateHelper.getDateFormat(this.ngModel[col['field']]);
-						continue;	
+						continue;
 					}
 					if (col.defaultValue || col.defaultValue === 0 || col.defaultValue === '') {
 						item[col.field] = col.defaultValue;
 						continue;
 					}
-					item[col.field] = this.ngModel[col['field']] === undefined ? null : this.ngModel[col['field']] ;
+					item[col.field] = this.ngModel[col['field']] === undefined ? null : this.ngModel[col['field']];
 				}
 				this.itemService[`insert${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`](item).subscribe((result) => {
 					if (result) {
@@ -199,11 +201,11 @@ export class ItemFormComponent implements OnInit {
 						}
 						if (control && control.type === 'calendar') {
 							item[key] = this.dateHelper.getDateFormat(this.ngModel[key]);
-							continue;	
+							continue;
 						}
 						if (control && control.type === 'checkbox') {
 							item[key] = this.ngModel[key] ? 1 : 0;
-							continue;	
+							continue;
 						}
 						item[key] = this.ngModel[key]
 					}
@@ -240,6 +242,43 @@ export class ItemFormComponent implements OnInit {
 	selectedRelatedItemToOpenHandler(event) {
 		debugger;
 		this.selectedRelatedItemToOpen.emit(event);
+	}
+
+	imgSrc: string = '';
+	attachedImage: File = null;
+	//actual only for user images
+	onImageChange(event) {
+		debugger;
+		const images = event.files;
+		if (images && images.length) {
+			const imageFile = images[0];
+			this.attachedImage = imageFile;
+			
+			this.imageLoaderService.uploadImage(imageFile).subscribe(event => {
+				// if (event.type.)
+				// this.itemService[`update${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`]({
+				// image}, this.selectedItem.id)
+				const reader = new FileReader();
+				reader.readAsDataURL(imageFile);
+				reader.onload = () => {
+					this.imgSrc = reader.result;
+				};
+			});;
+			
+			
+		}
+	}
+
+	onSubmit(): void {
+		//this.imageLoaderService.uploadImage(this.fileName, this.formGroup.get('file').value);
+	}
+
+
+	imageUploader(event) {
+		debugger;
+		//this.imageLoaderService.uploadImage(event.target.files[0]/*event.files[0]*/).subscribe((result) => {
+
+		//	})
 	}
 
 }

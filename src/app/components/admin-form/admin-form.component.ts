@@ -24,6 +24,7 @@ import { CommentService } from '../../services/comment.service';
 import { SequenceHelperService } from '../../services/sequence-helper.service';
 import { DateHelperService } from '../../services/date-helper.service';
 import { ItemPageComponent } from '../global/item/item-page/item-page.component';
+import { ImageLoaderService } from '../../services/image-loader.service';
 import { Product } from '../../models/product';
 import { Feature } from '../../models/feature';
 
@@ -40,7 +41,8 @@ export class AdminFormComponent implements OnInit {
 	color: string;
 	constructor(private authenticateService: AuthenticateService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
 		private componentLoaderService: ComponentLoaderService, private route: ActivatedRoute, private commentService: CommentService,
-		private sequenceHelperService: SequenceHelperService, private dateService: DateHelperService) {
+		private sequenceHelperService: SequenceHelperService, private dateService: DateHelperService, 
+		private imageLoaderService: ImageLoaderService) {
 		iconRegistry.addSvgIcon('sidenav', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/sidenav.svg'));
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
 		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
@@ -209,7 +211,6 @@ export class AdminFormComponent implements OnInit {
 					{ field: 'email', label: 'Email', type: 'input', isRequired: true, position: '2.2' },
 					{ field: 'password', label: 'Password', type: 'password', isRequired: true, forAdmin: true, position: '3.1' },
 					{ field: 'password_confirm', label: 'Confirm password', type: 'password', isRequired: true, forAdmin: true, notForTable: true, confirmOf: 'password', position: '3.2' },
-					{ field: 'is_admin', label: 'Is admin', type: 'checkbox', forAdmin: true, notForTable: true, position: '4.1' },
 					{
 						field: 'is_initialPassword', label: 'Allow to change password', type: 'button', icon: 'pi pi-cog', forAdmin: true, notForTable: true, clickHandler: function (service, contextItem, args) {
 							if (contextItem) {
@@ -221,11 +222,13 @@ export class AdminFormComponent implements OnInit {
 							} else {
 								args.messageService.add({ severity: 'error', summary: 'Error', detail: `Option is unavailable, item is new.` });
 							}
-						}, defaultValue: 1, position: '5.1'
-					}
+						}, defaultValue: 1, position: '4.1'
+					},
+					{ field: 'is_admin', label: 'Is admin', type: 'checkbox', forAdmin: true, notForTable: true, position: '4.2' },
+					{ field: 'imagePicker', label: 'imagePicker', type: 'imagePicker', forCurrentUser: true, notForTable: true, position: '5.1' },
 				]
 			},
-			rowsOnItemForm: [1, 2, 3, 4, 5]
+			rowsOnItemForm: [1, 2, 3, 4, 5, 6]
 		});
 		createdComponent.instance.selectedRelatedItemToOpen.subscribe(this.selectedRelatedItemToOpenHandler.bind(this));
 		if (itemId) {

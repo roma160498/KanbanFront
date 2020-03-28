@@ -79,6 +79,7 @@ import {ListboxModule} from 'primeng/listbox';
 import {InplaceModule} from 'primeng/inplace';
 import {BlockUIModule} from 'primeng/blockui';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {FileUploadModule} from 'primeng/fileupload';
 
 
 import { AppComponent } from './app.component';
@@ -131,6 +132,7 @@ import { ItemPageComponent } from './components/global/item/item-page/item-page.
 import { ItemTableComponent } from './components/global/item/item-table/item-table.component';
 import { ItemFormComponent } from './components/global/item/item-form/item-form.component';
 import { InputComponent } from './components/global/controls/input/input.component';
+import { ImageLoaderService } from './services/image-loader.service';
 
 
 // определение маршрутов
@@ -250,13 +252,14 @@ const appRoutes: Routes =[
     BlockUIModule,
     ToggleButtonModule,
     RadioButtonModule,
-    SpinnerModule
+    SpinnerModule,
+    FileUploadModule
     //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService, ImageLoaderService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent, EditCreateIssueComponent, ItemPageComponent]

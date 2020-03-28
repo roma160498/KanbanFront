@@ -14,6 +14,7 @@ export class IncrementService {
 	constructor(private http: HttpClient, private dateHelper: DateHelperService,
 		private sequenceHelper: SequenceHelperService) { }
 	getIncrement(args): Observable<Increment[]> {
+		debugger;
 		return this.http.get(environment.baseServerURL + '/increments', {
 			withCredentials: true, params: {
 				'amount': args.amount,
