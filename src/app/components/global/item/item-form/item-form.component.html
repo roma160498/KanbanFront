@@ -8,7 +8,7 @@
             <ng-container *ngIf="getRowIndex(control) == rowIndex">
               <ng-container [ngSwitch]="control.type">
                 <ng-container *ngIf="(currentUserIsAdmin && control.forAdmin && !control.notForForm || !control.forAdmin && !control.notForForm)">
-                  <div [ngClass]="{'ui-g-12 ui-md-6 ui-lg-2': control.type !== 'imagePicker'}">
+                  <div [ngClass]="{'ui-g-12 ui-md-6 ui-lg-2': true || control.type !== 'imagePicker'}">
                     {{control.initHandler && control.initHandler(selectedItem, control)}}
                     <ng-container *ngIf="control.type !== 'button' && control.type !== 'imagePicker'">
                       {{control.label}}:
@@ -33,11 +33,11 @@
                     <p-progressBar *ngSwitchCase="'progressBar'" [value]="ngModel[control.field]"></p-progressBar>
                     <p-spinner *ngSwitchCase="'spinner'" size="30" [min]="0" [max]="100" [(ngModel)]="ngModel[control.field]"></p-spinner>
                     <ng-container *ngSwitchCase="'imagePicker'">
-                      <p-fileUpload name="images[]" customUpload="true" accept="image/*" chooseLabel="Load Avatar" (uploadHandler)="onImageChange($event)"
-                        [auto]="true"></p-fileUpload>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'imagePicker'">
-                      <img [src]="imgSrc" height="200px" />
+                      <input #invisibleFileInput type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event, control.srcField)"/>
+                      <button pButton type="button" icon="pi pi-camera" label="Select Avatar" class="ui-button" (click)="onImageUploaded(control)"></button>
+                      <div class="imageContainer">
+                        <img [src]="ngModel[control.srcField]" />
+                      </div>
                     </ng-container>
                   </div>
                 </ng-container>

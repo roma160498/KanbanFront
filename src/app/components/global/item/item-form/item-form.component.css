@@ -2,6 +2,21 @@
     padding: 0px !important;
 }
 
-.requiredField, :host ::ng-deep .requiredField  .ui-inputtext, :host ::ng-deep .requiredField  .ui-dropdown-label, :host ::ng-deep .requiredField .ui-dropdown-trigger {
+.requiredField,
+ :host ::ng-deep .requiredField .ui-inputtext,
+ :host ::ng-deep .requiredField .ui-dropdown-label,
+ :host ::ng-deep .requiredField .ui-dropdown-trigger {
     background: #d2def7;
+}
+
+.imageContainer {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.imageContainer>img {
+    width: 100%;
 }

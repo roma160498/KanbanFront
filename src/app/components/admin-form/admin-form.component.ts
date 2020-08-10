@@ -225,7 +225,23 @@ export class AdminFormComponent implements OnInit {
 						}, defaultValue: 1, position: '4.1'
 					},
 					{ field: 'is_admin', label: 'Is admin', type: 'checkbox', forAdmin: true, notForTable: true, position: '4.2' },
-					{ field: 'imagePicker', label: 'imagePicker', type: 'imagePicker', forCurrentUser: true, notForTable: true, position: '5.1' },
+					{ field: 'image_id', srcField: 'avatar_src', label: 'imagePicker', type: 'imagePicker', forCurrentUserAndAdmin: true, position: '5.1', getImage: function(imageService, user, args) {
+						const promise = new Promise((resolve, rej) => {
+							if (user.image_id === null) {
+								rej({
+									name: 'no-pic'
+								});
+							}
+							imageService.getImageById(user.image_id).subscribe((res) => {
+								const reader = new FileReader();
+								reader.readAsDataURL(res);
+								reader.onload = () => {
+									resolve(reader.result);
+								};
+							});
+						});
+						return promise;
+					} },
 				]
 			},
 			rowsOnItemForm: [1, 2, 3, 4, 5, 6]

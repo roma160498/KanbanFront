@@ -5,6 +5,9 @@ import { InputComponent } from '../../controls/input/input.component';
 import { DateHelperService } from '../../../../services/date-helper.service';
 import { RelationshipTableComponent } from '../../relationship-table/relationship-table.component';
 import { ImageLoaderService } from '../../../../services/image-loader.service';
+import { environment } from '../../../../../environments/environment';
+import { UserService } from '../../../../services/user.service';
+import { User } from '../../../../models/user';
 
 @Component({
 	selector: 'app-item-form',
@@ -29,6 +32,8 @@ export class ItemFormComponent implements OnInit {
 	currentUserIsAdmin: any;
 	relationshipTabs: any = [];
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
+	@ViewChild('invisibleFileInput') invisibleFileInput;
+	currentUserId: any = localStorage.getItem('id');
 
 	@Input() rowsOnItemForm: any;
 	@Input() relationshipsSettings: any;
@@ -43,9 +48,10 @@ export class ItemFormComponent implements OnInit {
 	};
 
 	formDescriptor: FormGroup = new FormGroup({});
+	public baseURL: string = environment.baseServerURL;
 
 	constructor(private messageService: MessageService, private dateHelper: DateHelperService,
-		private imageLoaderService: ImageLoaderService) { }
+		private imageLoaderService: ImageLoaderService, private userService: UserService) { }
 
 	ngOnInit() {
 		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
@@ -244,41 +250,40 @@ export class ItemFormComponent implements OnInit {
 		this.selectedRelatedItemToOpen.emit(event);
 	}
 
-	imgSrc: string = '';
+	imgSrc: any = '';
 	attachedImage: File = null;
-	//actual only for user images
-	onImageChange(event) {
-		debugger;
-		const images = event.files;
+	onImageUploaded(control) {
+		if (control.forCurrentUserAndAdmin) {
+			//hack only for user
+			if (this.currentUserId != this.selectedItem.id && !this.currentUserIsAdmin) {
+				this.messageService.add({ severity: 'error', summary: 'Access denied', detail: `You can't change avatar of this user` });
+				return;
+			}
+		}
+		this.invisibleFileInput.nativeElement.value = null;
+		this.invisibleFileInput.nativeElement.click();
+	}
+
+	onFileSelected(event, srcName) {
+		const images = this.invisibleFileInput.nativeElement.files;
 		if (images && images.length) {
 			const imageFile = images[0];
 			this.attachedImage = imageFile;
-			
-			this.imageLoaderService.uploadImage(imageFile).subscribe(event => {
-				// if (event.type.)
-				// this.itemService[`update${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`]({
-				// image}, this.selectedItem.id)
-				const reader = new FileReader();
-				reader.readAsDataURL(imageFile);
-				reader.onload = () => {
-					this.imgSrc = reader.result;
-				};
-			});;
-			
-			
+			debugger;
+			this.imageLoaderService.uploadUserAvatar(imageFile, this.selectedItem.id).subscribe(() => {
+				this.imageLoaderService.getImageByName(imageFile.name).subscribe((res) => {
+					const reader = new FileReader();
+					reader.readAsDataURL(res);
+					reader.onload = () => {
+						this.ngModel[srcName] = reader.result;
+					};
+					this.messageService.add({ severity: 'success', summary: 'Uploaded', detail: `Avatar image was uploaded` });
+				});
+			});
 		}
 	}
 
 	onSubmit(): void {
 		//this.imageLoaderService.uploadImage(this.fileName, this.formGroup.get('file').value);
 	}
-
-
-	imageUploader(event) {
-		debugger;
-		//this.imageLoaderService.uploadImage(event.target.files[0]/*event.files[0]*/).subscribe((result) => {
-
-		//	})
-	}
-
 }

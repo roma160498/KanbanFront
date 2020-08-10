@@ -7,4 +7,6 @@ export class User {
     email: string;
     is_admin: number;
     is_initialPassword: number;
+    image_id: number;
+    avatar_src: string;
 }

@@ -9,33 +9,34 @@ export class ImageLoaderService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(file): Observable<any> {
+  uploadUserAvatar(file, userId): Observable<any> {
     const formData: FormData= new FormData();
     formData.append('file', file, file.name);
     const req = new HttpRequest('POST', environment.baseServerURL + '/files/', formData);
 
     const progress = new Subject<number>();
 
-    return this.http.post(environment.baseServerURL + '/files/', formData).map((response: any) => {
-      debugger;
+    return this.http.post(environment.baseServerURL + '/files/userAvatar/' + userId, formData, {
+      responseType: 'blob'
+    }).map((response: any) => {
+      return response;
     });
-    // return this.http.request(req).map((response: any[]) => {
-    //   return response
-    // }).catch(e => {
-    //   return Observable.throw(e);
-    // });
-    // const myHeaders = new HttpHeaders().set('Content-Type', 'multipart/form-data; boundary=--123456');
-    // myHeaders.set('Accept', 'application/json');
-    // return this.http.post(environment.baseServerURL + '/images/', file, { headers:myHeaders,
-    // withCredentials: true }).
-		// 	map((response: Response) => {
-		// 		if (response.status == 201) {
-		// 			return response;
-		// 		} else {
-		// 			return null;
-		// 		}
-		// 	}).catch(e => {
-		// 		return Observable.throw(e);
-		// 	});
   }
+
+  getImageByName(name): Observable<any> {
+    return this.http.get(environment.baseServerURL + `/files/uploadedImages/name/` + name, {
+      responseType: 'blob'
+    }).map((response: any) => {
+      return response;
+    })
+  }
+
+  getImageById(id): Observable<any> {
+    return this.http.get(environment.baseServerURL + `/files/uploadedImages/id/` + id, {
+      responseType: 'blob'
+    }).map((response: any) => {
+      return response;
+    })
+  }
+  
 }

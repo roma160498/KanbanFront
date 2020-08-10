@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, Injector, ReflectiveInjector, Outp
 import { ItemTableComponent } from '../item-table/item-table.component';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { DateHelperService } from '../../../../services/date-helper.service';
+import { ImageLoaderService } from '../../../../services/image-loader.service';
 
 @Component({
 	selector: 'app-item-page',
@@ -41,7 +42,7 @@ export class ItemPageComponent implements OnInit {
 
 	serviceIsLoaded: boolean = false;
 
-	constructor(private inj: Injector, private dateHelper: DateHelperService) { }
+	constructor(private inj: Injector, private dateHelper: DateHelperService, private imageService: ImageLoaderService) { }
 
 	async ngOnInit() {
 		this.userPermissions = JSON.parse(localStorage.getItem('permissions'));
@@ -96,6 +97,15 @@ export class ItemPageComponent implements OnInit {
 					case 'progressBar':
 						this.formComponent.ngModel[prop.field] = prop.getProgressBarValue(item);
 						break;
+					case 'imagePicker':
+						debugger;
+						prop.getImage(this.imageService, item).then(value => {
+							this.formComponent.ngModel[prop.srcField] = value;
+						}).catch(err => {
+							if (err.name === 'no-pic') {
+								this.formComponent.ngModel[prop.srcField] = '';// '../../../../assets/png/user-icon.png'
+							}
+						});
 					default:
 						this.formComponent.ngModel[prop.field] = item[fieldName]
 				}
@@ -115,7 +125,6 @@ export class ItemPageComponent implements OnInit {
 	}
 
 	selectedItemsOut(event) {
-		debugger;
 		this.selectedItems = event;
 		this._updateToolbarButtonsDisabledStates();
 	}
