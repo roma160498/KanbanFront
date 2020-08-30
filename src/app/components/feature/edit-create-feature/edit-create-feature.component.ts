@@ -142,7 +142,7 @@ export class EditCreateFeatureComponent implements OnInit {
 				feature.risk_red = this.risk_red;
 				feature.time_crit = this.time_crit;
 				feature.ub_value = this.ub_value;
-				this.featureService.insertFeature(feature).subscribe((result) => {
+				this.featureService.insertFeature(feature, {}).subscribe((result) => {
 					if (result) {
 						this.updatedFeatureOut.emit({
 							isNew: true,
@@ -161,7 +161,7 @@ export class EditCreateFeatureComponent implements OnInit {
 						feature[key] = this[key]
 					}
 				}
-				this.featureService.updateFeature(feature, this.selectedFeature.id).subscribe((result)=>{
+				this.featureService.updateFeature(feature, this.selectedFeature.id, {}, {}).subscribe((result)=>{
 					if (result) {
 						this.updatedFeatureOut.emit({
 							isNew: false,
@@ -241,7 +241,7 @@ export class EditCreateFeatureComponent implements OnInit {
 			feature.closed_on = null;
 		}
 		this.selectedFeature.isClosed = this.isClosed;
-		this.featureService.updateFeature(feature, this.selectedFeature.id).subscribe((result) => {
+		this.featureService.updateFeature(feature, this.selectedFeature.id, {}, {}).subscribe((result) => {
 			if (result) {
 				this.closed_on = this.selectedFeature.closed_on = feature.closed_on;
 				this.updateFeatureActionButton();

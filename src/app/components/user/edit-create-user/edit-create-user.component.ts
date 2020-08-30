@@ -54,7 +54,7 @@ export class EditCreateUserComponent implements OnInit {
 				user.email = this.email;
 				user.is_admin = this.is_admin ? 1 : 0;
 				user.is_initialPassword = 1;
-				this.userService.insertUser(user).subscribe((result) => {
+				this.userService.insertUser(user, {}).subscribe((result) => {
 					if (result) {
 						user.id = result.insertId;
 						this.updatedUserOut.emit({
@@ -77,7 +77,7 @@ export class EditCreateUserComponent implements OnInit {
 						user[key] = this[key] ? 1 : 0;
 					}
 				}
-				this.userService.updateUser(user, this.selectedUser.id).subscribe((result)=>{
+				this.userService.updateUser(user, this.selectedUser.id, {}, {}).subscribe((result)=>{
 					if (result) {
 						this.updatedUserOut.emit({
 							isNew: false,
@@ -126,7 +126,7 @@ export class EditCreateUserComponent implements OnInit {
 	allowToChangePassword() {
 		const user = new User();
 		user.is_initialPassword = 1;
-		this.userService.updateUser(user, this.selectedUser.id).subscribe((result) => {
+		this.userService.updateUser(user, this.selectedUser.id, {}, {}).subscribe((result) => {
 			this.messageService.add({ severity: 'success', summary: 'Sucess', detail: `Password change available.` });
 		});
 	}

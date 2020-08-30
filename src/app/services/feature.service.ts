@@ -49,8 +49,8 @@ export class FeatureService {
 				return Observable.throw(e);
 			});
 	}
-	insertFeature(feature: Feature) {
-		const body = { feature: feature };
+	insertFeature(feature: Feature, userName) {
+		const body = { feature: feature, userName };
 		return this.http.post(environment.baseServerURL + '/features/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -62,8 +62,8 @@ export class FeatureService {
 				return Observable.throw(e);
 			});
 	}
-	updateFeature(feature: Feature, id) {
-		const body = { feature: feature };
+	updateFeature(feature: Feature, id, diff, userName) {
+		const body = { feature: feature, diff, userName };
 		return this.http.put(environment.baseServerURL + '/features/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {

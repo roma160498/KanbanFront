@@ -27,6 +27,7 @@ import { ItemPageComponent } from '../global/item/item-page/item-page.component'
 import { ImageLoaderService } from '../../services/image-loader.service';
 import { Product } from '../../models/product';
 import { Feature } from '../../models/feature';
+import { FilePageComponent } from '../global/file/file-page.component';
 
 @Component({
 	selector: 'app-admin-form',
@@ -44,10 +45,10 @@ export class AdminFormComponent implements OnInit {
 		private sequenceHelperService: SequenceHelperService, private dateService: DateHelperService, 
 		private imageLoaderService: ImageLoaderService) {
 		iconRegistry.addSvgIcon('sidenav', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/sidenav.svg'));
+		iconRegistry.addSvgIcon('user', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/user.svg'));
 		iconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/group.svg'));
-		iconRegistry.addSvgIcon('person', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/person.svg'));
 		iconRegistry.addSvgIcon('objectives', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
-		iconRegistry.addSvgIcon('products', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/objectives.svg'));
+		iconRegistry.addSvgIcon('product', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/product.svg'));
 		iconRegistry.addSvgIcon('board', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/board.svg'));
 		iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/search.svg'));
 		iconRegistry.addSvgIcon('increment', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/increment.svg'));
@@ -57,6 +58,7 @@ export class AdminFormComponent implements OnInit {
 		iconRegistry.addSvgIcon('reply', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/reply.svg'));
 		iconRegistry.addSvgIcon('permission', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/permission.svg'));
 		iconRegistry.addSvgIcon('feature', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/feature.svg'));
+		iconRegistry.addSvgIcon('file', sanitizer.bypassSecurityTrustResourceUrl('../../assets/svg/file.svg'));
 	}
 
 	logout() {
@@ -401,7 +403,8 @@ export class AdminFormComponent implements OnInit {
 					{ field: 'type_name', label: 'Classification', type: 'dropdown', isRequired: true, idField: 'type_id', getMethod: 'getFeatureClassification', position: '4.1' },
 					{ field: 'type_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'increment_id', notForForm: true, notForTable: true },
-					{ field: 'increment_number', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', position: '4.2' },
+					{ field: 'increment_number', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', position: '4.2', notForForm: true },
+					{ field: 'increment_name', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', position: '4.2' },
 					{ field: 'product_name', label: 'Product', type: 'item', idField: 'product_id', isRequired: true, serviceName: 'product', position: '5.2' },
 					{ field: 'product_id', label: '', notForTable: true, notForForm: true },
 					{ field: 'status_name', label: 'Status', type: 'dropdown', isRequired: true, idField: 'status_id', getMethod: 'getFeatureStates', position: '5.3' },
@@ -528,74 +531,17 @@ export class AdminFormComponent implements OnInit {
 					{ field: 'created_on', label: 'Created On', type: 'input', readOnly: true, notForTable: true, position: '7.1' },
 					{ field: 'modified_on', label: 'Modified On', type: 'input', readOnly: true, notForTable: true, position: '7.2' },
 					{ field: 'closed_on', label: 'Closed On', type: 'input', readOnly: true, notForTable: true, position: '7.3' },
-
-
-					// { field: 'creator_name', label: 'Creator', type: 'input', notForTable: true, notForForm: true, },
-					// { field: 'creater_id', label: '', notForForm: true, notForTable: true, defaultValue: localStorage.getItem('id')},
-					// { field: 'description', label: 'Description', type: 'textArea', notForTable: true, defaultValue: '', position: '2.1' },
-					// { field: 'acc_criteria', label: 'Acception criteria', type: 'textArea', notForTable: true, defaultValue: '', position: '2.2' },
-					// { field: 'created_on', label: 'Created On', type: 'input', readOnly: true, notForTable: true, position: '3.1' },
-					// { field: 'modified_on', label: 'Modified On', type: 'input', readOnly: true, notForTable: true, position: '3.2' },
-					// { field: 'closed_on', label: 'Closed On', type: 'input', readOnly: true, notForTable: true, position: '3.3' },
-					// { field: 'increment_id', notForForm: true, notForTable: true },
-					// { field: 'increment_number', type: 'item', label: 'Program Increment', idField: 'increment_id', serviceName: 'increment', notForTable: true,position:'4.2' },
-					// { field: 'product_name', label: 'Product', type: 'item',notForTable: true, idField: 'product_id', isRequired: true, serviceName: 'product', position: '5.2' },
-					// { field: 'product_id', label: '', notForTable: true, notForForm: true},
-					// { field: 'status_name', label: 'Status', type: 'dropdown', isRequired: true,notForTable: true, idField: 'status_id', getMethod: 'getFeatureStates', position: '5.3' },
-					// { field: 'status_id', label: '', notForTable: true, notForForm: true},
-					// { field: 'ub_value', label: 'User-Business Value', type: 'spinner', notForTable: true, position: '3.4' },
-					// { field: 'time_crit', label: 'Time Criticality', type: 'spinner', notForTable: true, position: '3.5' },
-					// { field: 'risk_red', label: 'Risk Reduction', type: 'spinner', notForTable: true, position: '4.3' },
-					// { field: 'job_size', label: 'Job Size', type: 'spinner', notForTable: true, position: '4.4' },
-					// { field: 'wsjf', label: 'WSJF', type: 'input', readOnly: true, notForTable: true,position: '5.4' },
-
-					// {
-					// 	field: 'isClosed', label: 'Close feature', notForTable: true, type: 'button', icon: 'pi pi-lock', clickHandler: function (service, contextItem, args) {
-					// 		debugger;
-					// 		if (contextItem) {
-					// 			const feature = new Feature()
-					// 			if (!contextItem.isClosed) {
-					// 				const time = new Date();
-					// 				feature.closed_on = args.dateHelper.getDateFormat(time) + ' ' + args.dateHelper.getTimeFormat(time);
-					// 			} else {
-					// 				feature.closed_on = null;
-					// 			}
-					// 			service.updateFeature(feature, contextItem.id).subscribe((result) => {
-					// 				if (result) {
-					// 					contextItem.closed_on = contextItem.closed_on = feature.closed_on;
-					// 					contextItem.isClosed = !contextItem.isClosed;
-					// 					if (feature.closed_on) {
-					// 						args.control.label = 'Reopen feature';
-					// 						args.control.icon = 'pi pi-unlock';
-					// 					} else {
-					// 						args.control.label = 'Close feature';
-					// 						args.control.icon = 'pi pi-lock';
-					// 					}
-					// 					if (contextItem.isClosed) {
-					// 						args.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature closed successfully.` });
-					// 					} else {
-					// 						args.messageService.add({ severity: 'success', summary: 'Success', detail: `Feature reopened successfully.` });
-					// 					}
-					// 				}
-					// 			});
-					// 		} else {
-					// 			args.messageService.add({ severity: 'error', summary: 'Error', detail: `Option is unavailable, item is new.` });
-					// 		}
-					// 	}, initHandler: function(contextItem, control) {
-					// 		if (contextItem.closed_on) {
-					// 			control.label = 'Reopen feature';
-					// 		//	this.featureActionIcon = 'pi pi-unlock';
-					// 		} else {
-					// 			control.label = 'Close feature';
-					// 		//	this.featureActionIcon = 'pi pi-lock';
-					// 		}
-					// 	}, defaultValue: 0, position: '1.3'
-					// }
 				]
 			},
 			relatedServices: ['iteration', 'team', 'feature'],
 			rowsOnItemForm: [1, 2, 3, 4, 5, 6, 7]
 		});
+	}
+
+	loadFileItems(itemId) {
+		this.componentLoaderService.setRootViewContainerRef(this.entry);
+		const createdComponent = this.componentLoaderService.addComponent(FilePageComponent);
+		
 	}
 
 	notificationsClick() {

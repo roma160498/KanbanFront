@@ -47,8 +47,8 @@ export class IterationService {
 				return Observable.throw(e);
 			});
 	}
-	insertIteration(iteration: Iteration) {
-		const body = { iteration: iteration };
+	insertIteration(iteration: Iteration, userName) {
+		const body = { iteration: iteration, userName };
 		return this.http.post(environment.baseServerURL + '/iterations/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -68,8 +68,8 @@ export class IterationService {
 				return Observable.throw(e);
 			});
 	}
-	updateIteration(iteration: Iteration, id) {
-		const body = { iteration: iteration };
+	updateIteration(iteration: Iteration, id, diff, userName) {
+		const body = { iteration: iteration, diff, userName };
 		return this.http.put(environment.baseServerURL + '/iterations/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {

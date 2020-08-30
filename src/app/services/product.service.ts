@@ -39,8 +39,8 @@ export class ProductService {
 				return Observable.throw(e);
 			});
 	}
-	insertProduct(product: Product) {
-		const body = { product: product };
+	insertProduct(product: Product, userName) {
+		const body = { product, userName };
 		return this.http.post(environment.baseServerURL + '/products/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -60,8 +60,8 @@ export class ProductService {
 				return Observable.throw(e);
 			});
 	}
-	updateProduct(product: Product, id) {
-		const body = { product: product };
+	updateProduct(product: Product, id, diff, userName) {
+		const body = { product: product, diff: diff, userName };
 		return this.http.put(environment.baseServerURL + '/products/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {

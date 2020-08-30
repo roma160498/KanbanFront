@@ -1,4 +1,6 @@
+
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
+<ng-container *ngIf="!isLoading">
 <p-table #table [columns]="cols" [value]="items"
     [paginator]="true" [rows]="rowsAmount" [totalRecords]="amountOfItems" [scrollable]="true" [scrollHeight]="scrollHeight"
     [resizableColumns]="true" selectionMode="multiple" [(selection)]="selectedItems" [metaKeySelection]="true" [showClear]="true"
@@ -23,9 +25,19 @@
     </ng-template>
     <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" style="height:30px" (dblclick)="doubleCklickHandler()">
-            <td *ngFor="let col of columns" class="ui-resizable-column">
-                {{item[col.field]}}
-            </td>
+            <ng-container *ngFor="let col of columns">
+                <td *ngIf="col.type !== 'imagePicker'" class="ui-resizable-column">
+                    {{item[col.field]}}
+                </td>
+                <td *ngIf="col.type === 'imagePicker'">
+                    <profile-avatar></profile-avatar>
+                </td>
+
+            </ng-container>
         </tr>
     </ng-template>
-</p-table>
+</p-table>    
+</ng-container>
+<ng-container *ngIf="isLoading">
+<p-progressSpinner  [style]="{width: '60px', height: '60px', position: 'absolute', left: '50%', top: '50%'}" strokeWidth="5"></p-progressSpinner>
+</ng-container>

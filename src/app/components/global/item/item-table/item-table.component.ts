@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Output, Input, EventEmitter, ElementRef, SimpleChange, Injector, ReflectiveInjector } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { ImageLoaderService } from '../../../../services/image-loader.service';
 
 @Component({
   selector: 'app-item-table',
@@ -39,11 +40,21 @@ export class ItemTableComponent implements OnInit {
 	rowsAmount: number = 25;
 	isTableDisplayed: boolean = true;
 	searchIsVisible: boolean = true;
+	public isLoading: boolean = true;
 
-	constructor(private el: ElementRef, private messageService: MessageService, private inj: Injector) { }
+	constructor(private el: ElementRef, private messageService: MessageService, private inj: Injector,
+		private imageService: ImageLoaderService) { }
 
 	ngOnInit() {
 		this.cols = this.settings.cols.filter(element => !element.notForTable);
+		this._startSpinner();
+	}
+
+	_startSpinner() {
+		this.isLoading = true;
+		setTimeout(() => {
+			this.isLoading = false;
+		}, 500)
 	}
 
 	_getTypeFromImportResult(result) {
@@ -121,7 +132,7 @@ debugger;
 				}
 				this.resetTable();
 				const name = item.currentValue.updatedProps.name;
-				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Item ${name} updated successfully.` });
+				this.messageService.add({ severity: 'success', summary: 'Success', detail: `Item ${name || ''} updated successfully.` });
 			}
 		}
 	}
@@ -154,6 +165,9 @@ debugger;
 	resetTable() {
 		this.table['__proto__'].reset.call(this.table);
 		this.clearFilterInputs();
+		this.selectedItems = [];
+		this.selectedItemsOut.emit(this.selectedItems);
+		this._startSpinner();
 	}
 
 	clearFilterInputs() {
@@ -176,5 +190,18 @@ debugger;
 
 	doubleCklickHandler() {
 		this.doubleClickEventOut.emit('edit');
+	}
+
+	getImage(item, fieldName) {
+		debugger;
+		// this.imageService.getImageById(item[fieldName]).subscribe((res) => {
+		// 	return new Promise((resolve, rej) => {
+		// 		const reader = new FileReader();
+		// 		reader.readAsDataURL(res);
+		// 		reader.onload = () => {
+		// 			resolve(reader.result);
+		// 		};	
+		// 	})
+		// })
 	}
 }

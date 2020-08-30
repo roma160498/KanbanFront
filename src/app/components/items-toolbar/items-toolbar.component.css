@@ -7,3 +7,7 @@
     height: 25px !important;
     display: unset !important;
 }
+
+.sidenav-icon {
+    margin-right: 10px;
+}

@@ -1,0 +1,44 @@
+<app-items-toolbar (rowsAmountChange)="rowsAmountChangeHandler($event)" (actionClicked)="toolbarActionHandler($event)" [selectedItems]="selectedFiles"
+[disabledOptions]="toolbarButtonsDisabledOptions" [itemName]="'Files'" [iconName]="'file'"></app-items-toolbar>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+<ng-container *ngIf="!isLoading">
+    <div class="wrapper">
+    <p-table #table [value]="files" [scrollable]="true" [scrollHeight]="'100%'" selectionMode="single" [(selection)]="selectedFile">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Delete</th>
+                <th>Download</th>
+            </tr>
+            <tr *ngIf="isFilterVisible">
+                <th>
+                    <input class="filterInput" pInputText type="text" (input)="table.filter($event.target.value, 'name', 'contains')">
+                </th>
+                <th>
+                    <input class="filterInput" pInputText type="text" (input)="table.filter($event.target.value, 'type', 'contains')">
+                </th>
+                <th>
+                    <input class="filterInput" pInputText type="text" (input)="table.filter($event.target.value, 'size', 'contains')">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-file>
+            <tr [pSelectableRow]="file" [pContextMenuRow]="file">
+                <td>{{file.name}}</td>
+                <td>{{file.type}}</td>
+                <td>{{file.size}} KB</td>
+                <td><button pButton type="button" label="Delete" class="ui-button-danger" (click)="deleteFile(file)"></button></td>
+                <td><button pButton type="button" label="Download" class="ui-button" (click)="downloadFile(file)"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+</ng-container>
+<input #invisibleFileInput type="file" accept="*" style="display: none;" (change)="onFileSelected($event)"/>
+<ng-container *ngIf="isLoading">
+    <p-progressSpinner  [style]="{width: '60px', height: '60px', position: 'absolute', left: '50%', top: '50%'}" strokeWidth="5"></p-progressSpinner>
+</ng-container>

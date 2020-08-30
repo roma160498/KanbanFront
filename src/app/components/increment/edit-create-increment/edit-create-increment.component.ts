@@ -97,7 +97,7 @@ export class EditCreateIncrementComponent implements OnInit {
         increment.end_date = this.dateHelper.getDateFormat(this.end_date);
         increment.product_id = this.product_id;
         increment.status_id = this.status_id;
-        this.incrementService.insertIncrement(increment).subscribe((result) => {
+        this.incrementService.insertIncrement(increment, {}).subscribe((result) => {
           if (result) {
             this.updatedIncrementOut.emit({
               isNew: true,
@@ -118,7 +118,7 @@ export class EditCreateIncrementComponent implements OnInit {
         }
         increment.start_date = this.dateHelper.getDateFormat(this.start_date);
         increment.end_date = this.dateHelper.getDateFormat(this.end_date);
-        this.incrementService.updateIncrement(increment, this.selectedIncrement.id).subscribe((result) => {
+        this.incrementService.updateIncrement(increment, this.selectedIncrement.id, {}, {}).subscribe((result) => {
           if (result) {
             this.updatedIncrementOut.emit({
               isNew: false,

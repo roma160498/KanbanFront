@@ -1,0 +1,40 @@
+.old-value {
+    color: red;
+    text-decoration: line-through;
+}
+
+.new-value {
+    color: green;
+}
+.title {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+mat-expansion-panel-header {
+    font-size: 18px;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    font-size: 16px;
+}
+
+.property-name {
+    min-width: 20%;
+}
+
+.dif-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.description {
+    width: 100%;
+    text-align: end;
+}
+
+.empty-view {
+    text-align: center;
+    text-transform: uppercase;
+    color: gray;
+}

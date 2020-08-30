@@ -49,8 +49,8 @@ export class UserService {
 			});
 	}
 
-	insertUser(user: User) {
-		const body = { user: user };
+	insertUser(user: User, userName) {
+		const body = { user: user, userName };
 		return this.http.post(environment.baseServerURL + '/user/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -63,8 +63,8 @@ export class UserService {
 			});
 	}
 
-	updateUser(user: User, id) {
-		const body = { user: user };
+	updateUser(user: User, id, diff, userName) {
+		const body = { user: user, diff, userName };
 		console.log(user)
 		return this.http.put(environment.baseServerURL + '/user/' + id, body, { withCredentials: true }).
 			map((response: Response) => {

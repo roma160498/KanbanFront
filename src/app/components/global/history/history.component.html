@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{data.header}}</h2>
+<div class="empty-view" *ngIf="!(changes && changes.length)">
+  <h1>No history</h1>
+</div>
+<mat-dialog-content class="mat-typography">
+  <ng-container *ngFor="let change of changes">
+  <mat-expansion-panel hideToggle >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="title">{{change.operation}}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="description">by {{change.userName}} on {{getDate(change.date)}}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-container *ngFor="let field of change.diff" >
+      <div class="dif-container">
+        <span class="property-name">{{field.field}}: </span>
+        <div>
+          <span class="old-value">{{field.old}}</span> -> <span class="new-value">{{field.new}}</span>
+        </div>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+  
+  <mat-divider></mat-divider>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

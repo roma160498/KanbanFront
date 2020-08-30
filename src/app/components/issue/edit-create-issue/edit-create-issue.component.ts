@@ -11,6 +11,8 @@ import { FeatureService } from '../../../services/feature.service';
 import { SequenceHelperService } from '../../../services/sequence-helper.service';
 import { IncrementService } from '../../../services/increment.service';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { HistoryComponent } from '../../global/history/history.component';
 
 @Component({
 	selector: 'app-edit-create-issue',
@@ -52,6 +54,7 @@ export class EditCreateIssueComponent implements OnInit {
 	classification_id: any = null;
 	statusList: any = {};
 	status_id: any = null;
+	currentUserFullName: string = '';
 
 
 	minDate: Date;
@@ -99,8 +102,9 @@ export class EditCreateIssueComponent implements OnInit {
 	constructor(private issueService: IssueService, private messageService: MessageService,
 		private dateHelper: DateHelperService, private teamService: TeamService,
 		private userService: UserService, private featureService: FeatureService,
-		private sequenceHelper: SequenceHelperService, private incrementService: IncrementService) { }
+		private sequenceHelper: SequenceHelperService, public dialog: MatDialog, private incrementService: IncrementService) { }
 	ngOnInit() {
+		this.currentUserFullName = localStorage.getItem('userName') + ' ' + localStorage.getItem('userSurname');
 		this.teamService.getTeam({}).subscribe(items => {
 			this.teamList.options = items.map(el => {
 			  return {
@@ -136,6 +140,7 @@ export class EditCreateIssueComponent implements OnInit {
 		});
 	}
 	toolbarActionHandler(action) {
+		debugger;
 		const issue = new Issue();
 		if (action === 'save') {
 			if (this.isClosed) {
@@ -160,7 +165,7 @@ export class EditCreateIssueComponent implements OnInit {
 				issue.description = this.description;
 				issue.accCriteria = this.accCriteria;
 
-				this.issueService.insertIssue(issue).subscribe((result) => {
+				this.issueService.insertIssue(issue, this.currentUserFullName).subscribe((result) => {
 						if (result) {
 							issue.id = result.insertId;
 							this.updatedIssueOut.emit({
@@ -179,13 +184,19 @@ export class EditCreateIssueComponent implements OnInit {
 						}
 					});
 			} else if (this.editMode === 'edit') {
-
+				let diff = [];
 				for (let key in this.selectedIssue) {
-					if (this[key] !== this.selectedIssue[key] && key != 'id' && key != 'isClosed') {
-						issue[key] = this[key]
+					debugger;
+					if (this[key] !== this.selectedIssue[key] && key != 'id' && key != 'isClosed' && this[key]) {
+						issue[key] = this[key];
+						diff.push({
+							field: key,
+							old: this.selectedIssue[key],
+							new: this[key]
+						});
 					}
 				}
-				this.issueService.updateIssue(issue, this.selectedIssue.id).subscribe((result) => {
+				this.issueService.updateIssue(issue, this.selectedIssue.id, diff, this.currentUserFullName).subscribe((result) => {
 					if (result) {
 						this.updatedIssueOut.emit({
 							isNew: false,
@@ -277,17 +288,25 @@ export class EditCreateIssueComponent implements OnInit {
 	}
 
 	closeIssue() {
-		const issue = new Issue()
+		const issue = new Issue();
+		let diff = [{
+			field: 'closed_on',
+			old: this.selectedIssue.closed_on,
+			new: null
+		}];
 		if (!this.isClosed) {
-			const time = new Date();;
-			issue.closed_on = this.dateHelper.getDateFormat(time) + ' ' + this.dateHelper.getTimeFormat(time);
+			const time = new Date();
+			const date = this.dateHelper.getDateFormat(time) + ' ' + this.dateHelper.getTimeFormat(time);
+			issue.closed_on = date;
+			diff[0].new = date;
 		} else {
 			issue.closed_on = null;
+			diff[0].new = null;
 		}
 		issue.story_points = this.selectedIssue.story_points;
 		issue.iteration_id = this.selectedIssue.iteration_id;
 		this.selectedIssue.isClosed = this.isClosed;
-		this.issueService.updateIssue(issue, this.selectedIssue.id).subscribe((result) => {
+		this.issueService.updateIssue(issue, this.selectedIssue.id, diff, this.currentUserFullName).subscribe((result) => {
 			if (result) {
 				this.closed_on = this.selectedIssue.closed_on = issue.closed_on;
 				this.updateIssueActionButton();
@@ -310,5 +329,21 @@ export class EditCreateIssueComponent implements OnInit {
 			this.issueActionIcon = 'pi pi-lock';
 			this.issueActionLabel = 'Close issue';
 		}
+	}
+
+	showHistory() {
+		debugger;
+		const dialogRef = this.dialog.open(HistoryComponent, {
+			width: '650px',
+			data: {
+				header: `Issue History`,
+				type: 'issue',
+				id: this.selectedIssue.id
+			}
+		});
+
+		dialogRef.componentInstance.dialogClosed.subscribe(() => {
+			dialogRef.close();
+		  });
 	}
 }

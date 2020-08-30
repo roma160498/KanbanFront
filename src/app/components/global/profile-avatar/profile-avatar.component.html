@@ -1,0 +1,17 @@
+<div fxLayout="row" class="avatar-common-container" [ngClass]="{'overflow-ellipsis': options.isEllipsis}">
+    <ng-container [ngSwitch]="selectedSize">
+        <img *ngSwitchCase="sizes.default" [src]="imageSrc" height="50px">
+        <img *ngSwitchCase="sizes.small" [src]="imageSrc" height="40px">
+    </ng-container>
+    <!-- <div class="personal-info" fxLayout="column" [ngClass]="{'top-aligned': options.isAlignedTop}">
+        <span [ngClass]="{ 'bold': options.isBold, 'color-primary': options.isColorPrimary }"
+            class="{{selectedSize.nameFontSizeClass}} name">{{name}}</span>
+        <section *ngIf="securityRole || businessRole" class="role">
+            <span *ngIf="securityRole"
+                class="{{selectedSize.roleFontSizeClass}} color-primary">{{securityRole}}</span>
+            <span *ngIf="businessRole"
+                class="{{selectedSize.roleFontSizeClass}} color-minor">&nbsp;|&nbsp;{{businessRole}}</span>
+        </section>
+        <app-status-text class="status" *ngIf="status" [status]="status"></app-status-text>
+    </div> -->
+</div>

@@ -80,6 +80,13 @@ import {InplaceModule} from 'primeng/inplace';
 import {BlockUIModule} from 'primeng/blockui';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {FileUploadModule} from 'primeng/fileupload';
+import {GalleriaModule} from 'primeng/galleria';
+import {TreeModule} from 'primeng/tree';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {
+  AngularImageViewerModule
+} from "angular-x-image-viewer";
 
 
 import { AppComponent } from './app.component';
@@ -133,6 +140,10 @@ import { ItemTableComponent } from './components/global/item/item-table/item-tab
 import { ItemFormComponent } from './components/global/item/item-form/item-form.component';
 import { InputComponent } from './components/global/controls/input/input.component';
 import { ImageLoaderService } from './services/image-loader.service';
+import { HistoryService } from './services/history.service';
+import { ProfileAvatarComponent } from './components/global/profile-avatar/profile-avatar.component';
+import { HistoryComponent } from './components/global/history/history.component';
+import {FilePageComponent} from './components/global/file/file-page.component';
 
 
 // определение маршрутов
@@ -176,7 +187,10 @@ const appRoutes: Routes =[
     ItemPageComponent,
     ItemTableComponent,
     ItemFormComponent,
-    InputComponent        
+    InputComponent,
+    ProfileAvatarComponent,
+    HistoryComponent,
+    FilePageComponent
   ],
   imports: [
     BrowserModule,
@@ -253,15 +267,20 @@ const appRoutes: Routes =[
     ToggleButtonModule,
     RadioButtonModule,
     SpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    GalleriaModule,
+    AngularImageViewerModule,
+    TreeModule,
+    ProgressSpinnerModule,
+    ContextMenuModule
     //NgxDnDModule
    // MessageService
     
   ],
   exports: [MatToolbarModule],
-  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService, ImageLoaderService],
+  providers: [LoggedInAuthGuardService, AuthenticateService, LoggedOutAuthGuardService, ComponentLoaderService, UserService, TeamService, RoleService, ProductService, FeatureService, IncrementService, DateHelperService, IterationService, SequenceHelperService, IssueService, PermissionService, CommentService, ImageLoaderService, HistoryService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
-  entryComponents: [KanbanBoardComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent, EditCreateIssueComponent, ItemPageComponent]
+  entryComponents: [KanbanBoardComponent, FilePageComponent, ItemsToolbarComponent, TableTeamsComponent, UserPageComponent, TeamPageComponent, ProductPageComponent, FeaturePageComponent, IncrementPageComponent, IterationPageComponent, EditCreateIterationComponent, IssuePageComponent, PermissionPageComponent, EditCreateIssueComponent, ItemPageComponent, HistoryComponent]
 })
 export class AppModule { }

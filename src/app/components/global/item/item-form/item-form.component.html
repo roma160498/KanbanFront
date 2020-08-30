@@ -47,6 +47,7 @@
         </div>
       </div>
       <p-footer>
+        <button pButton type="button" label="Show history" class="ui-button" (click)="showHistory()" [disabled]="!(selectedItem && selectedItem.id)"></button>
         <button pButton type="button" icon="pi pi-chevron-left" label="Discard" class="ui-button-danger" (click)="discardButtonHandler()"></button>
       </p-footer>
     </p-panel>

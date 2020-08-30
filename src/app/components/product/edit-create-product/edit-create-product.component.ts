@@ -67,7 +67,7 @@ export class EditCreateProductComponent implements OnInit {
 			if (this.editMode === 'add') {
 				product.name = this.name;
 				product.description = this.description;
-				this.productService.insertProduct(product).subscribe((result) => {
+				this.productService.insertProduct(product, {}).subscribe((result) => {
 					if (result) {
 						this.updatedProductOut.emit({
 							isNew: true,
@@ -87,7 +87,7 @@ export class EditCreateProductComponent implements OnInit {
 						product[key] = this[key]
 					}
 				}
-				this.productService.updateProduct(product, this.selectedProduct.id).subscribe((result) => {
+				this.productService.updateProduct(product, this.selectedProduct.id, {}, {}).subscribe((result) => {
 					if (result) {
 						this.updatedProductOut.emit({
 							isNew: false,

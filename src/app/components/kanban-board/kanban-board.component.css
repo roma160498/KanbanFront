@@ -30,6 +30,7 @@
     text-decoration: underline;
     color: darkgray;
     font-style: italic;
+    height: 20px;
 }
 
 :host ::ng-deep .ng-untouched .ng-pristine .ng-valid {
@@ -53,3 +54,33 @@
     margin: 5px;
     border-radius: 3px;
 }
+
+.user:hover .tooltiptext {
+    transition-delay:3s;
+    visibility: visible;
+  }
+
+  .user .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    border: 2px solid black;
+    padding: 10px;
+   
+    /* Position the tooltip text - see examples below! */
+    /* position: absolute; */
+    position: relative;
+    z-index: 1;
+    margin-left: -10px;
+  }
+
+  .tooltiptext .avatar {
+      width: 100%;
+  }

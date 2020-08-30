@@ -38,6 +38,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
   }
   display: boolean = false;
 
@@ -96,7 +97,11 @@ export class LoginFormComponent implements OnInit {
         const userUpd = new User();
         userUpd.password = this.newPassword;
         userUpd.is_initialPassword = 0; 
-        this.userService.updateUser(userUpd, this.userId).subscribe(result => {    
+        this.userService.updateUser(userUpd, this.userId, [{
+          field: 'password',
+          old: this.oldPassword,
+          new: this.newPassword
+        }], 'Password changed').subscribe(result => {    
           this.display = false;
           this.blockedDocument = false;
           this.password = '';

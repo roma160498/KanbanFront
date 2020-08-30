@@ -1,0 +1,7 @@
+:host ::ng-deep .ui-dropdown .ui-dropdown-clear-icon {
+    display:  none !important;
+}
+
+.wrapper {
+    height: 90%;
+}

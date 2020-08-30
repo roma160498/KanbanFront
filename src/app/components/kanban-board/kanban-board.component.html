@@ -53,7 +53,12 @@
                                                 {{sequenceHelper.getSequenceFor('I-', 6, issue.id) + ' "' + issue.name + '"'}}
                                             </div>
                                             <div class="ui-grid-row">
-                                                <div class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}</div>
+                                                <div #userName class="ui-g-12 ui-md-8 ui-lg-8 user">{{issue.userName}}
+                                                    <div class="tooltiptext" *ngIf="avatarsCache[issue.userId] && avatarsCache[issue.userId] !== 'pending'">
+                                                        <img class="avatar"[src]="avatarsCache[issue.userId]" />
+                                                    </div>
+                                                </div>
+                                                
 
                                                 <div *ngIf="issue.storyPoints" class="ui-g-12 ui-md-6 ui-lg-5 storyPoints" title="Story points">
                                                     {{issue.storyPoints}}

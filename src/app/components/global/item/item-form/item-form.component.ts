@@ -8,6 +8,8 @@ import { ImageLoaderService } from '../../../../services/image-loader.service';
 import { environment } from '../../../../../environments/environment';
 import { UserService } from '../../../../services/user.service';
 import { User } from '../../../../models/user';
+import { MatDialog } from '@angular/material/dialog';
+import { HistoryComponent } from '../../history/history.component';
 
 @Component({
 	selector: 'app-item-form',
@@ -30,6 +32,7 @@ export class ItemFormComponent implements OnInit {
 	isPopupMode: Boolean = false;
 	@Input() selectedItem: any;
 	currentUserIsAdmin: any;
+	currentUserFullName: string = '';
 	relationshipTabs: any = [];
 	@ViewChild('relationTable') relTableComponent: RelationshipTableComponent;
 	@ViewChild('invisibleFileInput') invisibleFileInput;
@@ -42,6 +45,7 @@ export class ItemFormComponent implements OnInit {
 	@Input() relatedServices: any;
 	sourceFieldItems: any = {};
 	dropdownValues: any = {};
+	isHistoryVisible: boolean = false;
 
 	componentsMap: object = {
 		'text': InputComponent
@@ -51,10 +55,12 @@ export class ItemFormComponent implements OnInit {
 	public baseURL: string = environment.baseServerURL;
 
 	constructor(private messageService: MessageService, private dateHelper: DateHelperService,
-		private imageLoaderService: ImageLoaderService, private userService: UserService) { }
+		private imageLoaderService: ImageLoaderService, private userService: UserService,
+		public dialog: MatDialog) { }
 
 	ngOnInit() {
 		this.currentUserIsAdmin = localStorage.getItem('is_admin') === '1';
+		this.currentUserFullName = localStorage.getItem('userName') + ' ' + localStorage.getItem('userSurname');
 		this._buildForm();
 	}
 
@@ -179,7 +185,7 @@ export class ItemFormComponent implements OnInit {
 					}
 					item[col.field] = this.ngModel[col['field']] === undefined ? null : this.ngModel[col['field']];
 				}
-				this.itemService[`insert${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`](item).subscribe((result) => {
+				this.itemService[`insert${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`](item, this.currentUserFullName).subscribe((result) => {
 					if (result) {
 						this.updatedItemOut.emit({
 							isNew: true,
@@ -198,6 +204,7 @@ export class ItemFormComponent implements OnInit {
 				})
 			} else if (this.editMode === 'edit') {
 				debugger;
+				let diff = [];
 				for (let key in this.selectedItem) {
 					if (this.ngModel[key] !== this.selectedItem[key] && key != 'id') {
 						debugger;
@@ -213,12 +220,17 @@ export class ItemFormComponent implements OnInit {
 							item[key] = this.ngModel[key] ? 1 : 0;
 							continue;
 						}
-						item[key] = this.ngModel[key]
+						item[key] = this.ngModel[key];
+						diff.push({
+							field: key,
+							old: this.selectedItem[key],
+							new: item[key]
+						})
 					}
 				}
 				//iteration.start_date = this.dateHelper.getDateFormat(this.start_date);
 				//iteration.end_date = this.dateHelper.getDateFormat(this.end_date);
-				this.itemService[`update${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`](item, this.selectedItem.id).subscribe((result) => {
+				this.itemService[`update${this.typeName[0].toUpperCase() + this.typeName.slice(1)}`](item, this.selectedItem.id, diff, this.currentUserFullName).subscribe((result) => {
 					if (result) {
 						this.updatedItemOut.emit({
 							isNew: false,
@@ -285,5 +297,20 @@ export class ItemFormComponent implements OnInit {
 
 	onSubmit(): void {
 		//this.imageLoaderService.uploadImage(this.fileName, this.formGroup.get('file').value);
+	}
+
+	showHistory() {
+		const dialogRef = this.dialog.open(HistoryComponent, {
+			width: '650px',
+			data: {
+				header: `${this.singularLabel} History`,
+				type: this.typeName,
+				id: this.selectedItem.id
+			}
+		});
+
+		dialogRef.componentInstance.dialogClosed.subscribe(() => {
+			dialogRef.close();
+		  });
 	}
 }

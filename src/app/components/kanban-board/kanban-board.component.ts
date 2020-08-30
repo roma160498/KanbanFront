@@ -12,6 +12,7 @@ import { Comment } from '../../models/comment';
 import { DateHelperService } from '../../services/date-helper.service';
 import { TeamService } from '../../services/team.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { ImageLoaderService } from '../../services/image-loader.service';
 @Component({
 	selector: 'app-kanban-board',
 	templateUrl: './kanban-board.component.html',
@@ -50,7 +51,7 @@ export class KanbanBoardComponent implements OnInit {
 	draggedIssue: any;
 	constructor(private userService: UserService, private sequenceHelper: SequenceHelperService,
 	private issueService: IssueService, private iteartionService: IterationService, private commentService: CommentService,
-private dateHelper: DateHelperService, private teamService: TeamService, private messageService: MessageService) {
+private dateHelper: DateHelperService, private teamService: TeamService, private imageLoaderService: ImageLoaderService, private messageService: MessageService) {
 
 	}
 	xcoords: any = 0;
@@ -89,8 +90,20 @@ private dateHelper: DateHelperService, private teamService: TeamService, private
 	}
 
 	_initialSetup() {
+		debugger
 		this.userService.getKanbanForUser({}, this.currentUserId).subscribe(result => {
 			this.userBoards = result;
+			for (let i = 0; i < result.length; i++) {
+				const board = result[i];
+				for (let j = 0; j < board.states.length; j++) {
+					const state = board.states[j];
+					for (let k = 0; k < state.issues.length; k++) {
+						const issue = state.issues[k];
+						this.getUserImage(issue);
+					}
+				}
+			}
+			this.userBoards
 			this.teamService.getTeam({}).subscribe(items => {
 				this.teamsList.options = items.map(el => {
 					return {
@@ -100,7 +113,7 @@ private dateHelper: DateHelperService, private teamService: TeamService, private
 				});
 				if (this.issueToOpenAtFirstInfo) {
 					const team = result.find(el => el.id === this.issueToOpenAtFirstInfo.teamId);
-					if (team) {
+					debugger;if (team) {
 						for (let stateIndex = 0; stateIndex < team.states.length; stateIndex++) {
 							const state = team.states[stateIndex];
 							if (state.issues) {
@@ -196,7 +209,11 @@ private dateHelper: DateHelperService, private teamService: TeamService, private
 			state[0].issues.splice(index, 1);
 			const updatedIssue = new Issue();
 			updatedIssue.status_id = col.id;
-			this.issueService.updateIssue(updatedIssue, this.draggedIssue.id).subscribe((result) => {
+			this.issueService.updateIssue(updatedIssue, this.draggedIssue.id, [{
+				field: 'status_id',
+				old: this.draggedIssue.status_id,
+				new: col.id
+			}], this.currentUserName).subscribe((result) => {
 				
 				this.draggedIssue = null;
 			});
@@ -364,5 +381,23 @@ private dateHelper: DateHelperService, private teamService: TeamService, private
 
 	showHideClosedIssues(event) {
 		const isChecked = event.checked;
+	}
+
+	avatarsCache: any = {};
+	olo: boolean = false;
+	public getUserImage(issue) {
+		debugger;
+		if (this.avatarsCache[issue.userId]) return;
+		if (issue.userId) {
+		this.imageLoaderService.getUserAvatar(issue.userId).subscribe((res) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(res);
+			reader.onload = () => {
+				this.avatarsCache[issue.userId] = reader.result;
+			};
+		})
+		this.avatarsCache[issue.userId] = 'pending'
+		
+	}
 	}
 }

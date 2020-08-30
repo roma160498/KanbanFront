@@ -91,7 +91,7 @@ export class EditCreateIterationComponent implements OnInit {
 				iteration.status_id = this.status_id;
 				iteration.story_points = 0;// mock
 				iteration.completeness = 0;// mock
-				this.iterationService.insertIteration(iteration).subscribe((result) => {
+				this.iterationService.insertIteration(iteration, {}).subscribe((result) => {
 					if (result) {
 						this.updatedIterationOut.emit({
 							isNew: true,
@@ -117,7 +117,7 @@ export class EditCreateIterationComponent implements OnInit {
 				}
 				iteration.start_date = this.dateHelper.getDateFormat(this.start_date);
 				iteration.end_date = this.dateHelper.getDateFormat(this.end_date);
-				this.iterationService.updateIteration(iteration, this.selectedIteration.id).subscribe((result) => {
+				this.iterationService.updateIteration(iteration, this.selectedIteration.id, {}, {}).subscribe((result) => {
 					if (result) {
 						this.updatedIterationOut.emit({
 							isNew: false,

@@ -23,10 +23,11 @@ export class LoggedInAuthGuardService implements CanActivate{
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean {
 		this.redirectUrl = 'http://localhost:4200/login';
-		return this.checkLogin(this.redirectUrl, state);
+		return true || this.checkLogin(this.redirectUrl, state);
 	}
 
 	checkLogin(url: string, state: RouterStateSnapshot): boolean {
+		debugger;
 		if (this.isLoggedIn) {
 			return true;
 		} else {

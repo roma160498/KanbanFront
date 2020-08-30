@@ -1,0 +1,30 @@
+.status {
+    margin-top: 3px;
+}
+
+.personal-info {
+    height: inherit;
+    justify-content: center;
+    margin-left: 15px;
+}
+
+.personal-info..top-aligned {
+    justify-content: flex-start;
+}
+
+.name {
+    margin-bottom: 0;
+}
+
+.avatar-common-container {
+    height: inherit;
+}
+
+.overflow-ellipsis .personal-info  {
+    overflow-x: hidden;
+}
+.overflow-ellipsis .name, .overflow-ellipsis .role {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

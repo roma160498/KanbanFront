@@ -21,6 +21,7 @@ export class LoggedOutAuthGuardService implements CanActivate{
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean {
 		this.redirectUrl = 'http://localhost:4200/login';
+		debugger;
 		return this.checkLogin(this.redirectUrl, state, route);
 	}
 

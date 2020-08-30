@@ -50,8 +50,8 @@ export class IssueService {
 				return Observable.throw(e);
 			});
 	}
-	insertIssue(issue: Issue) {
-		const body = { issue: issue };
+	insertIssue(issue: Issue, userName) {
+		const body = { issue: issue, userName };
 		return this.http.post(environment.baseServerURL + '/issues/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -71,8 +71,8 @@ export class IssueService {
 				return Observable.throw(e);
 			});
 	}
-	updateIssue(issue: Issue, id) {
-		const body = { issue: issue };
+	updateIssue(issue: Issue, id, diff, userName) {
+		const body = { issue: issue, diff, userName };
 		return this.http.put(environment.baseServerURL + '/issues/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {

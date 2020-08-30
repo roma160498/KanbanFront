@@ -20,6 +20,8 @@ export class ItemPageComponent implements OnInit {
 	_config: any;
 	_properties: any[] = [];
 
+	public isLoading: boolean = true;
+
 	toolbarButtonsDisabledOptions: any = {
 		isDeleteDisabled: true,
 		isEditDisabled: true,
@@ -69,6 +71,9 @@ export class ItemPageComponent implements OnInit {
 			if (this.itemIdToOpen) {
 				
 			}
+			setTimeout(() => {
+				this.isLoading = false;
+			}, 1000)
 		})()
 	}
 

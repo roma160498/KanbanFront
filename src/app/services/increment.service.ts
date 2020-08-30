@@ -48,8 +48,8 @@ export class IncrementService {
 				return Observable.throw(e);
 			});
 	}
-	insertIncrement(increment: Increment) {
-		const body = { increment: increment };
+	insertIncrement(increment: Increment, userName) {
+		const body = { increment: increment, userName };
 		return this.http.post(environment.baseServerURL + '/increments/', body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 200) {
@@ -69,8 +69,8 @@ export class IncrementService {
 				return Observable.throw(e);
 			});
 	}
-	updateIncrement(increment: Increment, id) {
-		const body = { increment: increment };
+	updateIncrement(increment: Increment, id, diff, userName) {
+		const body = { increment: increment, diff, userName };
 		return this.http.put(environment.baseServerURL + '/increments/' + id, body, { withCredentials: true }).
 			map((response: Response) => {
 				if (response.status == 201) {
